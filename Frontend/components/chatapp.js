@@ -18,21 +18,43 @@ export class Chatapp extends React.Component {
     this.state =  {
         ChatMessage : "",
         data: {},
+        Messages: [ ],
   }
+
 }
+
+
 
 
 
 componentDidMount(){
 //Technically All JQUERY things should be rendered here... I am thinking we will need to hack it into existance.
-
-
+//Bug??
+//https://github.com/airbnb/javascript/issues/684
+//https://stanko.github.io/react-rerender-in-component-did-mount/
 this.RecvMessage();
+
+
+
+
+}
+
+componentWilUpdate(){
+
+
+
 }
 
 
 RecvMessage(){
- socket.on('chat message', function(msg){console.log("Message Recvd " + msg)} )
+ socket.on('chat message', function(msg){
+
+
+  // console.log(this.state.Messages)
+   //this.state.Messages.push(msg)  // It is bad practice to push to a state. They are supposed to be immutable .
+   console.log("Message Recvd " + msg)}
+
+ )
 
 
 }
@@ -67,6 +89,15 @@ return (
       <div className="container center">
       <div id="box">
       <p id="messages" className="left"></p>
+
+
+      {this.state.Messages.map((message, index) => (
+        <p>{message}!</p>
+    ))}
+
+
+
+
       </div>
       <div className="sender left">
           <form  onSubmit={this.SendMessage.bind(this)}>
