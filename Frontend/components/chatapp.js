@@ -30,9 +30,20 @@ export class Chatapp extends React.Component {
 componentDidMount(){
 //Technically All JQUERY things should be rendered here... I am thinking we will need to hack it into existance.
 //Bug??
+// Problem:
+/*
+Socket recv can only be used when DOM and everything has finished rendering.
+
+States cannot beupdated when that is done.. Perhaps a solution is to use component will update when receiving a message. 
+
+
+*/
+
+
 //https://github.com/airbnb/javascript/issues/684
 //https://stanko.github.io/react-rerender-in-component-did-mount/
 this.RecvMessage();
+//
 
 
 
