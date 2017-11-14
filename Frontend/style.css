@@ -27,10 +27,44 @@ h1{
     margin: auto;
     background-color: #c4f5e4;
     overflow: auto;
-    max-height: 250px;
+    height: 600px;
+    max-height: 600px;
+    word-wrap: break-word;
+
 }
+#box li{
+    list-style: none;
+    text-align: left;
+}
+
+#box li:nth-child(odd) {
+   background:  #bef4e1;
+
+ }
+
+
+
+input#chatuserinput {
+     z-index: 10;
+     box-sizing: border-box;
+     /*height: 100%;*/
+     padding: 10px;
+     padding-right: 20px;
+     background: #fff;
+     outline: none;
+     border-radius: 4px 4px 0 0;
+     line-height: 150%;
+     overflow-x: hidden;
+     overflow-y: auto;
+     word-wrap: break-word;
+     cursor: text;
+   }
+
+
+
+
 .message{
-    width: 75% !important;
+    width: 83% !important;
     margin-right: 10px !important;
     height: 50px !important;
     float:left;
@@ -63,7 +97,9 @@ h1{
 .navbar{
     background-color: steelblue;
     height: 50px;
-    margin-bottom: 50px;
+    margin-right: 30%;
+    margin-left: 30%;
+    /*margin-bottom: 50px;*/
 }
 .center{
     text-align: center;
@@ -95,5 +131,3 @@ h1{
 #ok{
     padding: 0 30px;
 }
-
-
