@@ -1,6 +1,10 @@
 Simple Chat based on ReactJs using SocketIO
 =============================
 
+
+![screenshot of sample](https://image.ibb.co/gr0o3R/Screenshot_2017_11_22_17_12_31.png)
+
+
 ### English Instructions:
 
 This project aims to be a plug&play server that all you'll need to do is import the component. and use it.
@@ -66,7 +70,7 @@ Things to add:
 1. Emoji use.
 2. Private chat.
 3. User selection in chat.
-4. more styling. 
+4. more styling.
 
 
 
@@ -80,7 +84,7 @@ Things to add:
 - эхо сервера
 
 
-![screenshot of sample](https://image.ibb.co/gr0o3R/Screenshot_2017_11_22_17_12_31.png)
+
 
 > За основу взят фреймворк,а точнее набор библиотек  ReactJs
 
