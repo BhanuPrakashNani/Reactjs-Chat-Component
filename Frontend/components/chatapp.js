@@ -1,24 +1,59 @@
 import React from "react";
 import io from "../../socket.io/socket.io.js"; /*I am really hacking this into react!*/
-import $ from 'jquery'
 import params from "./config/config.js"
+
+
 
 //This function takes params from the configuration.
  //TODO this can be cleaned up a bit better
-let  socket = io.connect(params.params.url,  { resource: params.params.path , reconnect:  params.params.reconnect })
+
+
+//let  socket = io.connect(params.params.url,  { resource: params.params.path , reconnect:  params.params.reconnect })
+//I wish I could make this dynaic....
+//Well I may have figured out how to do this.
+let socket = io.connect();
+
 
 export class Chatapp extends React.Component {
+
+
 
   constructor() {
     super();
     this.state =  {
         ChatMessage : "",
-        data        : {}, /*Not used yet.*/
         Messages    : [],
-        Username    : "",
   }
 
 }
+
+
+setup(){
+  if (this.props.config){}
+  //This is probably a bad practice , but at least I get access to make this controllable by props!
+  //
+  socket.io.uri = this.props.uri;
+  socket.io.opts.hostname = this.props.hostname;
+  socket.io.opts.path = this.props.hardpath;
+  socket.io.opts.resource = this.props.resource;
+  socket.io.opts.reconnect = this.props.reconnect;
+  socket.io.opts.secure = this.props.secure;
+
+
+
+}
+
+
+componentWillMount(){
+
+this.setup();
+
+
+
+}
+
+
+
 
 componentDidMount(){
 this.RecvMessage();
@@ -88,6 +123,7 @@ render() {
 if(this.state.Username ){
       return (
 
+
           <div className="ChatApp">
             <script src="../../socket.io/socket.io.js"></script>
             <div className="navbar center"><h1> Welcome to ChatApp (^=^)</h1></div>
@@ -98,16 +134,6 @@ if(this.state.Username ){
 
 
             {this.state.Messages.map((message, index) => (
-
-            //  if(this.state.Messages[index].includes(this.state.Username)){console.log(this.state.Messages[index])
-            //TODO
-            // Some CSS needed here . What do you think?
-            // <div class="chatitem"><div class="username"><li>Username:</li></div><div class="message"><li><Message></li></div></div>
-            //
-            //.chatitem li{ display:inline;} .chatitem .username li{ font-weight: bold; }
-
-
-            //  <div className="chatitem"> <div className="username"></li></div><div className="message"> <li key={index}>{message.Username}: {message.Message}</li></div></div>
               <div className="chatitem" key={index}>
               <ul>
               <div className="ChatUsername"><li>{message.Username}: </li></div>
