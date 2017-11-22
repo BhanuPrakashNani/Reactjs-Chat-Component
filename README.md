@@ -1,7 +1,7 @@
 Simple Chat based on ReactJs using SocketIO
 =============================
 
-English Instructions:
+### English Instructions:
 
 This project aims to be a plug&play server that all you'll need to do is import the component. and use it.
 Let me know if you struggle to install it. Unlike the other Reactjs chat apps this will stand alone and you don't really have to combime with the nodejs back end. In reality you just have to have a javascript socket listening on port 9000.
@@ -63,13 +63,14 @@ http.listen(9000, function(){
 
 
 Things to add:
-Emoji use.
-Private chat.
-User selection in chat.
+1. Emoji use.
+2. Private chat.
+3. User selection in chat.
+4. more styling. 
 
 
 
-Russian Instructions:
+### Russian Instructions:
 
 Данный модуль был написан для общения.
 Основные функции:
