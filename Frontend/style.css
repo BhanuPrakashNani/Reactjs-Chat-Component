@@ -37,10 +37,38 @@ h1{
     text-align: left;
 }
 
+/*.chatitem ul li:last-child {
+    background: #ff0000;
+}*/
+
+
+
+
+
+/*
+Not sure what looks best
 #box li:nth-child(odd) {
-   background:  #bef4e1;
+   background:  #fffff;
+
+ }*/
+
+
+ .ChatUsername li {
+     padding: 0px 5px 0px 0px;
+     text-transform: capitalize;
+     font-weight: bold;
+ }
+
+
+.chatitem ul li {
+  float: left ;
 
  }
+
+ .chatitem ul {
+     display: inline;
+ }
+
 
 
 
@@ -64,7 +92,7 @@ input#chatuserinput {
 
 
 .message{
-    width: 83% !important;
+    width: 75% !important;
     margin-right: 10px !important;
     height: 50px !important;
     float:left;

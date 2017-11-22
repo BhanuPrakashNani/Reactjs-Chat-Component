@@ -29,11 +29,18 @@ RecvMessage(){
  socket.on('chat message', function(msg){
    console.log("Message Recvd " + msg)
 //I will need to probably need to make JSON array.
-  this.setState({Messages: this.state.Messages.concat([msg])});
+ let parsedMessage = JSON.parse(msg);
+ console.log(parsedMessage.Message)
+//this.setState({Messages: this.state.Messages.concat({  Username:username, Message:message  })});
+
+  this.setState({Messages: this.state.Messages.concat({  Username:parsedMessage.Username, Message:parsedMessage.Message  })});
+  //this.setState({Messages: this.state.Messages.concat([parsedMessage.Message])}); // Keep this in case
     }.bind(this)
       )
+
 }
 
+//This just checks if 'Enter' was pressed. then, sets state of Username to the value in box.
 UpdateUserName(evt){
   if (evt.key === 'Enter') {
   this.setState({
@@ -48,6 +55,7 @@ UpdateUserName(evt){
 
 
 UpdateMessage(evt) {
+
 	this.setState({
 	ChatMessage: evt.target.value });
 //	console.log(this.state.ChatMessage)
@@ -55,13 +63,23 @@ UpdateMessage(evt) {
 
 
 
-SendMessage (e) {
+SendMessage (e,  Username,  Message) {
   e.preventDefault();
-  socket.emit('chat message',this.state.Username +": "+ this.state.ChatMessage)
-  this.setState({Messages: this.state.Messages.concat([this.state.Username +": "+ this.state.ChatMessage])});
-  this.setState({ ChatMessage:""})
-}
+  let username = this.state.Username;
+  let message  = this.state.ChatMessage;
 
+  // Check if there message is empty. send if False then send
+  if (message == ""){console.log("Type Something!")}
+
+
+  else{
+  socket.emit('chat message', JSON.stringify({Username:username , Message:message}))
+  //socket.emit('chat message',this.state.Username +": "+ this.state.ChatMessage)
+  console.log(this.state.Messages)
+  this.setState({Messages: this.state.Messages.concat({  Username:username, Message:message  })});
+  this.setState({ ChatMessage:""})
+  }
+}
 
 
 
@@ -80,14 +98,28 @@ if(this.state.Username ){
 
 
             {this.state.Messages.map((message, index) => (
+
             //  if(this.state.Messages[index].includes(this.state.Username)){console.log(this.state.Messages[index])
-              <li key={index}>{message}</li>
+            //TODO
+            // Some CSS needed here . What do you think?
+            // <div class="chatitem"><div class="username"><li>Username:</li></div><div class="message"><li><Message></li></div></div>
+            //
+            //.chatitem li{ display:inline;} .chatitem .username li{ font-weight: bold; }
+
+
+            //  <div className="chatitem"> <div className="username"></li></div><div className="message"> <li key={index}>{message.Username}: {message.Message}</li></div></div>
+              <div className="chatitem" key={index}>
+              <ul>
+              <div className="ChatUsername"><li>{message.Username}: </li></div>
+              <div className="chatMessage"><li> {message.Message}</li></div>
+              </ul>
+              </div>
           ))}
 
 
             </div>
             <div className="sender left">
-                <form  onSubmit={this.SendMessage.bind(this)}>
+                <form  onSubmit={this.SendMessage.bind(this)}> { /*/TODO The onChange Event below shouldn't be done like this. It should be onKeyPress and should look for Enterkey.. */}
                   <input id="myEmoji"  className="message" autoFocus  ref="ChatInput"  autoComplete="off"  value={this.state.ChatMessage} onChange={evt => this.UpdateMessage(evt)} />
                     <input  autoComplete="off" type="submit"  className="button" value="Send"/>
                 </form>
