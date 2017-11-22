@@ -21,7 +21,7 @@ Then simply just run npm start.
 - эхо сервера
 
 
-![screenshot of sample](http://forum.norma4.net.ua/photoplog/images/9110/1_4a49c8c5-f441-4e9d-913f-2fb0cacd0768.png)
+![screenshot of sample](https://ibb.co/c7EsV6)
 
 > За основу взят фреймворк,а точнее набор библиотек  ReactJs
 
