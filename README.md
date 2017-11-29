@@ -67,11 +67,11 @@ http.listen(9000, function(){
 
 
 Things to add:
-1. Emoji use.
-2. Private chat.
-3. User selection in chat.
-4. more styling.
-5. Make this an NPM module.
+- [x] 1. Emoji use.
+- [ ] 2. Private chat.
+- [ ] 3. User selection in chat.
+- [ ] 4. more styling.
+- [ ] 5. Make this an NPM module.
 
 
 
