@@ -1,6 +1,8 @@
 import React from "react";
 import io from "../../socket.io/socket.io.js"; /*I am really hacking this into react!*/
 import params from "./config/config.js"
+import {emojify} from 'react-emojione';
+
 
 
 
@@ -136,8 +138,8 @@ if(this.state.Username ){
             {this.state.Messages.map((message, index) => (
               <div className="chatitem" key={index}>
               <ul>
-              <div className="ChatUsername"><li>{message.Username}: </li></div>
-              <div className="chatMessage"><li> {message.Message}</li></div>
+              <div className="ChatUsername"><li>{message.Username}:</li></div>
+              <div className="chatMessage"><li>{emojify(message.Message)}</li></div>
               </ul>
               </div>
           ))}
