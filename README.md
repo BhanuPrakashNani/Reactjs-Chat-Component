@@ -22,7 +22,7 @@ This will pull down all the node packages needed.
 Then simply just run
 
 ```php
-npm start.
+npm start
 ```
 
 for the back end, you can install the back end using npm install. Afterwards, you can run the server using nodemon.  to run it.
@@ -35,7 +35,7 @@ node_modules/nodemon/bin/nodemon.js  index
 I have added a link to my index.html in my reactjs project to reference the stylesheet. You can of course change this to your liking.  
 
 ```php
-<link rel="stylesheet" type="text/css" href="./style.css">
+<link rel="stylesheet" type="text/css" href="./chat-style.css">
 ```
 
 
@@ -72,7 +72,7 @@ Things to add:
 - [ ] 3. User selection in chat.
 - [ ] 4. more styling.
 - [ ] 5. Make this an NPM module.
-- [ ] 6. Check for duplicate user names. 
+- [ ] 6. Check for duplicate user names.
 
 
 
