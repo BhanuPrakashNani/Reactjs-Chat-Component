@@ -17,7 +17,7 @@ h1{
     line-height: 2;
 }
 .container{
-    width: 40%;
+/*    width: 40%; */
     margin: auto;
     height: 50%;
 }
@@ -27,14 +27,20 @@ h1{
     margin: auto;
     background-color: #c4f5e4;
     overflow: auto;
-    height: 600px;
-    max-height: 600px;
+    height: 600px; 
+/*    max-height: 600px;   */
     word-wrap: break-word;
 
 }
 #box li{
     list-style: none;
     text-align: left;
+}
+
+.ChatApp{
+  height: 600px;
+  max-height: 600px;
+  width: 40%;
 }
 
 /*.chatitem ul li:last-child {
@@ -125,8 +131,8 @@ input#chatuserinput {
 .navbar{
     background-color: steelblue;
     height: 50px;
-    margin-right: 30%;
-    margin-left: 30%;
+  /*  margin-right: 30%;  */
+/*    margin-left: 30%;   */
     /*margin-bottom: 50px;*/
 }
 .center{

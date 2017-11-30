@@ -62,6 +62,8 @@ this.RecvMessage();
 
 }
 
+
+
 RecvMessage(){
  socket.on('chat message', function(msg){
    console.log("Message Recvd " + msg)
@@ -117,16 +119,22 @@ SendMessage (e,  Username,  Message) {
   this.setState({ ChatMessage:""})
   }
 }
-
+/*.ChatApp {
+    height: 600px;
+    max-height: 600px;
+    width: 40%;
+}*/
 
 
 
 render() {
+
+
 if(this.state.Username ){
       return (
 
 
-          <div className="ChatApp">
+           <div className="ChatApp">
             <script src="../../socket.io/socket.io.js"></script>
             <div className="navbar center"><h1> Welcome to ChatApp (^=^)</h1></div>
 
@@ -165,6 +173,7 @@ else{
     return(
 
       <div>
+      <div className="ChatApp">
       <div className="navbar center"><h1> Welcome to ChatApp (^=^)</h1></div>
 
       <div className="container center">
@@ -173,6 +182,7 @@ else{
       <p>Select User name please</p>
       <input id="chatuserinput"   autoFocus  ref="usernameimput"  autoComplete="off"  value={this.state.username} onKeyPress={evt => this.UpdateUserName(evt)} />
 
+      </div>
       </div>
       </div>
       </div>
