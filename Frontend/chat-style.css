@@ -21,16 +21,57 @@ h1{
     margin: auto;
     height: 50%;
 }
+
+.container.center {
+    float: left;
+}
+.RoomsList .ulRooms {
+    list-style: none;
+    display: inline;
+}
+.RoomsList {
+    padding: 0px 5px 0px 2px;
+    background-color: cyan;
+}
+
+
+.UsersList .ulUsers {
+    list-style: none;
+    display: inline;
+}
+.UsersList {
+    padding: 0px 5px 0px 2px;
+    background-color: red;
+    overflow: auto;
+    height: 500px;
+    width: 100px;
+}
+
+.UsersList .ulUsers li {
+  padding: 5px 0px 5px 0px;
+
+}
+
+.UsersList .ulUsers li:hover {
+  background-color : #89ae37;
+
+}
+
+
+
 #box{
     min-height: 200px;
     padding: 10px;
     margin: auto;
     background-color: #c4f5e4;
     overflow: auto;
-    height: 600px; 
+    height: 600px;
 /*    max-height: 600px;   */
     word-wrap: break-word;
 
+}
+div#box p {
+    text-align: center;
 }
 #box li{
     list-style: none;
@@ -38,9 +79,11 @@ h1{
 }
 
 .ChatApp{
-  height: 600px;
-  max-height: 600px;
-  width: 40%;
+/*  height: 600px;*/
+/*  max-height: 600px;*/
+    border: crimson;
+    border-style: solid;
+    width: 30%;
 }
 
 /*.chatitem ul li:last-child {
@@ -98,7 +141,7 @@ input#chatuserinput {
 
 
 .message{
-    width: 75% !important;
+    width: 65% !important;
     margin-right: 10px !important;
     height: 50px !important;
     float:left;
@@ -110,6 +153,7 @@ input#chatuserinput {
 #messages{
     margin: 10px;
 }
+
 .button {
     cursor: pointer;
     background-color: #a5aeac;
