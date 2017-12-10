@@ -2,7 +2,7 @@ Simple Chat based on ReactJs using SocketIO
 =============================
 
 
-![screenshot of sample](https://image.ibb.co/gr0o3R/Screenshot_2017_11_22_17_12_31.png)
+![screenshot of sample](https://image.ibb.co/gizZEb/Screenshot_2017_12_10_12_03_20.png)
 
 
 ### English Instructions:

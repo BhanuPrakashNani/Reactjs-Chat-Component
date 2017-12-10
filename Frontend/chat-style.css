@@ -31,7 +31,9 @@ h1{
 }
 .RoomsList {
     padding: 0px 5px 0px 2px;
-    background-color: cyan;
+  /*  background-color: cyan;*/
+  border-bottom: black;
+  border-style: groove;
 }
 
 
@@ -41,10 +43,12 @@ h1{
 }
 .UsersList {
     padding: 0px 5px 0px 2px;
-    background-color: red;
+    /*background-color: red;*/
     overflow: auto;
-    height: 500px;
+    height: 525px;
     width: 100px;
+    border-bottom: black;
+    border-style: groove;
 }
 
 .UsersList .ulUsers li {
@@ -81,8 +85,8 @@ div#box p {
 .ChatApp{
 /*  height: 600px;*/
 /*  max-height: 600px;*/
-    border: crimson;
-    border-style: solid;
+/*    border: crimson;  */
+/*    border-style: solid;*/
     width: 30%;
 }
 
@@ -118,10 +122,7 @@ Not sure what looks best
      display: inline;
  }
 
-
-
-
-input#chatuserinput {
+input.chatuserinput {
      z-index: 10;
      box-sizing: border-box;
      /*height: 100%;*/
@@ -141,7 +142,7 @@ input#chatuserinput {
 
 
 .message{
-    width: 65% !important;
+    width: 55% !important;
     margin-right: 10px !important;
     height: 50px !important;
     float:left;

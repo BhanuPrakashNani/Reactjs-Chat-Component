@@ -1,6 +1,6 @@
 {
-  "name": "ChatApp",
-  "version": "1.0.0",
+  "name": "reactjs-chatapp",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {

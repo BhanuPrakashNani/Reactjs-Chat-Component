@@ -137,9 +137,7 @@ if(this.state.Username ){
       <div className="container center">
               <div className="RoomsList">
                <ul className="ulRooms">
-                   <li> Room 1 </li>
-                   <li> Room 2 </li>
-                   <li> Room 3 </li>
+                   <li> {this.props.MainRoom} </li>
                </ul>
               </div>
 
@@ -200,7 +198,7 @@ else{
        <div id="box">
        <p id="messages" className="left"></p>
        <p>Select User name please</p>
-       <input id="chatuserinput"   autoFocus  ref="usernameimput"  autoComplete="off"  value={this.state.username} onKeyPress={evt => this.UpdateUserName(evt)} />
+       <input className="chatuserinput"   autoFocus  ref="usernameimput"  autoComplete="off"  value={this.state.username} onKeyPress={evt => this.UpdateUserName(evt)} />
 
 
 
