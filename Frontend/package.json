@@ -1,24 +1,33 @@
 {
   "name": "reactjs-chatapp",
-  "version": "1.0.2",
+  "version": "1.0.9",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --hot"
+    "start": "npm run build -inline -hot",
+    "build": "webpack",
+    "buildprod": "webpack -d && cp src/index.html build/index.html",
+    "dev": "webpack -d && cp src/index.html build/index.html && cp src/chat-style.css build/chat-style.css && webpack-dev-server --content-base build/ --history-api-fallback  --inline --hot"
   },
-  "author": "",
+  "author": "krash",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^6.4.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.5.1",
     "jquery": "^3.2.1",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-emojione": "^5.0.0",
     "webpack": "^1.15.0",
     "webpack-dev-server": "^1.16.5"
+  },
+  "dependencies": {
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-emojione": "^5.0.0"
   }
 }

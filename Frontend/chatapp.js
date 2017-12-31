@@ -1,6 +1,6 @@
 import React from "react";
-import io from "../../socket.io/socket.io.js"; /*I am really hacking this into react!*/
-import params from "./config/config.js"
+import io from "./socket.io/socket.io.js"; /*I am really hacking this into react!*/
+//import params from "./config/config.js"
 import {emojify} from 'react-emojione';
 
 
@@ -12,7 +12,7 @@ import {emojify} from 'react-emojione';
 let socket = io.connect();
 
 
-export class Chatapp extends React.Component {
+export default class Chatapp extends React.Component {
   constructor() {
     super();
     this.state =  {
@@ -132,7 +132,7 @@ if(this.state.Username ){
 
 <div className="ChatApp">
 
-  <div className="navbar center"><h1> {this.props.welcomemessage}</h1></div>
+  <div className="chatNavbar center"><h1> {this.props.welcomemessage}</h1></div>
 
       <div className="container center">
               <div className="RoomsList">
@@ -190,7 +190,7 @@ if(this.state.Username ){
 else{
     return(
       <div className="ChatApp">
-       <div className="navbar center"><h1>{this.props.welcomemessage}</h1></div>
+       <div className="chatNavbar center"><h1>{this.props.welcomemessage}</h1></div>
        <div className="container center">
 
      </div>

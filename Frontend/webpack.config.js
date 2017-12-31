@@ -1,40 +1,29 @@
-var path = require("path");
-
-
-//This should be cleaned up to have src dir and dist dir...
-
-var SRC_DIR = path.resolve(__dirname)
-
-
-
-var config = {
-
-
-
-  entry: './main.js',
-
+var path = require('path');
+module.exports = {
+  entry: './src/index.js',
   output: {
-    path: SRC_DIR,
-    filename: 'index.js'
+    path: path.resolve(__dirname, 'build'),
+    filename: 'index.js',
+    libraryTarget: 'commonjs2' 
   },
-
   devServer: {
-    inline: true,
-    port: 7777
-  },
+  inline: true,
+  port: 7777
+},
 
   module: {
     loaders: [
       {
         test: /\.js?/,
-        exclude: [/node_modules/, /socket.io/ ] ,
+        exclude: [/node_modules/, /socket.io/ ,/build/] ,
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'react']
         }
       }
     ]
+  },
+  externals: {
+    'react': 'commonjs react' // this line is just to use the React dependency of our parent-testing-project instead of using our own React.
   }
-}
-
-module.exports = config;
+};
