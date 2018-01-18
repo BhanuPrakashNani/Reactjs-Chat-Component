@@ -1,17 +1,37 @@
 {
   "name": "reactjs-chatapp",
-  "version": "1.0.9",
-  "description": "",
-  "main": "build/index.js",
+  "version": "1.0.16",
+  "description": "Most popular chat component for react!",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build -inline -hot",
-    "build": "webpack",
-    "buildprod": "webpack -d && cp src/index.html build/index.html",
-    "dev": "webpack -d && cp src/index.html build/index.html && cp src/chat-style.css build/chat-style.css && webpack-dev-server --content-base build/ --history-api-fallback  --inline --hot"
+    "start": "npm run build",
+    "build": "webpack -d && cp src/index.html build/index.html  && cp src/chat-style.css build/chat-style.css",
+    "dev": "webpack -d src/main.js && cp src/index.html build/index.html && cp src/chat-style.css build/chat-style.css && webpack-dev-server --content-base src/ --history-api-fallback  --inline --hot",
+    "dever": "webpack -d && cp src/index.html dist/index.html && webpack-dev-server --content-base src/ --history-api-fallback  --inline --hot"
   },
   "author": "krash",
   "license": "ISC",
+  "keywords": [
+    "chat",
+    "socket",
+    "chatapp",
+    "react chat",
+    "reactjs",
+    "react",
+    "stand-alone",
+    "emoji",
+    "chatbot",
+    "chat bot",
+    "chatapp",
+    "chat app",
+    "chatroom",
+    "chat room",
+    "discord",
+    "messenger",
+    "chat server",
+    "chat frontend"
+  ],
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^6.4.1",
@@ -21,13 +41,12 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.5.1",
-    "jquery": "^3.2.1",
     "webpack": "^1.15.0",
     "webpack-dev-server": "^1.16.5"
   },
   "dependencies": {
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-emojione": "^5.0.0"
   }
 }

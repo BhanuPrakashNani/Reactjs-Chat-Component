@@ -12,6 +12,7 @@ import {emojify} from 'react-emojione';
 let socket = io.connect();
 
 
+
 export default class Chatapp extends React.Component {
   constructor() {
     super();
@@ -52,11 +53,9 @@ recvUserListFromServer(){
   socket.on('user list', function(msg){
       console.log("user list " + msg)
         this.setState({UsersinChat: msg});
-
        }.bind(this)
 
          )
-
     }
 
 RecvUpdateFromServer(){
@@ -82,12 +81,14 @@ RecvMessage(){
 //This just checks if 'Enter' was pressed. then, sets state of Username to the value in box.
 UpdateUserName(evt){
   if (evt.key === 'Enter') {
+    if (evt.target.value == ""){console.log("Enter A User Name")}
+    else{
   this.setState({
   Username: evt.target.value });
    this.SendUpdate(evt.target.value,evt.target.value+" Has Joined Chat!")
    }
+ }
 }
-
 
 
 UpdateMessage(evt) {
@@ -130,7 +131,7 @@ if(this.state.Username ){
 
 <div className="ChatApp">
 
-  <div className="navbar center"><h1> {this.props.welcomemessage}</h1></div>
+  <div className="chatNavbar center"><h1> {this.props.welcomemessage}</h1></div>
 
       <div className="container center">
               <div className="RoomsList">
@@ -179,7 +180,7 @@ if(this.state.Username ){
 else{
     return(
       <div className="ChatApp">
-       <div className="navbar center"><h1>{this.props.welcomemessage}</h1></div>
+       <div className="chatNavbar center"><h1>{this.props.welcomemessage}</h1></div>
        <div className="container center">
 
      </div>

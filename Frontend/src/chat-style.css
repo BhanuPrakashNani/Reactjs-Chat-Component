@@ -80,6 +80,11 @@ div#box p {
 #box li{
     list-style: none;
     text-align: left;
+    white-space: normal;
+    float: left;
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
 }
 
 .ChatApp{

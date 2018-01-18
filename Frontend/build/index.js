@@ -2,92 +2,106 @@ module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/*!******************!*\
+  !*** multi main ***!
+  \******************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(/*! ./src/index.js */1);
+	module.exports = __webpack_require__(/*! /home/krash/Desktop/Reactjs-Chat-Component/Frontend/src/main.js */14);
+
+
+/***/ }),
+/* 1 */
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
 	var _react2 = _interopRequireDefault(_react);
-
-	var _socketIo = __webpack_require__(2);
-
+	
+	var _socketIo = __webpack_require__(/*! ../socket.io/socket.io.js */ 3);
+	
 	var _socketIo2 = _interopRequireDefault(_socketIo);
-
-	var _reactEmojione = __webpack_require__(3);
-
+	
+	var _reactEmojione = __webpack_require__(/*! react-emojione */ 4);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*I am really hacking this into react!*/
 	//import params from "./config/config.js"
-
-
+	
+	
 	//This function takes params from the configuration.
 	//TODO this can be cleaned up a bit better
-
-
+	
+	
 	// I wish we could make this conditional , like if user chooses a valid name, then connect...
 	var socket = _socketIo2.default.connect();
-
+	
 	var Chatapp = function (_React$Component) {
 	  _inherits(Chatapp, _React$Component);
-
+	
 	  function Chatapp() {
 	    _classCallCheck(this, Chatapp);
-
+	
 	    var _this = _possibleConstructorReturn(this, (Chatapp.__proto__ || Object.getPrototypeOf(Chatapp)).call(this));
-
+	
 	    _this.state = {
 	      ChatMessage: "",
 	      Messages: [],
@@ -96,7 +110,7 @@ module.exports =
 	    };
 	    return _this;
 	  }
-
+	
 	  _createClass(Chatapp, [{
 	    key: "setup",
 	    value: function setup() {
@@ -145,16 +159,20 @@ module.exports =
 	        this.setState({ Messages: this.state.Messages.concat({ Username: parsedMessage.Username, Message: parsedMessage.Message }) });
 	      }.bind(this));
 	    }
-
+	
 	    //This just checks if 'Enter' was pressed. then, sets state of Username to the value in box.
-
+	
 	  }, {
 	    key: "UpdateUserName",
 	    value: function UpdateUserName(evt) {
 	      if (evt.key === 'Enter') {
-	        this.setState({
-	          Username: evt.target.value });
-	        this.SendUpdate(evt.target.value, evt.target.value + " Has Joined Chat!");
+	        if (evt.target.value == "") {
+	          console.log("Enter A User Name");
+	        } else {
+	          this.setState({
+	            Username: evt.target.value });
+	          this.SendUpdate(evt.target.value, evt.target.value + " Has Joined Chat!");
+	        }
 	      }
 	    }
 	  }, {
@@ -176,7 +194,7 @@ module.exports =
 	      e.preventDefault();
 	      var username = this.state.Username;
 	      var message = this.state.ChatMessage;
-
+	
 	      // Check if there message is empty. send if False then send
 	      if (message == "") {
 	        console.log("Type Something!");
@@ -192,14 +210,14 @@ module.exports =
 	    key: "render",
 	    value: function render() {
 	      var _this2 = this;
-
+	
 	      if (this.state.Username) {
 	        return _react2.default.createElement(
 	          "div",
 	          { className: "ChatApp" },
 	          _react2.default.createElement(
 	            "div",
-	            { className: "navbar center" },
+	            { className: "chatNavbar center" },
 	            _react2.default.createElement(
 	              "h1",
 	              null,
@@ -296,7 +314,7 @@ module.exports =
 	          { className: "ChatApp" },
 	          _react2.default.createElement(
 	            "div",
-	            { className: "navbar center" },
+	            { className: "chatNavbar center" },
 	            _react2.default.createElement(
 	              "h1",
 	              null,
@@ -321,20 +339,26 @@ module.exports =
 	      }
 	    }
 	  }]);
-
+	
 	  return Chatapp;
 	}(_react2.default.Component);
-
+	
 	exports.default = Chatapp;
 
 /***/ }),
-/* 1 */
+/* 2 */
+/*!************************!*\
+  !*** external "react" ***!
+  \************************/
 /***/ (function(module, exports) {
 
 	module.exports = require("react");
 
 /***/ }),
-/* 2 */
+/* 3 */
+/*!********************************!*\
+  !*** ./socket.io/socket.io.js ***!
+  \********************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	!function(t,e){ true?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.io=e():t.io=e()}(this,function(){return function(t){function e(r){if(n[r])return n[r].exports;var o=n[r]={exports:{},id:r,loaded:!1};return t[r].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var n={};return e.m=t,e.c=n,e.p="",e(0)}([function(t,e,n){"use strict";function r(t,e){"object"===("undefined"==typeof t?"undefined":o(t))&&(e=t,t=void 0),e=e||{};var n,r=i(t),s=r.source,u=r.id,h=r.path,f=p[u]&&h in p[u].nsps,l=e.forceNew||e["force new connection"]||!1===e.multiplex||f;return l?(c("ignoring socket cache for %s",s),n=a(s,e)):(p[u]||(c("new io instance for %s",s),p[u]=a(s,e)),n=p[u]),r.query&&!e.query&&(e.query=r.query),n.socket(r.path,e)}var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},i=n(1),s=n(7),a=n(13),c=n(3)("socket.io-client");t.exports=e=r;var p=e.managers={};e.protocol=s.protocol,e.connect=r,e.Manager=n(13),e.Socket=n(37)},function(t,e,n){(function(e){"use strict";function r(t,n){var r=t;n=n||e.location,null==t&&(t=n.protocol+"//"+n.host),"string"==typeof t&&("/"===t.charAt(0)&&(t="/"===t.charAt(1)?n.protocol+t:n.host+t),/^(https?|wss?):\/\//.test(t)||(i("protocol-less url %s",t),t="undefined"!=typeof n?n.protocol+"//"+t:"https://"+t),i("parse %s",t),r=o(t)),r.port||(/^(http|ws)$/.test(r.protocol)?r.port="80":/^(http|ws)s$/.test(r.protocol)&&(r.port="443")),r.path=r.path||"/";var s=r.host.indexOf(":")!==-1,a=s?"["+r.host+"]":r.host;return r.id=r.protocol+"://"+a+":"+r.port,r.href=r.protocol+"://"+a+(n&&n.port===r.port?"":":"+r.port),r}var o=n(2),i=n(3)("socket.io-client:url");t.exports=r}).call(e,function(){return this}())},function(t,e){var n=/^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,r=["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"];t.exports=function(t){var e=t,o=t.indexOf("["),i=t.indexOf("]");o!=-1&&i!=-1&&(t=t.substring(0,o)+t.substring(o,i).replace(/:/g,";")+t.substring(i,t.length));for(var s=n.exec(t||""),a={},c=14;c--;)a[r[c]]=s[c]||"";return o!=-1&&i!=-1&&(a.source=e,a.host=a.host.substring(1,a.host.length-1).replace(/;/g,":"),a.authority=a.authority.replace("[","").replace("]","").replace(/;/g,":"),a.ipv6uri=!0),a}},function(t,e,n){(function(r){function o(){return!("undefined"==typeof window||!window.process||"renderer"!==window.process.type)||("undefined"!=typeof document&&document.documentElement&&document.documentElement.style&&document.documentElement.style.WebkitAppearance||"undefined"!=typeof window&&window.console&&(window.console.firebug||window.console.exception&&window.console.table)||"undefined"!=typeof navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/)&&parseInt(RegExp.$1,10)>=31||"undefined"!=typeof navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/))}function i(t){var n=this.useColors;if(t[0]=(n?"%c":"")+this.namespace+(n?" %c":" ")+t[0]+(n?"%c ":" ")+"+"+e.humanize(this.diff),n){var r="color: "+this.color;t.splice(1,0,r,"color: inherit");var o=0,i=0;t[0].replace(/%[a-zA-Z%]/g,function(t){"%%"!==t&&(o++,"%c"===t&&(i=o))}),t.splice(i,0,r)}}function s(){return"object"==typeof console&&console.log&&Function.prototype.apply.call(console.log,console,arguments)}function a(t){try{null==t?e.storage.removeItem("debug"):e.storage.debug=t}catch(n){}}function c(){var t;try{t=e.storage.debug}catch(n){}return!t&&"undefined"!=typeof r&&"env"in r&&(t=r.env.DEBUG),t}function p(){try{return window.localStorage}catch(t){}}e=t.exports=n(5),e.log=s,e.formatArgs=i,e.save=a,e.load=c,e.useColors=o,e.storage="undefined"!=typeof chrome&&"undefined"!=typeof chrome.storage?chrome.storage.local:p(),e.colors=["lightseagreen","forestgreen","goldenrod","dodgerblue","darkorchid","crimson"],e.formatters.j=function(t){try{return JSON.stringify(t)}catch(e){return"[UnexpectedJSONParseError]: "+e.message}},e.enable(c())}).call(e,n(4))},function(t,e){function n(){throw new Error("setTimeout has not been defined")}function r(){throw new Error("clearTimeout has not been defined")}function o(t){if(u===setTimeout)return setTimeout(t,0);if((u===n||!u)&&setTimeout)return u=setTimeout,setTimeout(t,0);try{return u(t,0)}catch(e){try{return u.call(null,t,0)}catch(e){return u.call(this,t,0)}}}function i(t){if(h===clearTimeout)return clearTimeout(t);if((h===r||!h)&&clearTimeout)return h=clearTimeout,clearTimeout(t);try{return h(t)}catch(e){try{return h.call(null,t)}catch(e){return h.call(this,t)}}}function s(){y&&l&&(y=!1,l.length?d=l.concat(d):m=-1,d.length&&a())}function a(){if(!y){var t=o(s);y=!0;for(var e=d.length;e;){for(l=d,d=[];++m<e;)l&&l[m].run();m=-1,e=d.length}l=null,y=!1,i(t)}}function c(t,e){this.fun=t,this.array=e}function p(){}var u,h,f=t.exports={};!function(){try{u="function"==typeof setTimeout?setTimeout:n}catch(t){u=n}try{h="function"==typeof clearTimeout?clearTimeout:r}catch(t){h=r}}();var l,d=[],y=!1,m=-1;f.nextTick=function(t){var e=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)e[n-1]=arguments[n];d.push(new c(t,e)),1!==d.length||y||o(a)},c.prototype.run=function(){this.fun.apply(null,this.array)},f.title="browser",f.browser=!0,f.env={},f.argv=[],f.version="",f.versions={},f.on=p,f.addListener=p,f.once=p,f.off=p,f.removeListener=p,f.removeAllListeners=p,f.emit=p,f.prependListener=p,f.prependOnceListener=p,f.listeners=function(t){return[]},f.binding=function(t){throw new Error("process.binding is not supported")},f.cwd=function(){return"/"},f.chdir=function(t){throw new Error("process.chdir is not supported")},f.umask=function(){return 0}},function(t,e,n){function r(t){var n,r=0;for(n in t)r=(r<<5)-r+t.charCodeAt(n),r|=0;return e.colors[Math.abs(r)%e.colors.length]}function o(t){function n(){if(n.enabled){var t=n,r=+new Date,o=r-(p||r);t.diff=o,t.prev=p,t.curr=r,p=r;for(var i=new Array(arguments.length),s=0;s<i.length;s++)i[s]=arguments[s];i[0]=e.coerce(i[0]),"string"!=typeof i[0]&&i.unshift("%O");var a=0;i[0]=i[0].replace(/%([a-zA-Z%])/g,function(n,r){if("%%"===n)return n;a++;var o=e.formatters[r];if("function"==typeof o){var s=i[a];n=o.call(t,s),i.splice(a,1),a--}return n}),e.formatArgs.call(t,i);var c=n.log||e.log||console.log.bind(console);c.apply(t,i)}}return n.namespace=t,n.enabled=e.enabled(t),n.useColors=e.useColors(),n.color=r(t),"function"==typeof e.init&&e.init(n),n}function i(t){e.save(t),e.names=[],e.skips=[];for(var n=("string"==typeof t?t:"").split(/[\s,]+/),r=n.length,o=0;o<r;o++)n[o]&&(t=n[o].replace(/\*/g,".*?"),"-"===t[0]?e.skips.push(new RegExp("^"+t.substr(1)+"$")):e.names.push(new RegExp("^"+t+"$")))}function s(){e.enable("")}function a(t){var n,r;for(n=0,r=e.skips.length;n<r;n++)if(e.skips[n].test(t))return!1;for(n=0,r=e.names.length;n<r;n++)if(e.names[n].test(t))return!0;return!1}function c(t){return t instanceof Error?t.stack||t.message:t}e=t.exports=o.debug=o["default"]=o,e.coerce=c,e.disable=s,e.enable=i,e.enabled=a,e.humanize=n(6),e.names=[],e.skips=[],e.formatters={};var p},function(t,e){function n(t){if(t=String(t),!(t.length>100)){var e=/^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(t);if(e){var n=parseFloat(e[1]),r=(e[2]||"ms").toLowerCase();switch(r){case"years":case"year":case"yrs":case"yr":case"y":return n*u;case"days":case"day":case"d":return n*p;case"hours":case"hour":case"hrs":case"hr":case"h":return n*c;case"minutes":case"minute":case"mins":case"min":case"m":return n*a;case"seconds":case"second":case"secs":case"sec":case"s":return n*s;case"milliseconds":case"millisecond":case"msecs":case"msec":case"ms":return n;default:return}}}}function r(t){return t>=p?Math.round(t/p)+"d":t>=c?Math.round(t/c)+"h":t>=a?Math.round(t/a)+"m":t>=s?Math.round(t/s)+"s":t+"ms"}function o(t){return i(t,p,"day")||i(t,c,"hour")||i(t,a,"minute")||i(t,s,"second")||t+" ms"}function i(t,e,n){if(!(t<e))return t<1.5*e?Math.floor(t/e)+" "+n:Math.ceil(t/e)+" "+n+"s"}var s=1e3,a=60*s,c=60*a,p=24*c,u=365.25*p;t.exports=function(t,e){e=e||{};var i=typeof t;if("string"===i&&t.length>0)return n(t);if("number"===i&&isNaN(t)===!1)return e["long"]?o(t):r(t);throw new Error("val is not a non-empty string or a valid number. val="+JSON.stringify(t))}},function(t,e,n){function r(){}function o(t){var n=""+t.type;return e.BINARY_EVENT!==t.type&&e.BINARY_ACK!==t.type||(n+=t.attachments+"-"),t.nsp&&"/"!==t.nsp&&(n+=t.nsp+","),null!=t.id&&(n+=t.id),null!=t.data&&(n+=JSON.stringify(t.data)),h("encoded %j as %s",t,n),n}function i(t,e){function n(t){var n=d.deconstructPacket(t),r=o(n.packet),i=n.buffers;i.unshift(r),e(i)}d.removeBlobs(t,n)}function s(){this.reconstructor=null}function a(t){var n=0,r={type:Number(t.charAt(0))};if(null==e.types[r.type])return u();if(e.BINARY_EVENT===r.type||e.BINARY_ACK===r.type){for(var o="";"-"!==t.charAt(++n)&&(o+=t.charAt(n),n!=t.length););if(o!=Number(o)||"-"!==t.charAt(n))throw new Error("Illegal attachments");r.attachments=Number(o)}if("/"===t.charAt(n+1))for(r.nsp="";++n;){var i=t.charAt(n);if(","===i)break;if(r.nsp+=i,n===t.length)break}else r.nsp="/";var s=t.charAt(n+1);if(""!==s&&Number(s)==s){for(r.id="";++n;){var i=t.charAt(n);if(null==i||Number(i)!=i){--n;break}if(r.id+=t.charAt(n),n===t.length)break}r.id=Number(r.id)}return t.charAt(++n)&&(r=c(r,t.substr(n))),h("decoded %s as %j",t,r),r}function c(t,e){try{t.data=JSON.parse(e)}catch(n){return u()}return t}function p(t){this.reconPack=t,this.buffers=[]}function u(){return{type:e.ERROR,data:"parser error"}}var h=n(3)("socket.io-parser"),f=n(8),l=n(9),d=n(11),y=n(12);e.protocol=4,e.types=["CONNECT","DISCONNECT","EVENT","ACK","ERROR","BINARY_EVENT","BINARY_ACK"],e.CONNECT=0,e.DISCONNECT=1,e.EVENT=2,e.ACK=3,e.ERROR=4,e.BINARY_EVENT=5,e.BINARY_ACK=6,e.Encoder=r,e.Decoder=s,r.prototype.encode=function(t,n){if(t.type!==e.EVENT&&t.type!==e.ACK||!l(t.data)||(t.type=t.type===e.EVENT?e.BINARY_EVENT:e.BINARY_ACK),h("encoding packet %j",t),e.BINARY_EVENT===t.type||e.BINARY_ACK===t.type)i(t,n);else{var r=o(t);n([r])}},f(s.prototype),s.prototype.add=function(t){var n;if("string"==typeof t)n=a(t),e.BINARY_EVENT===n.type||e.BINARY_ACK===n.type?(this.reconstructor=new p(n),0===this.reconstructor.reconPack.attachments&&this.emit("decoded",n)):this.emit("decoded",n);else{if(!y(t)&&!t.base64)throw new Error("Unknown type: "+t);if(!this.reconstructor)throw new Error("got binary data when not reconstructing a packet");n=this.reconstructor.takeBinaryData(t),n&&(this.reconstructor=null,this.emit("decoded",n))}},s.prototype.destroy=function(){this.reconstructor&&this.reconstructor.finishedReconstruction()},p.prototype.takeBinaryData=function(t){if(this.buffers.push(t),this.buffers.length===this.reconPack.attachments){var e=d.reconstructPacket(this.reconPack,this.buffers);return this.finishedReconstruction(),e}return null},p.prototype.finishedReconstruction=function(){this.reconPack=null,this.buffers=[]}},function(t,e,n){function r(t){if(t)return o(t)}function o(t){for(var e in r.prototype)t[e]=r.prototype[e];return t}t.exports=r,r.prototype.on=r.prototype.addEventListener=function(t,e){return this._callbacks=this._callbacks||{},(this._callbacks["$"+t]=this._callbacks["$"+t]||[]).push(e),this},r.prototype.once=function(t,e){function n(){this.off(t,n),e.apply(this,arguments)}return n.fn=e,this.on(t,n),this},r.prototype.off=r.prototype.removeListener=r.prototype.removeAllListeners=r.prototype.removeEventListener=function(t,e){if(this._callbacks=this._callbacks||{},0==arguments.length)return this._callbacks={},this;var n=this._callbacks["$"+t];if(!n)return this;if(1==arguments.length)return delete this._callbacks["$"+t],this;for(var r,o=0;o<n.length;o++)if(r=n[o],r===e||r.fn===e){n.splice(o,1);break}return this},r.prototype.emit=function(t){this._callbacks=this._callbacks||{};var e=[].slice.call(arguments,1),n=this._callbacks["$"+t];if(n){n=n.slice(0);for(var r=0,o=n.length;r<o;++r)n[r].apply(this,e)}return this},r.prototype.listeners=function(t){return this._callbacks=this._callbacks||{},this._callbacks["$"+t]||[]},r.prototype.hasListeners=function(t){return!!this.listeners(t).length}},function(t,e,n){(function(e){function r(t){if(!t||"object"!=typeof t)return!1;if(o(t)){for(var n=0,i=t.length;n<i;n++)if(r(t[n]))return!0;return!1}if("function"==typeof e.Buffer&&e.Buffer.isBuffer&&e.Buffer.isBuffer(t)||"function"==typeof e.ArrayBuffer&&t instanceof ArrayBuffer||s&&t instanceof Blob||a&&t instanceof File)return!0;if(t.toJSON&&"function"==typeof t.toJSON&&1===arguments.length)return r(t.toJSON(),!0);for(var c in t)if(Object.prototype.hasOwnProperty.call(t,c)&&r(t[c]))return!0;return!1}var o=n(10),i=Object.prototype.toString,s="function"==typeof e.Blob||"[object BlobConstructor]"===i.call(e.Blob),a="function"==typeof e.File||"[object FileConstructor]"===i.call(e.File);t.exports=r}).call(e,function(){return this}())},function(t,e){var n={}.toString;t.exports=Array.isArray||function(t){return"[object Array]"==n.call(t)}},function(t,e,n){(function(t){function r(t,e){if(!t)return t;if(s(t)){var n={_placeholder:!0,num:e.length};return e.push(t),n}if(i(t)){for(var o=new Array(t.length),a=0;a<t.length;a++)o[a]=r(t[a],e);return o}if("object"==typeof t&&!(t instanceof Date)){var o={};for(var c in t)o[c]=r(t[c],e);return o}return t}function o(t,e){if(!t)return t;if(t&&t._placeholder)return e[t.num];if(i(t))for(var n=0;n<t.length;n++)t[n]=o(t[n],e);else if("object"==typeof t)for(var r in t)t[r]=o(t[r],e);return t}var i=n(10),s=n(12),a=Object.prototype.toString,c="function"==typeof t.Blob||"[object BlobConstructor]"===a.call(t.Blob),p="function"==typeof t.File||"[object FileConstructor]"===a.call(t.File);e.deconstructPacket=function(t){var e=[],n=t.data,o=t;return o.data=r(n,e),o.attachments=e.length,{packet:o,buffers:e}},e.reconstructPacket=function(t,e){return t.data=o(t.data,e),t.attachments=void 0,t},e.removeBlobs=function(t,e){function n(t,a,u){if(!t)return t;if(c&&t instanceof Blob||p&&t instanceof File){r++;var h=new FileReader;h.onload=function(){u?u[a]=this.result:o=this.result,--r||e(o)},h.readAsArrayBuffer(t)}else if(i(t))for(var f=0;f<t.length;f++)n(t[f],f,t);else if("object"==typeof t&&!s(t))for(var l in t)n(t[l],l,t)}var r=0,o=t;n(o),r||e(o)}}).call(e,function(){return this}())},function(t,e){(function(e){function n(t){return e.Buffer&&e.Buffer.isBuffer(t)||e.ArrayBuffer&&t instanceof ArrayBuffer}t.exports=n}).call(e,function(){return this}())},function(t,e,n){"use strict";function r(t,e){if(!(this instanceof r))return new r(t,e);t&&"object"===("undefined"==typeof t?"undefined":o(t))&&(e=t,t=void 0),e=e||{},e.path=e.path||"/socket.io",this.nsps={},this.subs=[],this.opts=e,this.reconnection(e.reconnection!==!1),this.reconnectionAttempts(e.reconnectionAttempts||1/0),this.reconnectionDelay(e.reconnectionDelay||1e3),this.reconnectionDelayMax(e.reconnectionDelayMax||5e3),this.randomizationFactor(e.randomizationFactor||.5),this.backoff=new l({min:this.reconnectionDelay(),max:this.reconnectionDelayMax(),jitter:this.randomizationFactor()}),this.timeout(null==e.timeout?2e4:e.timeout),this.readyState="closed",this.uri=t,this.connecting=[],this.lastPing=null,this.encoding=!1,this.packetBuffer=[];var n=e.parser||c;this.encoder=new n.Encoder,this.decoder=new n.Decoder,this.autoConnect=e.autoConnect!==!1,this.autoConnect&&this.open()}var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},i=n(14),s=n(37),a=n(8),c=n(7),p=n(39),u=n(40),h=n(3)("socket.io-client:manager"),f=n(36),l=n(41),d=Object.prototype.hasOwnProperty;t.exports=r,r.prototype.emitAll=function(){this.emit.apply(this,arguments);for(var t in this.nsps)d.call(this.nsps,t)&&this.nsps[t].emit.apply(this.nsps[t],arguments)},r.prototype.updateSocketIds=function(){for(var t in this.nsps)d.call(this.nsps,t)&&(this.nsps[t].id=this.generateId(t))},r.prototype.generateId=function(t){return("/"===t?"":t+"#")+this.engine.id},a(r.prototype),r.prototype.reconnection=function(t){return arguments.length?(this._reconnection=!!t,this):this._reconnection},r.prototype.reconnectionAttempts=function(t){return arguments.length?(this._reconnectionAttempts=t,this):this._reconnectionAttempts},r.prototype.reconnectionDelay=function(t){return arguments.length?(this._reconnectionDelay=t,this.backoff&&this.backoff.setMin(t),this):this._reconnectionDelay},r.prototype.randomizationFactor=function(t){return arguments.length?(this._randomizationFactor=t,this.backoff&&this.backoff.setJitter(t),this):this._randomizationFactor},r.prototype.reconnectionDelayMax=function(t){return arguments.length?(this._reconnectionDelayMax=t,this.backoff&&this.backoff.setMax(t),this):this._reconnectionDelayMax},r.prototype.timeout=function(t){return arguments.length?(this._timeout=t,this):this._timeout},r.prototype.maybeReconnectOnOpen=function(){!this.reconnecting&&this._reconnection&&0===this.backoff.attempts&&this.reconnect()},r.prototype.open=r.prototype.connect=function(t,e){if(h("readyState %s",this.readyState),~this.readyState.indexOf("open"))return this;h("opening %s",this.uri),this.engine=i(this.uri,this.opts);var n=this.engine,r=this;this.readyState="opening",this.skipReconnect=!1;var o=p(n,"open",function(){r.onopen(),t&&t()}),s=p(n,"error",function(e){if(h("connect_error"),r.cleanup(),r.readyState="closed",r.emitAll("connect_error",e),t){var n=new Error("Connection error");n.data=e,t(n)}else r.maybeReconnectOnOpen()});if(!1!==this._timeout){var a=this._timeout;h("connect attempt will timeout after %d",a);var c=setTimeout(function(){h("connect attempt timed out after %d",a),o.destroy(),n.close(),n.emit("error","timeout"),r.emitAll("connect_timeout",a)},a);this.subs.push({destroy:function(){clearTimeout(c)}})}return this.subs.push(o),this.subs.push(s),this},r.prototype.onopen=function(){h("open"),this.cleanup(),this.readyState="open",this.emit("open");var t=this.engine;this.subs.push(p(t,"data",u(this,"ondata"))),this.subs.push(p(t,"ping",u(this,"onping"))),this.subs.push(p(t,"pong",u(this,"onpong"))),this.subs.push(p(t,"error",u(this,"onerror"))),this.subs.push(p(t,"close",u(this,"onclose"))),this.subs.push(p(this.decoder,"decoded",u(this,"ondecoded")))},r.prototype.onping=function(){this.lastPing=new Date,this.emitAll("ping")},r.prototype.onpong=function(){this.emitAll("pong",new Date-this.lastPing)},r.prototype.ondata=function(t){this.decoder.add(t)},r.prototype.ondecoded=function(t){this.emit("packet",t)},r.prototype.onerror=function(t){h("error",t),this.emitAll("error",t)},r.prototype.socket=function(t,e){function n(){~f(o.connecting,r)||o.connecting.push(r)}var r=this.nsps[t];if(!r){r=new s(this,t,e),this.nsps[t]=r;var o=this;r.on("connecting",n),r.on("connect",function(){r.id=o.generateId(t)}),this.autoConnect&&n()}return r},r.prototype.destroy=function(t){var e=f(this.connecting,t);~e&&this.connecting.splice(e,1),this.connecting.length||this.close()},r.prototype.packet=function(t){h("writing packet %j",t);var e=this;t.query&&0===t.type&&(t.nsp+="?"+t.query),e.encoding?e.packetBuffer.push(t):(e.encoding=!0,this.encoder.encode(t,function(n){for(var r=0;r<n.length;r++)e.engine.write(n[r],t.options);e.encoding=!1,e.processPacketQueue()}))},r.prototype.processPacketQueue=function(){if(this.packetBuffer.length>0&&!this.encoding){var t=this.packetBuffer.shift();this.packet(t)}},r.prototype.cleanup=function(){h("cleanup");for(var t=this.subs.length,e=0;e<t;e++){var n=this.subs.shift();n.destroy()}this.packetBuffer=[],this.encoding=!1,this.lastPing=null,this.decoder.destroy()},r.prototype.close=r.prototype.disconnect=function(){h("disconnect"),this.skipReconnect=!0,this.reconnecting=!1,"opening"===this.readyState&&this.cleanup(),this.backoff.reset(),this.readyState="closed",this.engine&&this.engine.close()},r.prototype.onclose=function(t){h("onclose"),this.cleanup(),this.backoff.reset(),this.readyState="closed",this.emit("close",t),this._reconnection&&!this.skipReconnect&&this.reconnect()},r.prototype.reconnect=function(){if(this.reconnecting||this.skipReconnect)return this;var t=this;if(this.backoff.attempts>=this._reconnectionAttempts)h("reconnect failed"),this.backoff.reset(),this.emitAll("reconnect_failed"),this.reconnecting=!1;else{var e=this.backoff.duration();h("will wait %dms before reconnect attempt",e),this.reconnecting=!0;var n=setTimeout(function(){t.skipReconnect||(h("attempting reconnect"),t.emitAll("reconnect_attempt",t.backoff.attempts),t.emitAll("reconnecting",t.backoff.attempts),t.skipReconnect||t.open(function(e){e?(h("reconnect attempt error"),t.reconnecting=!1,t.reconnect(),t.emitAll("reconnect_error",e.data)):(h("reconnect success"),t.onreconnect())}))},e);this.subs.push({destroy:function(){clearTimeout(n)}})}},r.prototype.onreconnect=function(){var t=this.backoff.attempts;this.reconnecting=!1,this.backoff.reset(),this.updateSocketIds(),this.emitAll("reconnect",t)}},function(t,e,n){t.exports=n(15),t.exports.parser=n(22)},function(t,e,n){(function(e){function r(t,n){if(!(this instanceof r))return new r(t,n);n=n||{},t&&"object"==typeof t&&(n=t,t=null),t?(t=u(t),n.hostname=t.host,n.secure="https"===t.protocol||"wss"===t.protocol,n.port=t.port,t.query&&(n.query=t.query)):n.host&&(n.hostname=u(n.host).host),this.secure=null!=n.secure?n.secure:e.location&&"https:"===location.protocol,n.hostname&&!n.port&&(n.port=this.secure?"443":"80"),this.agent=n.agent||!1,this.hostname=n.hostname||(e.location?location.hostname:"localhost"),this.port=n.port||(e.location&&location.port?location.port:this.secure?443:80),this.query=n.query||{},"string"==typeof this.query&&(this.query=h.decode(this.query)),this.upgrade=!1!==n.upgrade,this.path=(n.path||"/engine.io").replace(/\/$/,"")+"/",this.forceJSONP=!!n.forceJSONP,this.jsonp=!1!==n.jsonp,this.forceBase64=!!n.forceBase64,this.enablesXDR=!!n.enablesXDR,this.timestampParam=n.timestampParam||"t",this.timestampRequests=n.timestampRequests,this.transports=n.transports||["polling","websocket"],this.transportOptions=n.transportOptions||{},this.readyState="",this.writeBuffer=[],this.prevBufferLen=0,this.policyPort=n.policyPort||843,this.rememberUpgrade=n.rememberUpgrade||!1,this.binaryType=null,this.onlyBinaryUpgrades=n.onlyBinaryUpgrades,this.perMessageDeflate=!1!==n.perMessageDeflate&&(n.perMessageDeflate||{}),!0===this.perMessageDeflate&&(this.perMessageDeflate={}),this.perMessageDeflate&&null==this.perMessageDeflate.threshold&&(this.perMessageDeflate.threshold=1024),this.pfx=n.pfx||null,this.key=n.key||null,this.passphrase=n.passphrase||null,this.cert=n.cert||null,this.ca=n.ca||null,this.ciphers=n.ciphers||null,this.rejectUnauthorized=void 0===n.rejectUnauthorized||n.rejectUnauthorized,this.forceNode=!!n.forceNode;var o="object"==typeof e&&e;o.global===o&&(n.extraHeaders&&Object.keys(n.extraHeaders).length>0&&(this.extraHeaders=n.extraHeaders),n.localAddress&&(this.localAddress=n.localAddress)),this.id=null,this.upgrades=null,this.pingInterval=null,this.pingTimeout=null,this.pingIntervalTimer=null,this.pingTimeoutTimer=null,this.open()}function o(t){var e={};for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n]);return e}var i=n(16),s=n(8),a=n(3)("engine.io-client:socket"),c=n(36),p=n(22),u=n(2),h=n(30);t.exports=r,r.priorWebsocketSuccess=!1,s(r.prototype),r.protocol=p.protocol,r.Socket=r,r.Transport=n(21),r.transports=n(16),r.parser=n(22),r.prototype.createTransport=function(t){a('creating transport "%s"',t);var e=o(this.query);e.EIO=p.protocol,e.transport=t;var n=this.transportOptions[t]||{};this.id&&(e.sid=this.id);var r=new i[t]({query:e,socket:this,agent:n.agent||this.agent,hostname:n.hostname||this.hostname,port:n.port||this.port,secure:n.secure||this.secure,path:n.path||this.path,forceJSONP:n.forceJSONP||this.forceJSONP,jsonp:n.jsonp||this.jsonp,forceBase64:n.forceBase64||this.forceBase64,enablesXDR:n.enablesXDR||this.enablesXDR,timestampRequests:n.timestampRequests||this.timestampRequests,timestampParam:n.timestampParam||this.timestampParam,policyPort:n.policyPort||this.policyPort,pfx:n.pfx||this.pfx,key:n.key||this.key,passphrase:n.passphrase||this.passphrase,cert:n.cert||this.cert,ca:n.ca||this.ca,ciphers:n.ciphers||this.ciphers,rejectUnauthorized:n.rejectUnauthorized||this.rejectUnauthorized,perMessageDeflate:n.perMessageDeflate||this.perMessageDeflate,extraHeaders:n.extraHeaders||this.extraHeaders,forceNode:n.forceNode||this.forceNode,localAddress:n.localAddress||this.localAddress,requestTimeout:n.requestTimeout||this.requestTimeout,protocols:n.protocols||void 0});return r},r.prototype.open=function(){var t;if(this.rememberUpgrade&&r.priorWebsocketSuccess&&this.transports.indexOf("websocket")!==-1)t="websocket";else{if(0===this.transports.length){var e=this;return void setTimeout(function(){e.emit("error","No transports available")},0)}t=this.transports[0]}this.readyState="opening";try{t=this.createTransport(t)}catch(n){return this.transports.shift(),void this.open()}t.open(),this.setTransport(t)},r.prototype.setTransport=function(t){a("setting transport %s",t.name);var e=this;this.transport&&(a("clearing existing transport %s",this.transport.name),this.transport.removeAllListeners()),this.transport=t,t.on("drain",function(){e.onDrain()}).on("packet",function(t){e.onPacket(t)}).on("error",function(t){e.onError(t)}).on("close",function(){e.onClose("transport close")})},r.prototype.probe=function(t){function e(){if(f.onlyBinaryUpgrades){var e=!this.supportsBinary&&f.transport.supportsBinary;h=h||e}h||(a('probe transport "%s" opened',t),u.send([{type:"ping",data:"probe"}]),u.once("packet",function(e){if(!h)if("pong"===e.type&&"probe"===e.data){if(a('probe transport "%s" pong',t),f.upgrading=!0,f.emit("upgrading",u),!u)return;r.priorWebsocketSuccess="websocket"===u.name,a('pausing current transport "%s"',f.transport.name),f.transport.pause(function(){h||"closed"!==f.readyState&&(a("changing transport and sending upgrade packet"),p(),f.setTransport(u),u.send([{type:"upgrade"}]),f.emit("upgrade",u),u=null,f.upgrading=!1,f.flush())})}else{a('probe transport "%s" failed',t);var n=new Error("probe error");n.transport=u.name,f.emit("upgradeError",n)}}))}function n(){h||(h=!0,p(),u.close(),u=null)}function o(e){var r=new Error("probe error: "+e);r.transport=u.name,n(),a('probe transport "%s" failed because of error: %s',t,e),f.emit("upgradeError",r)}function i(){o("transport closed")}function s(){o("socket closed")}function c(t){u&&t.name!==u.name&&(a('"%s" works - aborting "%s"',t.name,u.name),n())}function p(){u.removeListener("open",e),u.removeListener("error",o),u.removeListener("close",i),f.removeListener("close",s),f.removeListener("upgrading",c)}a('probing transport "%s"',t);var u=this.createTransport(t,{probe:1}),h=!1,f=this;r.priorWebsocketSuccess=!1,u.once("open",e),u.once("error",o),u.once("close",i),this.once("close",s),this.once("upgrading",c),u.open()},r.prototype.onOpen=function(){if(a("socket open"),this.readyState="open",r.priorWebsocketSuccess="websocket"===this.transport.name,this.emit("open"),this.flush(),"open"===this.readyState&&this.upgrade&&this.transport.pause){a("starting upgrade probes");for(var t=0,e=this.upgrades.length;t<e;t++)this.probe(this.upgrades[t])}},r.prototype.onPacket=function(t){if("opening"===this.readyState||"open"===this.readyState||"closing"===this.readyState)switch(a('socket receive: type "%s", data "%s"',t.type,t.data),this.emit("packet",t),this.emit("heartbeat"),t.type){case"open":this.onHandshake(JSON.parse(t.data));break;case"pong":this.setPing(),this.emit("pong");break;case"error":var e=new Error("server error");e.code=t.data,this.onError(e);break;case"message":this.emit("data",t.data),this.emit("message",t.data)}else a('packet received with socket readyState "%s"',this.readyState)},r.prototype.onHandshake=function(t){this.emit("handshake",t),this.id=t.sid,this.transport.query.sid=t.sid,this.upgrades=this.filterUpgrades(t.upgrades),this.pingInterval=t.pingInterval,this.pingTimeout=t.pingTimeout,this.onOpen(),"closed"!==this.readyState&&(this.setPing(),this.removeListener("heartbeat",this.onHeartbeat),this.on("heartbeat",this.onHeartbeat))},r.prototype.onHeartbeat=function(t){clearTimeout(this.pingTimeoutTimer);var e=this;e.pingTimeoutTimer=setTimeout(function(){"closed"!==e.readyState&&e.onClose("ping timeout")},t||e.pingInterval+e.pingTimeout)},r.prototype.setPing=function(){var t=this;clearTimeout(t.pingIntervalTimer),t.pingIntervalTimer=setTimeout(function(){a("writing ping packet - expecting pong within %sms",t.pingTimeout),t.ping(),t.onHeartbeat(t.pingTimeout)},t.pingInterval)},r.prototype.ping=function(){var t=this;this.sendPacket("ping",function(){t.emit("ping")})},r.prototype.onDrain=function(){this.writeBuffer.splice(0,this.prevBufferLen),this.prevBufferLen=0,0===this.writeBuffer.length?this.emit("drain"):this.flush()},r.prototype.flush=function(){"closed"!==this.readyState&&this.transport.writable&&!this.upgrading&&this.writeBuffer.length&&(a("flushing %d packets in socket",this.writeBuffer.length),this.transport.send(this.writeBuffer),this.prevBufferLen=this.writeBuffer.length,this.emit("flush"))},r.prototype.write=r.prototype.send=function(t,e,n){return this.sendPacket("message",t,e,n),this},r.prototype.sendPacket=function(t,e,n,r){if("function"==typeof e&&(r=e,e=void 0),"function"==typeof n&&(r=n,n=null),"closing"!==this.readyState&&"closed"!==this.readyState){n=n||{},n.compress=!1!==n.compress;var o={type:t,data:e,options:n};this.emit("packetCreate",o),this.writeBuffer.push(o),r&&this.once("flush",r),this.flush()}},r.prototype.close=function(){function t(){r.onClose("forced close"),a("socket closing - telling transport to close"),r.transport.close()}function e(){r.removeListener("upgrade",e),r.removeListener("upgradeError",e),t()}function n(){r.once("upgrade",e),r.once("upgradeError",e)}if("opening"===this.readyState||"open"===this.readyState){this.readyState="closing";var r=this;this.writeBuffer.length?this.once("drain",function(){this.upgrading?n():t()}):this.upgrading?n():t()}return this},r.prototype.onError=function(t){a("socket error %j",t),r.priorWebsocketSuccess=!1,this.emit("error",t),this.onClose("transport error",t)},r.prototype.onClose=function(t,e){if("opening"===this.readyState||"open"===this.readyState||"closing"===this.readyState){a('socket close with reason: "%s"',t);var n=this;clearTimeout(this.pingIntervalTimer),clearTimeout(this.pingTimeoutTimer),this.transport.removeAllListeners("close"),this.transport.close(),this.transport.removeAllListeners(),this.readyState="closed",this.id=null,this.emit("close",t,e),n.writeBuffer=[],n.prevBufferLen=0}},r.prototype.filterUpgrades=function(t){for(var e=[],n=0,r=t.length;n<r;n++)~c(this.transports,t[n])&&e.push(t[n]);return e}}).call(e,function(){return this}())},function(t,e,n){(function(t){function r(e){var n,r=!1,a=!1,c=!1!==e.jsonp;if(t.location){var p="https:"===location.protocol,u=location.port;u||(u=p?443:80),r=e.hostname!==location.hostname||u!==e.port,a=e.secure!==p}if(e.xdomain=r,e.xscheme=a,n=new o(e),"open"in n&&!e.forceJSONP)return new i(e);if(!c)throw new Error("JSONP disabled");return new s(e)}var o=n(17),i=n(19),s=n(33),a=n(34);e.polling=r,e.websocket=a}).call(e,function(){return this}())},function(t,e,n){(function(e){var r=n(18);t.exports=function(t){var n=t.xdomain,o=t.xscheme,i=t.enablesXDR;try{if("undefined"!=typeof XMLHttpRequest&&(!n||r))return new XMLHttpRequest}catch(s){}try{if("undefined"!=typeof XDomainRequest&&!o&&i)return new XDomainRequest}catch(s){}if(!n)try{return new(e[["Active"].concat("Object").join("X")])("Microsoft.XMLHTTP");
@@ -342,25 +366,31 @@ module.exports =
 	//# sourceMappingURL=socket.io.js.map
 
 /***/ }),
-/* 3 */
+/* 4 */
+/*!***********************************!*\
+  !*** ./~/react-emojione/index.js ***!
+  \***********************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(4);
+	module.exports = __webpack_require__(/*! ./lib/react-emojione */ 5);
 
 
 /***/ }),
-/* 4 */
+/* 5 */
+/*!************************************************!*\
+  !*** ./~/react-emojione/lib/react-emojione.js ***!
+  \************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.emojify = undefined;
-
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }(); /*!
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * react-emojione
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * Copyright(c) 2017 Pedro Ladaria
@@ -368,30 +398,30 @@ module.exports =
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * Emoji provided free by http://emojione.com
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
-
-
-	var _react = __webpack_require__(1);
-
+	
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
 	var _react2 = _interopRequireDefault(_react);
-
-	var _asciiToUnicode = __webpack_require__(5);
-
+	
+	var _asciiToUnicode = __webpack_require__(/*! ./data/ascii-to-unicode */ 6);
+	
 	var _asciiToUnicode2 = _interopRequireDefault(_asciiToUnicode);
-
-	var _rendererFactory = __webpack_require__(6);
-
+	
+	var _rendererFactory = __webpack_require__(/*! ./renderers/renderer-factory */ 7);
+	
 	var _rendererFactory2 = _interopRequireDefault(_rendererFactory);
-
-	var _emojiFormatConversion = __webpack_require__(10);
-
+	
+	var _emojiFormatConversion = __webpack_require__(/*! ./utils/emoji-format-conversion */ 11);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
+	
 	var DEFAULT_OPTIONS = {
 	    convertShortnames: true,
 	    convertUnicode: true,
@@ -402,25 +432,25 @@ module.exports =
 	    onClick: undefined,
 	    output: 'emoji' // valid options: 'emoji', 'unicode'
 	};
-
+	
 	var asciiToUnicodeCache = new Map();
 	var asciiRegExpToUnicode = new Map();
-
+	
 	_asciiToUnicode2.default.forEach(function (_ref) {
 	    var _ref2 = _slicedToArray(_ref, 2),
 	        reStr = _ref2[0],
 	        unicode = _ref2[1];
-
+	
 	    return asciiRegExpToUnicode.set(RegExp(reStr), unicode);
 	});
-
+	
 	// Escape RegExp code borrowed from lodash
 	var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 	var reHasRegExpChar = RegExp(reRegExpChar.source);
 	var escapeRegExp = function escapeRegExp(s) {
 	    return s && reHasRegExpChar.test(s) ? s.replace(reRegExpChar, '\\$&') : s;
 	};
-
+	
 	var convertAsciiToUnicodeOrNull = function convertAsciiToUnicodeOrNull(text) {
 	    if (!text) {
 	        return '';
@@ -432,13 +462,13 @@ module.exports =
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
-
+	
 	    try {
 	        for (var _iterator = asciiRegExpToUnicode.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	            var _step$value = _slicedToArray(_step.value, 2),
 	                regExp = _step$value[0],
 	                unicode = _step$value[1];
-
+	
 	            if (str.replace(regExp, unicode) === unicode) {
 	                asciiToUnicodeCache.set(str, unicode);
 	                return unicode;
@@ -458,21 +488,21 @@ module.exports =
 	            }
 	        }
 	    }
-
+	
 	    return null;
 	};
-
+	
 	var asciiRegexStr = _asciiToUnicode2.default.map(function (_ref3) {
 	    var _ref4 = _slicedToArray(_ref3, 1),
 	        reStr = _ref4[0];
-
+	
 	    return reStr;
 	}).join('|');
 	var unicodesRegexStr = _emojiFormatConversion.unicodes.map(escapeRegExp).join('|');
 	var shortnamesRegexStr = ':[+-\\d\\w]+:';
-
+	
 	var REGEX_CACHE = [];
-
+	
 	var getRegex = function getRegex(withUnicode, withAscii, withShortnames) {
 	    var index = (withUnicode ? 1 : 0) + (withAscii ? 2 : 0) + (withShortnames ? 4 : 0);
 	    if (!REGEX_CACHE[index]) {
@@ -481,7 +511,7 @@ module.exports =
 	    }
 	    return REGEX_CACHE[index];
 	};
-
+	
 	var startsWithSpace = function startsWithSpace(str) {
 	    return (/^\s/.test(str)
 	    );
@@ -490,7 +520,7 @@ module.exports =
 	    return (/\s$/.test(str)
 	    );
 	};
-
+	
 	var shouldConvertAscii = function shouldConvertAscii(parts, index) {
 	    if (parts.length === 1) {
 	        return true;
@@ -503,22 +533,22 @@ module.exports =
 	    }
 	    return endsWithSpace(parts[index - 1]) && startsWithSpace(parts[index + 1]);
 	};
-
+	
 	var emojify = exports.emojify = function emojify(str) {
 	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-
+	
+	
 	    var mergedOptions = Object.assign({}, DEFAULT_OPTIONS, options);
-
+	
 	    var convertShortnames = mergedOptions.convertShortnames,
 	        convertUnicode = mergedOptions.convertUnicode,
 	        convertAscii = mergedOptions.convertAscii;
-
-
+	
+	
 	    var regExp = getRegex(convertUnicode, convertAscii, convertShortnames);
-
+	
 	    var renderCodepoint = (0, _rendererFactory2.default)(mergedOptions);
-
+	
 	    var convertedParts = str.split(regExp).filter(Boolean).map(function (part, index, parts) {
 	        if (convertAscii && shouldConvertAscii(parts, index)) {
 	            var unicode = convertAsciiToUnicodeOrNull(part);
@@ -534,24 +564,24 @@ module.exports =
 	        }
 	        return part;
 	    });
-
+	
 	    return mergedOptions.output === 'unicode' ? convertedParts.join('') : convertedParts;
 	};
-
+	
 	var Emojify = function (_React$Component) {
 	    _inherits(Emojify, _React$Component);
-
+	
 	    function Emojify() {
 	        _classCallCheck(this, Emojify);
-
+	
 	        return _possibleConstructorReturn(this, (Emojify.__proto__ || Object.getPrototypeOf(Emojify)).apply(this, arguments));
 	    }
-
+	
 	    _createClass(Emojify, [{
 	        key: 'traverse',
 	        value: function traverse(children, options) {
 	            var _this2 = this;
-
+	
 	            return _react2.default.Children.map(children, function (child) {
 	                if (_react2.default.isValidElement(child)) {
 	                    return _react2.default.cloneElement(child, {}, _this2.traverse(child.props.children, options));
@@ -569,18 +599,21 @@ module.exports =
 	            return _react2.default.Children.count(children) ? this.traverse(children, this.props) : null;
 	        }
 	    }]);
-
+	
 	    return Emojify;
 	}(_react2.default.Component);
-
+	
 	exports.default = Emojify;
 
 /***/ }),
-/* 5 */
+/* 6 */
+/*!*******************************************************!*\
+  !*** ./~/react-emojione/lib/data/ascii-to-unicode.js ***!
+  \*******************************************************/
 /***/ (function(module, exports) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -656,57 +689,63 @@ module.exports =
 	];
 
 /***/ }),
-/* 6 */
+/* 7 */
+/*!************************************************************!*\
+  !*** ./~/react-emojione/lib/renderers/renderer-factory.js ***!
+  \************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _emojiRenderer = __webpack_require__(7);
-
+	
+	var _emojiRenderer = __webpack_require__(/*! ./emoji-renderer */ 8);
+	
 	var _emojiRenderer2 = _interopRequireDefault(_emojiRenderer);
-
-	var _unicodeRenderer = __webpack_require__(12);
-
+	
+	var _unicodeRenderer = __webpack_require__(/*! ./unicode-renderer */ 13);
+	
 	var _unicodeRenderer2 = _interopRequireDefault(_unicodeRenderer);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	var rendererForOutputFormat = {
 	    emoji: _emojiRenderer2.default,
 	    unicode: _unicodeRenderer2.default
 	};
-
+	
 	var getRenderer = function getRenderer(config) {
 	    var renderer = rendererForOutputFormat[config.output] || rendererForOutputFormat.emoji;
 	    return renderer(config);
 	};
-
+	
 	exports.default = getRenderer;
 
 /***/ }),
-/* 7 */
+/* 8 */
+/*!**********************************************************!*\
+  !*** ./~/react-emojione/lib/renderers/emoji-renderer.js ***!
+  \**********************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _react = __webpack_require__(1);
-
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
 	var _react2 = _interopRequireDefault(_react);
-
-	var _emojioneSprite = __webpack_require__(8);
-
-	var _emojiFormatConversion = __webpack_require__(10);
-
+	
+	var _emojioneSprite = __webpack_require__(/*! ../styles/emojione-sprite */ 9);
+	
+	var _emojiFormatConversion = __webpack_require__(/*! ../utils/emoji-format-conversion */ 11);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	var Emoji = function Emoji(_ref) {
 	    var codepoint = _ref.codepoint,
 	        _ref$style = _ref.style,
@@ -722,7 +761,7 @@ module.exports =
 	        _emojiFormatConversion.codepointToUnicode.get(codepoint)
 	    );
 	};
-
+	
 	var getRenderer = function getRenderer(_ref2) {
 	    var style = _ref2.style,
 	        onClick = _ref2.onClick;
@@ -735,31 +774,34 @@ module.exports =
 	        });
 	    };
 	};
-
+	
 	exports.default = getRenderer;
 
 /***/ }),
-/* 8 */
+/* 9 */
+/*!********************************************************!*\
+  !*** ./~/react-emojione/lib/styles/emojione-sprite.js ***!
+  \********************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.sprite = undefined;
-
+	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-	var _emojioneSpritePositions = __webpack_require__(9);
-
+	
+	var _emojioneSpritePositions = __webpack_require__(/*! ./emojione-sprite-positions */ 10);
+	
 	var _emojioneSpritePositions2 = _interopRequireDefault(_emojioneSpritePositions);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	var SPRITE_WIDTH = 4160;
 	var EMOJI_SIZE = 64;
-
+	
 	var base = {
 	    textIndent: '-9999em',
 	    imageRendering: 'optimizeQuality',
@@ -775,40 +817,43 @@ module.exports =
 	    backgroundImage: 'url("https://github.com/pladaria/react-emojione/blob/emojione3/assets/sprites/emojione-3.1.2-64x64.png?raw=true")',
 	    backgroundRepeat: 'no-repeat'
 	};
-
+	
 	var sprite = exports.sprite = function sprite(codepoint) {
 	    var style = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
+	
 	    var result = Object.assign({}, base, style);
-
+	
 	    // ensure square size
 	    var size = parseInt(result.height);
 	    result.height = size;
 	    result.width = size;
-
+	
 	    var scale = size / EMOJI_SIZE;
-
+	
 	    var _ref = _emojioneSpritePositions2.default[codepoint] || [],
 	        _ref2 = _slicedToArray(_ref, 2),
 	        x = _ref2[0],
 	        y = _ref2[1];
-
+	
 	    var left = x * EMOJI_SIZE + x;
 	    var top = y * EMOJI_SIZE + y;
-
+	
 	    result.backgroundPosition = '-' + left * scale + 'px -' + top * scale + 'px';
-
+	
 	    result.backgroundSize = SPRITE_WIDTH * scale + 'px';
-
+	
 	    return result;
 	};
 
 /***/ }),
-/* 9 */
+/* 10 */
+/*!******************************************************************!*\
+  !*** ./~/react-emojione/lib/styles/emojione-sprite-positions.js ***!
+  \******************************************************************/
 /***/ (function(module, exports) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -3485,36 +3530,39 @@ module.exports =
 	};
 
 /***/ }),
-/* 10 */
+/* 11 */
+/*!***************************************************************!*\
+  !*** ./~/react-emojione/lib/utils/emoji-format-conversion.js ***!
+  \***************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.unicodeToCodepoint = exports.codepointToUnicode = exports.shortToCodepoint = exports.codepointToShort = exports.unicodes = undefined;
-
+	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-	var _emojiData = __webpack_require__(11);
-
+	
+	var _emojiData = __webpack_require__(/*! ../data/emoji-data */ 12);
+	
 	var _emojiData2 = _interopRequireDefault(_emojiData);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	var unicodes = exports.unicodes = [];
 	var codepointToShort = exports.codepointToShort = new Map();
 	var shortToCodepoint = exports.shortToCodepoint = new Map();
 	var codepointToUnicode = exports.codepointToUnicode = new Map();
 	var unicodeToCodepoint = exports.unicodeToCodepoint = new Map();
-
+	
 	_emojiData2.default.forEach(function (_ref) {
 	    var _ref2 = _slicedToArray(_ref, 3),
 	        codepoint = _ref2[0],
 	        shortnames = _ref2[1],
 	        unicode = _ref2[2];
-
+	
 	    unicodes.push(unicode);
 	    shortnames.slice().reverse().forEach(function (shortname) {
 	        codepointToShort.set(codepoint, shortname);
@@ -3525,35 +3573,381 @@ module.exports =
 	});
 
 /***/ }),
-/* 11 */
+/* 12 */
+/*!*************************************************!*\
+  !*** ./~/react-emojione/lib/data/emoji-data.js ***!
+  \*************************************************/
 /***/ (function(module, exports) {
 
 	"use strict";
-
+	
 	/*eslint-disable*/
 	// Do not edit!
 	// This file was auto-generated by create-emoji-data.js
 	module.exports = [["1f468-200d-2764-fe0f-200d-1f48b-200d-1f468", [":kiss_mm:", ":couplekiss_mm:"], "👨‍❤️‍💋‍👨"], ["1f469-200d-2764-fe0f-200d-1f48b-200d-1f469", [":kiss_ww:", ":couplekiss_ww:"], "👩‍❤️‍💋‍👩"], ["1f469-200d-2764-fe0f-200d-1f48b-200d-1f468", [":kiss_woman_man:"], "👩‍❤️‍💋‍👨"], ["1f3f4-e0067-e0062-e0077-e006c-e0073-e007f", [":wales:"], "🏴󠁧󠁢󠁷󠁬󠁳󠁿"], ["1f3f4-e0067-e0062-e0073-e0063-e0074-e007f", [":scotland:"], "🏴󠁧󠁢󠁳󠁣󠁴󠁿"], ["1f3f4-e0067-e0062-e0065-e006e-e0067-e007f", [":england:"], "🏴󠁧󠁢󠁥󠁮󠁧󠁿"], ["1f468-200d-1f468-200d-1f467-200d-1f466", [":family_mmgb:"], "👨‍👨‍👧‍👦"], ["1f468-200d-1f469-200d-1f466-200d-1f466", [":family_mwbb:"], "👨‍👩‍👦‍👦"], ["1f468-200d-1f469-200d-1f467-200d-1f467", [":family_mwgg:"], "👨‍👩‍👧‍👧"], ["1f469-200d-1f469-200d-1f467-200d-1f466", [":family_wwgb:"], "👩‍👩‍👧‍👦"], ["1f469-200d-1f469-200d-1f466-200d-1f466", [":family_wwbb:"], "👩‍👩‍👦‍👦"], ["1f469-200d-1f469-200d-1f467-200d-1f467", [":family_wwgg:"], "👩‍👩‍👧‍👧"], ["1f468-200d-1f469-200d-1f467-200d-1f466", [":family_mwgb:"], "👨‍👩‍👧‍👦"], ["1f468-200d-1f468-200d-1f467-200d-1f467", [":family_mmgg:"], "👨‍👨‍👧‍👧"], ["1f468-200d-1f468-200d-1f466-200d-1f466", [":family_mmbb:"], "👨‍👨‍👦‍👦"], ["1f469-200d-2764-fe0f-200d-1f469", [":couple_ww:", ":couple_with_heart_ww:"], "👩‍❤️‍👩"], ["1f468-200d-2764-fe0f-200d-1f468", [":couple_mm:", ":couple_with_heart_mm:"], "👨‍❤️‍👨"], ["1f469-200d-2764-fe0f-200d-1f468", [":couple_with_heart_woman_man:"], "👩‍❤️‍👨"], ["1f468-200d-1f466-200d-1f466", [":family_man_boy_boy:"], "👨‍👦‍👦"], ["1f469-200d-1f467-200d-1f467", [":family_woman_girl_girl:"], "👩‍👧‍👧"], ["1f468-200d-1f467-200d-1f466", [":family_man_girl_boy:"], "👨‍👧‍👦"], ["1f469-200d-1f469-200d-1f467", [":family_wwg:"], "👩‍👩‍👧"], ["1f469-200d-1f469-200d-1f466", [":family_wwb:"], "👩‍👩‍👦"], ["1f468-200d-1f468-200d-1f467", [":family_mmg:"], "👨‍👨‍👧"], ["1f469-200d-1f467-200d-1f466", [":family_woman_girl_boy:"], "👩‍👧‍👦"], ["1f468-200d-1f468-200d-1f466", [":family_mmb:"], "👨‍👨‍👦"], ["1f468-200d-1f467-200d-1f467", [":family_man_girl_girl:"], "👨‍👧‍👧"], ["1f468-200d-1f469-200d-1f466", [":family_man_woman_boy:"], "👨‍👩‍👦"], ["1f468-200d-1f469-200d-1f467", [":family_mwg:"], "👨‍👩‍👧"], ["1f469-200d-1f466-200d-1f466", [":family_woman_boy_boy:"], "👩‍👦‍👦"], ["1f469-1f3fd-200d-2696-fe0f", [":woman_judge_tone3:"], "👩🏽‍⚖️"], ["1f9da-1f3ff-200d-2642-fe0f", [":man_fairy_tone5:"], "🧚🏿‍♂️"], ["1f9da-1f3ff-200d-2640-fe0f", [":woman_fairy_tone5:"], "🧚🏿‍♀️"], ["1f9da-1f3fe-200d-2642-fe0f", [":man_fairy_tone4:"], "🧚🏾‍♂️"], ["1f9da-1f3fe-200d-2640-fe0f", [":woman_fairy_tone4:"], "🧚🏾‍♀️"], ["1f9da-1f3fd-200d-2642-fe0f", [":man_fairy_tone3:"], "🧚🏽‍♂️"], ["1f9da-1f3fd-200d-2640-fe0f", [":woman_fairy_tone3:"], "🧚🏽‍♀️"], ["1f9da-1f3fc-200d-2642-fe0f", [":man_fairy_tone2:"], "🧚🏼‍♂️"], ["1f9da-1f3fc-200d-2640-fe0f", [":woman_fairy_tone2:"], "🧚🏼‍♀️"], ["1f9da-1f3fb-200d-2642-fe0f", [":man_fairy_tone1:"], "🧚🏻‍♂️"], ["1f9da-1f3fb-200d-2640-fe0f", [":woman_fairy_tone1:"], "🧚🏻‍♀️"], ["1f9d9-1f3ff-200d-2642-fe0f", [":man_mage_tone5:"], "🧙🏿‍♂️"], ["1f9d9-1f3ff-200d-2640-fe0f", [":woman_mage_tone5:"], "🧙🏿‍♀️"], ["1f9d9-1f3fe-200d-2642-fe0f", [":man_mage_tone4:"], "🧙🏾‍♂️"], ["1f9d9-1f3fe-200d-2640-fe0f", [":woman_mage_tone4:"], "🧙🏾‍♀️"], ["1f9d9-1f3fd-200d-2642-fe0f", [":man_mage_tone3:"], "🧙🏽‍♂️"], ["1f9d9-1f3fd-200d-2640-fe0f", [":woman_mage_tone3:"], "🧙🏽‍♀️"], ["1f9d9-1f3fc-200d-2642-fe0f", [":man_mage_tone2:"], "🧙🏼‍♂️"], ["1f9d9-1f3fc-200d-2640-fe0f", [":woman_mage_tone2:"], "🧙🏼‍♀️"], ["1f9d9-1f3fb-200d-2642-fe0f", [":man_mage_tone1:"], "🧙🏻‍♂️"], ["1f9d9-1f3fb-200d-2640-fe0f", [":woman_mage_tone1:"], "🧙🏻‍♀️"], ["1f3cc-1f3fc-200d-2642-fe0f", [":man_golfing_tone2:"], "🏌🏼‍♂️"], ["1f9dd-1f3ff-200d-2640-fe0f", [":woman_elf_tone5:"], "🧝🏿‍♀️"], ["1f9dd-1f3fe-200d-2642-fe0f", [":man_elf_tone4:"], "🧝🏾‍♂️"], ["1f9dd-1f3fe-200d-2640-fe0f", [":woman_elf_tone4:"], "🧝🏾‍♀️"], ["1f9dd-1f3fd-200d-2642-fe0f", [":man_elf_tone3:"], "🧝🏽‍♂️"], ["1f9dd-1f3fd-200d-2640-fe0f", [":woman_elf_tone3:"], "🧝🏽‍♀️"], ["1f471-1f3fb-200d-2640-fe0f", [":blond-haired_woman_tone1:"], "👱🏻‍♀️"], ["1f471-1f3fc-200d-2640-fe0f", [":blond-haired_woman_tone2:"], "👱🏼‍♀️"], ["1f471-1f3fd-200d-2640-fe0f", [":blond-haired_woman_tone3:"], "👱🏽‍♀️"], ["1f471-1f3fe-200d-2640-fe0f", [":blond-haired_woman_tone4:"], "👱🏾‍♀️"], ["1f471-1f3ff-200d-2640-fe0f", [":blond-haired_woman_tone5:"], "👱🏿‍♀️"], ["1f471-1f3ff-200d-2642-fe0f", [":blond-haired_man_tone5:"], "👱🏿‍♂️"], ["1f471-1f3fe-200d-2642-fe0f", [":blond-haired_man_tone4:"], "👱🏾‍♂️"], ["1f471-1f3fd-200d-2642-fe0f", [":blond-haired_man_tone3:"], "👱🏽‍♂️"], ["1f471-1f3fc-200d-2642-fe0f", [":blond-haired_man_tone2:"], "👱🏼‍♂️"], ["1f471-1f3fb-200d-2642-fe0f", [":blond-haired_man_tone1:"], "👱🏻‍♂️"], ["1f473-1f3fb-200d-2640-fe0f", [":woman_wearing_turban_tone1:"], "👳🏻‍♀️"], ["1f473-1f3fc-200d-2640-fe0f", [":woman_wearing_turban_tone2:"], "👳🏼‍♀️"], ["1f473-1f3fd-200d-2640-fe0f", [":woman_wearing_turban_tone3:"], "👳🏽‍♀️"], ["1f473-1f3fe-200d-2640-fe0f", [":woman_wearing_turban_tone4:"], "👳🏾‍♀️"], ["1f473-1f3ff-200d-2640-fe0f", [":woman_wearing_turban_tone5:"], "👳🏿‍♀️"], ["1f473-1f3ff-200d-2642-fe0f", [":man_wearing_turban_tone5:"], "👳🏿‍♂️"], ["1f473-1f3fe-200d-2642-fe0f", [":man_wearing_turban_tone4:"], "👳🏾‍♂️"], ["1f473-1f3fd-200d-2642-fe0f", [":man_wearing_turban_tone3:"], "👳🏽‍♂️"], ["1f473-1f3fc-200d-2642-fe0f", [":man_wearing_turban_tone2:"], "👳🏼‍♂️"], ["1f473-1f3fb-200d-2642-fe0f", [":man_wearing_turban_tone1:"], "👳🏻‍♂️"], ["1f46e-1f3fb-200d-2640-fe0f", [":woman_police_officer_tone1:"], "👮🏻‍♀️"], ["1f46e-1f3fc-200d-2640-fe0f", [":woman_police_officer_tone2:"], "👮🏼‍♀️"], ["1f46e-1f3fd-200d-2640-fe0f", [":woman_police_officer_tone3:"], "👮🏽‍♀️"], ["1f46e-1f3fe-200d-2640-fe0f", [":woman_police_officer_tone4:"], "👮🏾‍♀️"], ["1f46e-1f3ff-200d-2640-fe0f", [":woman_police_officer_tone5:"], "👮🏿‍♀️"], ["1f46e-1f3ff-200d-2642-fe0f", [":man_police_officer_tone5:"], "👮🏿‍♂️"], ["1f46e-1f3fe-200d-2642-fe0f", [":man_police_officer_tone4:"], "👮🏾‍♂️"], ["1f46e-1f3fd-200d-2642-fe0f", [":man_police_officer_tone3:"], "👮🏽‍♂️"], ["1f46e-1f3fc-200d-2642-fe0f", [":man_police_officer_tone2:"], "👮🏼‍♂️"], ["1f46e-1f3fb-200d-2642-fe0f", [":man_police_officer_tone1:"], "👮🏻‍♂️"], ["1f477-1f3fb-200d-2640-fe0f", [":woman_construction_worker_tone1:"], "👷🏻‍♀️"], ["1f477-1f3fc-200d-2640-fe0f", [":woman_construction_worker_tone2:"], "👷🏼‍♀️"], ["1f477-1f3fd-200d-2640-fe0f", [":woman_construction_worker_tone3:"], "👷🏽‍♀️"], ["1f477-1f3fe-200d-2640-fe0f", [":woman_construction_worker_tone4:"], "👷🏾‍♀️"], ["1f477-1f3ff-200d-2640-fe0f", [":woman_construction_worker_tone5:"], "👷🏿‍♀️"], ["1f477-1f3ff-200d-2642-fe0f", [":man_construction_worker_tone5:"], "👷🏿‍♂️"], ["1f477-1f3fe-200d-2642-fe0f", [":man_construction_worker_tone4:"], "👷🏾‍♂️"], ["1f477-1f3fd-200d-2642-fe0f", [":man_construction_worker_tone3:"], "👷🏽‍♂️"], ["1f477-1f3fc-200d-2642-fe0f", [":man_construction_worker_tone2:"], "👷🏼‍♂️"], ["1f477-1f3fb-200d-2642-fe0f", [":man_construction_worker_tone1:"], "👷🏻‍♂️"], ["1f482-1f3fb-200d-2640-fe0f", [":woman_guard_tone1:"], "💂🏻‍♀️"], ["1f482-1f3fc-200d-2640-fe0f", [":woman_guard_tone2:"], "💂🏼‍♀️"], ["1f482-1f3fd-200d-2640-fe0f", [":woman_guard_tone3:"], "💂🏽‍♀️"], ["1f482-1f3fe-200d-2640-fe0f", [":woman_guard_tone4:"], "💂🏾‍♀️"], ["1f482-1f3ff-200d-2640-fe0f", [":woman_guard_tone5:"], "💂🏿‍♀️"], ["1f482-1f3ff-200d-2642-fe0f", [":man_guard_tone5:"], "💂🏿‍♂️"], ["1f482-1f3fe-200d-2642-fe0f", [":man_guard_tone4:"], "💂🏾‍♂️"], ["1f482-1f3fd-200d-2642-fe0f", [":man_guard_tone3:"], "💂🏽‍♂️"], ["1f482-1f3fc-200d-2642-fe0f", [":man_guard_tone2:"], "💂🏼‍♂️"], ["1f482-1f3fb-200d-2642-fe0f", [":man_guard_tone1:"], "💂🏻‍♂️"], ["1f938-1f3fd-200d-2642-fe0f", [":man_cartwheeling_tone3:"], "🤸🏽‍♂️"], ["1f575-1f3fb-200d-2640-fe0f", [":woman_detective_tone1:"], "🕵🏻‍♀️"], ["1f575-1f3fc-200d-2640-fe0f", [":woman_detective_tone2:"], "🕵🏼‍♀️"], ["1f575-1f3fd-200d-2640-fe0f", [":woman_detective_tone3:"], "🕵🏽‍♀️"], ["1f575-1f3fe-200d-2640-fe0f", [":woman_detective_tone4:"], "🕵🏾‍♀️"], ["1f575-1f3ff-200d-2640-fe0f", [":woman_detective_tone5:"], "🕵🏿‍♀️"], ["1f938-1f3fc-200d-2642-fe0f", [":man_cartwheeling_tone2:"], "🤸🏼‍♂️"], ["1f575-1f3ff-200d-2642-fe0f", [":man_detective_tone5:"], "🕵🏿‍♂️"], ["1f575-1f3fe-200d-2642-fe0f", [":man_detective_tone4:"], "🕵🏾‍♂️"], ["1f575-1f3fd-200d-2642-fe0f", [":man_detective_tone3:"], "🕵🏽‍♂️"], ["1f575-1f3fc-200d-2642-fe0f", [":man_detective_tone2:"], "🕵🏼‍♂️"], ["1f575-1f3fb-200d-2642-fe0f", [":man_detective_tone1:"], "🕵🏻‍♂️"], ["1f469-1f3fb-200d-2695-fe0f", [":woman_health_worker_tone1:"], "👩🏻‍⚕️"], ["1f469-1f3fc-200d-2695-fe0f", [":woman_health_worker_tone2:"], "👩🏼‍⚕️"], ["1f469-1f3fd-200d-2695-fe0f", [":woman_health_worker_tone3:"], "👩🏽‍⚕️"], ["1f469-1f3fe-200d-2695-fe0f", [":woman_health_worker_tone4:"], "👩🏾‍⚕️"], ["1f469-1f3ff-200d-2695-fe0f", [":woman_health_worker_tone5:"], "👩🏿‍⚕️"], ["1f468-1f3fb-200d-2695-fe0f", [":man_health_worker_tone1:"], "👨🏻‍⚕️"], ["1f468-1f3fc-200d-2695-fe0f", [":man_health_worker_tone2:"], "👨🏼‍⚕️"], ["1f468-1f3fd-200d-2695-fe0f", [":man_health_worker_tone3:"], "👨🏽‍⚕️"], ["1f468-1f3fe-200d-2695-fe0f", [":man_health_worker_tone4:"], "👨🏾‍⚕️"], ["1f468-1f3ff-200d-2695-fe0f", [":man_health_worker_tone5:"], "👨🏿‍⚕️"], ["1f3cc-1f3fb-200d-2642-fe0f", [":man_golfing_tone1:"], "🏌🏻‍♂️"], ["1f938-1f3fb-200d-2642-fe0f", [":man_cartwheeling_tone1:"], "🤸🏻‍♂️"], ["1f938-1f3ff-200d-2640-fe0f", [":woman_cartwheeling_tone5:"], "🤸🏿‍♀️"], ["1f938-1f3fe-200d-2640-fe0f", [":woman_cartwheeling_tone4:"], "🤸🏾‍♀️"], ["1f938-1f3fd-200d-2640-fe0f", [":woman_cartwheeling_tone3:"], "🤸🏽‍♀️"], ["1f938-1f3fc-200d-2640-fe0f", [":woman_cartwheeling_tone2:"], "🤸🏼‍♀️"], ["1f938-1f3fb-200d-2640-fe0f", [":woman_cartwheeling_tone1:"], "🤸🏻‍♀️"], ["1f3cb-1f3fb-200d-2642-fe0f", [":man_lifting_weights_tone1:"], "🏋🏻‍♂️"], ["1f3cb-1f3fc-200d-2642-fe0f", [":man_lifting_weights_tone2:"], "🏋🏼‍♂️"], ["1f3cb-1f3fd-200d-2642-fe0f", [":man_lifting_weights_tone3:"], "🏋🏽‍♂️"], ["1f3cb-1f3fe-200d-2642-fe0f", [":man_lifting_weights_tone4:"], "🏋🏾‍♂️"], ["1f3cb-1f3ff-200d-2642-fe0f", [":man_lifting_weights_tone5:"], "🏋🏿‍♂️"], ["1f3cc-1f3fd-200d-2642-fe0f", [":man_golfing_tone3:"], "🏌🏽‍♂️"], ["1f3cb-1f3ff-200d-2640-fe0f", [":woman_lifting_weights_tone5:"], "🏋🏿‍♀️"], ["1f3cb-1f3fe-200d-2640-fe0f", [":woman_lifting_weights_tone4:"], "🏋🏾‍♀️"], ["1f3cb-1f3fd-200d-2640-fe0f", [":woman_lifting_weights_tone3:"], "🏋🏽‍♀️"], ["1f3cb-1f3fc-200d-2640-fe0f", [":woman_lifting_weights_tone2:"], "🏋🏼‍♀️"], ["1f3cb-1f3fb-200d-2640-fe0f", [":woman_lifting_weights_tone1:"], "🏋🏻‍♀️"], ["1f3cc-1f3ff-200d-2640-fe0f", [":woman_golfing_tone5:"], "🏌🏿‍♀️"], ["1f3c4-1f3ff-200d-2642-fe0f", [":man_surfing_tone5:"], "🏄🏿‍♂️"], ["1f3c4-1f3fe-200d-2642-fe0f", [":man_surfing_tone4:"], "🏄🏾‍♂️"], ["1f3c4-1f3fd-200d-2642-fe0f", [":man_surfing_tone3:"], "🏄🏽‍♂️"], ["1f3c4-1f3fc-200d-2642-fe0f", [":man_surfing_tone2:"], "🏄🏼‍♂️"], ["1f3c4-1f3fb-200d-2642-fe0f", [":man_surfing_tone1:"], "🏄🏻‍♂️"], ["1f3cc-1f3fe-200d-2640-fe0f", [":woman_golfing_tone4:"], "🏌🏾‍♀️"], ["1f3ca-1f3fb-200d-2640-fe0f", [":woman_swimming_tone1:"], "🏊🏻‍♀️"], ["1f3ca-1f3fc-200d-2640-fe0f", [":woman_swimming_tone2:"], "🏊🏼‍♀️"], ["1f3ca-1f3fd-200d-2640-fe0f", [":woman_swimming_tone3:"], "🏊🏽‍♀️"], ["1f3ca-1f3fe-200d-2640-fe0f", [":woman_swimming_tone4:"], "🏊🏾‍♀️"], ["1f3ca-1f3ff-200d-2640-fe0f", [":woman_swimming_tone5:"], "🏊🏿‍♀️"], ["1f3cc-1f3fd-200d-2640-fe0f", [":woman_golfing_tone3:"], "🏌🏽‍♀️"], ["1f3ca-1f3ff-200d-2642-fe0f", [":man_swimming_tone5:"], "🏊🏿‍♂️"], ["1f3ca-1f3fe-200d-2642-fe0f", [":man_swimming_tone4:"], "🏊🏾‍♂️"], ["1f3ca-1f3fd-200d-2642-fe0f", [":man_swimming_tone3:"], "🏊🏽‍♂️"], ["1f3ca-1f3fc-200d-2642-fe0f", [":man_swimming_tone2:"], "🏊🏼‍♂️"], ["1f3ca-1f3fb-200d-2642-fe0f", [":man_swimming_tone1:"], "🏊🏻‍♂️"], ["1f3cc-1f3fc-200d-2640-fe0f", [":woman_golfing_tone2:"], "🏌🏼‍♀️"], ["1f93d-1f3fb-200d-2640-fe0f", [":woman_playing_water_polo_tone1:"], "🤽🏻‍♀️"], ["1f93d-1f3fc-200d-2640-fe0f", [":woman_playing_water_polo_tone2:"], "🤽🏼‍♀️"], ["1f93d-1f3fd-200d-2640-fe0f", [":woman_playing_water_polo_tone3:"], "🤽🏽‍♀️"], ["1f93d-1f3fe-200d-2640-fe0f", [":woman_playing_water_polo_tone4:"], "🤽🏾‍♀️"], ["1f93d-1f3ff-200d-2640-fe0f", [":woman_playing_water_polo_tone5:"], "🤽🏿‍♀️"], ["1f3cc-1f3fb-200d-2640-fe0f", [":woman_golfing_tone1:"], "🏌🏻‍♀️"], ["1f93d-1f3fb-200d-2642-fe0f", [":man_playing_water_polo_tone1:"], "🤽🏻‍♂️"], ["1f93d-1f3fc-200d-2642-fe0f", [":man_playing_water_polo_tone2:"], "🤽🏼‍♂️"], ["1f93d-1f3fd-200d-2642-fe0f", [":man_playing_water_polo_tone3:"], "🤽🏽‍♂️"], ["1f93d-1f3fe-200d-2642-fe0f", [":man_playing_water_polo_tone4:"], "🤽🏾‍♂️"], ["1f93d-1f3ff-200d-2642-fe0f", [":man_playing_water_polo_tone5:"], "🤽🏿‍♂️"], ["1f6a3-1f3fb-200d-2640-fe0f", [":woman_rowing_boat_tone1:"], "🚣🏻‍♀️"], ["1f6a3-1f3fc-200d-2640-fe0f", [":woman_rowing_boat_tone2:"], "🚣🏼‍♀️"], ["1f6a3-1f3fd-200d-2640-fe0f", [":woman_rowing_boat_tone3:"], "🚣🏽‍♀️"], ["1f6a3-1f3fe-200d-2640-fe0f", [":woman_rowing_boat_tone4:"], "🚣🏾‍♀️"], ["1f6a3-1f3ff-200d-2640-fe0f", [":woman_rowing_boat_tone5:"], "🚣🏿‍♀️"], ["1f6a3-1f3ff-200d-2642-fe0f", [":man_rowing_boat_tone5:"], "🚣🏿‍♂️"], ["1f3cc-1f3fe-200d-2642-fe0f", [":man_golfing_tone4:"], "🏌🏾‍♂️"], ["1f6a3-1f3fe-200d-2642-fe0f", [":man_rowing_boat_tone4:"], "🚣🏾‍♂️"], ["1f6a3-1f3fd-200d-2642-fe0f", [":man_rowing_boat_tone3:"], "🚣🏽‍♂️"], ["1f6a3-1f3fc-200d-2642-fe0f", [":man_rowing_boat_tone2:"], "🚣🏼‍♂️"], ["1f6a3-1f3fb-200d-2642-fe0f", [":man_rowing_boat_tone1:"], "🚣🏻‍♂️"], ["1f6b4-1f3fb-200d-2640-fe0f", [":woman_biking_tone1:"], "🚴🏻‍♀️"], ["1f93e-1f3ff-200d-2642-fe0f", [":man_playing_handball_tone5:"], "🤾🏿‍♂️"], ["1f6b4-1f3fc-200d-2640-fe0f", [":woman_biking_tone2:"], "🚴🏼‍♀️"], ["1f6b4-1f3fd-200d-2640-fe0f", [":woman_biking_tone3:"], "🚴🏽‍♀️"], ["1f6b4-1f3fe-200d-2640-fe0f", [":woman_biking_tone4:"], "🚴🏾‍♀️"], ["1f6b4-1f3ff-200d-2640-fe0f", [":woman_biking_tone5:"], "🚴🏿‍♀️"], ["1f6b4-1f3ff-200d-2642-fe0f", [":man_biking_tone5:"], "🚴🏿‍♂️"], ["1f93e-1f3fe-200d-2642-fe0f", [":man_playing_handball_tone4:"], "🤾🏾‍♂️"], ["1f6b4-1f3fe-200d-2642-fe0f", [":man_biking_tone4:"], "🚴🏾‍♂️"], ["1f6b4-1f3fd-200d-2642-fe0f", [":man_biking_tone3:"], "🚴🏽‍♂️"], ["1f6b4-1f3fc-200d-2642-fe0f", [":man_biking_tone2:"], "🚴🏼‍♂️"], ["1f6b4-1f3fb-200d-2642-fe0f", [":man_biking_tone1:"], "🚴🏻‍♂️"], ["1f6b5-1f3fb-200d-2640-fe0f", [":woman_mountain_biking_tone1:"], "🚵🏻‍♀️"], ["1f93e-1f3fd-200d-2642-fe0f", [":man_playing_handball_tone3:"], "🤾🏽‍♂️"], ["1f6b5-1f3fc-200d-2640-fe0f", [":woman_mountain_biking_tone2:"], "🚵🏼‍♀️"], ["1f6b5-1f3fd-200d-2640-fe0f", [":woman_mountain_biking_tone3:"], "🚵🏽‍♀️"], ["1f6b5-1f3fe-200d-2640-fe0f", [":woman_mountain_biking_tone4:"], "🚵🏾‍♀️"], ["1f6b5-1f3ff-200d-2640-fe0f", [":woman_mountain_biking_tone5:"], "🚵🏿‍♀️"], ["1f6b5-1f3ff-200d-2642-fe0f", [":man_mountain_biking_tone5:"], "🚵🏿‍♂️"], ["1f93e-1f3fc-200d-2642-fe0f", [":man_playing_handball_tone2:"], "🤾🏼‍♂️"], ["1f6b5-1f3fe-200d-2642-fe0f", [":man_mountain_biking_tone4:"], "🚵🏾‍♂️"], ["1f6b5-1f3fd-200d-2642-fe0f", [":man_mountain_biking_tone3:"], "🚵🏽‍♂️"], ["1f6b5-1f3fc-200d-2642-fe0f", [":man_mountain_biking_tone2:"], "🚵🏼‍♂️"], ["1f6b5-1f3fb-200d-2642-fe0f", [":man_mountain_biking_tone1:"], "🚵🏻‍♂️"], ["1f939-1f3fb-200d-2640-fe0f", [":woman_juggling_tone1:"], "🤹🏻‍♀️"], ["1f93e-1f3fb-200d-2642-fe0f", [":man_playing_handball_tone1:"], "🤾🏻‍♂️"], ["1f939-1f3fc-200d-2640-fe0f", [":woman_juggling_tone2:"], "🤹🏼‍♀️"], ["1f939-1f3fd-200d-2640-fe0f", [":woman_juggling_tone3:"], "🤹🏽‍♀️"], ["1f939-1f3fe-200d-2640-fe0f", [":woman_juggling_tone4:"], "🤹🏾‍♀️"], ["1f939-1f3ff-200d-2640-fe0f", [":woman_juggling_tone5:"], "🤹🏿‍♀️"], ["1f939-1f3fb-200d-2642-fe0f", [":man_juggling_tone1:"], "🤹🏻‍♂️"], ["1f939-1f3fc-200d-2642-fe0f", [":man_juggling_tone2:"], "🤹🏼‍♂️"], ["1f939-1f3fd-200d-2642-fe0f", [":man_juggling_tone3:"], "🤹🏽‍♂️"], ["1f939-1f3fe-200d-2642-fe0f", [":man_juggling_tone4:"], "🤹🏾‍♂️"], ["1f939-1f3ff-200d-2642-fe0f", [":man_juggling_tone5:"], "🤹🏿‍♂️"], ["1f9d6-1f3fb-200d-2640-fe0f", [":woman_in_steamy_room_tone1:"], "🧖🏻‍♀️"], ["1f93e-1f3ff-200d-2640-fe0f", [":woman_playing_handball_tone5:"], "🤾🏿‍♀️"], ["1f9d6-1f3fb-200d-2642-fe0f", [":man_in_steamy_room_tone1:"], "🧖🏻‍♂️"], ["1f9d6-1f3fc-200d-2640-fe0f", [":woman_in_steamy_room_tone2:"], "🧖🏼‍♀️"], ["1f9d6-1f3fc-200d-2642-fe0f", [":man_in_steamy_room_tone2:"], "🧖🏼‍♂️"], ["1f9d6-1f3fd-200d-2640-fe0f", [":woman_in_steamy_room_tone3:"], "🧖🏽‍♀️"], ["1f9d6-1f3fd-200d-2642-fe0f", [":man_in_steamy_room_tone3:"], "🧖🏽‍♂️"], ["1f93e-1f3fe-200d-2640-fe0f", [":woman_playing_handball_tone4:"], "🤾🏾‍♀️"], ["1f9d6-1f3fe-200d-2640-fe0f", [":woman_in_steamy_room_tone4:"], "🧖🏾‍♀️"], ["1f9d6-1f3fe-200d-2642-fe0f", [":man_in_steamy_room_tone4:"], "🧖🏾‍♂️"], ["1f9d6-1f3ff-200d-2640-fe0f", [":woman_in_steamy_room_tone5:"], "🧖🏿‍♀️"], ["1f9d6-1f3ff-200d-2642-fe0f", [":man_in_steamy_room_tone5:"], "🧖🏿‍♂️"], ["1f9d7-1f3fb-200d-2640-fe0f", [":woman_climbing_tone1:"], "🧗🏻‍♀️"], ["1f93e-1f3fd-200d-2640-fe0f", [":woman_playing_handball_tone3:"], "🤾🏽‍♀️"], ["1f9d7-1f3fb-200d-2642-fe0f", [":man_climbing_tone1:"], "🧗🏻‍♂️"], ["1f9d7-1f3fc-200d-2640-fe0f", [":woman_climbing_tone2:"], "🧗🏼‍♀️"], ["1f9d7-1f3fc-200d-2642-fe0f", [":man_climbing_tone2:"], "🧗🏼‍♂️"], ["1f9d7-1f3fd-200d-2640-fe0f", [":woman_climbing_tone3:"], "🧗🏽‍♀️"], ["1f9d7-1f3fd-200d-2642-fe0f", [":man_climbing_tone3:"], "🧗🏽‍♂️"], ["1f93e-1f3fc-200d-2640-fe0f", [":woman_playing_handball_tone2:"], "🤾🏼‍♀️"], ["1f9d7-1f3fe-200d-2640-fe0f", [":woman_climbing_tone4:"], "🧗🏾‍♀️"], ["1f9d7-1f3fe-200d-2642-fe0f", [":man_climbing_tone4:"], "🧗🏾‍♂️"], ["1f9d7-1f3ff-200d-2640-fe0f", [":woman_climbing_tone5:"], "🧗🏿‍♀️"], ["1f9d7-1f3ff-200d-2642-fe0f", [":man_climbing_tone5:"], "🧗🏿‍♂️"], ["1f9d8-1f3fb-200d-2640-fe0f", [":woman_in_lotus_position_tone1:"], "🧘🏻‍♀️"], ["1f93e-1f3fb-200d-2640-fe0f", [":woman_playing_handball_tone1:"], "🤾🏻‍♀️"], ["1f9d8-1f3fb-200d-2642-fe0f", [":man_in_lotus_position_tone1:"], "🧘🏻‍♂️"], ["1f9d8-1f3fc-200d-2640-fe0f", [":woman_in_lotus_position_tone2:"], "🧘🏼‍♀️"], ["1f9d8-1f3fc-200d-2642-fe0f", [":man_in_lotus_position_tone2:"], "🧘🏼‍♂️"], ["1f9d8-1f3fd-200d-2640-fe0f", [":woman_in_lotus_position_tone3:"], "🧘🏽‍♀️"], ["1f9d8-1f3fd-200d-2642-fe0f", [":man_in_lotus_position_tone3:"], "🧘🏽‍♂️"], ["1f9d8-1f3fe-200d-2640-fe0f", [":woman_in_lotus_position_tone4:"], "🧘🏾‍♀️"], ["1f9d8-1f3fe-200d-2642-fe0f", [":man_in_lotus_position_tone4:"], "🧘🏾‍♂️"], ["1f9d8-1f3ff-200d-2640-fe0f", [":woman_in_lotus_position_tone5:"], "🧘🏿‍♀️"], ["1f9d8-1f3ff-200d-2642-fe0f", [":man_in_lotus_position_tone5:"], "🧘🏿‍♂️"], ["1f938-1f3ff-200d-2642-fe0f", [":man_cartwheeling_tone5:"], "🤸🏿‍♂️"], ["1f3c4-1f3ff-200d-2640-fe0f", [":woman_surfing_tone5:"], "🏄🏿‍♀️"], ["1f3c4-1f3fe-200d-2640-fe0f", [":woman_surfing_tone4:"], "🏄🏾‍♀️"], ["1f3c4-1f3fd-200d-2640-fe0f", [":woman_surfing_tone3:"], "🏄🏽‍♀️"], ["1f3c4-1f3fc-200d-2640-fe0f", [":woman_surfing_tone2:"], "🏄🏼‍♀️"], ["1f3c4-1f3fb-200d-2640-fe0f", [":woman_surfing_tone1:"], "🏄🏻‍♀️"], ["1f441-fe0f-200d-1f5e8-fe0f", [":eye_in_speech_bubble:"], "👁️‍🗨️"], ["1f9dd-1f3fc-200d-2642-fe0f", [":man_elf_tone2:"], "🧝🏼‍♂️"], ["1f9dd-1f3fc-200d-2640-fe0f", [":woman_elf_tone2:"], "🧝🏼‍♀️"], ["1f9dd-1f3fb-200d-2642-fe0f", [":man_elf_tone1:"], "🧝🏻‍♂️"], ["1f3cc-1f3ff-200d-2642-fe0f", [":man_golfing_tone5:"], "🏌🏿‍♂️"], ["1f9dd-1f3fb-200d-2640-fe0f", [":woman_elf_tone1:"], "🧝🏻‍♀️"], ["1f9dc-1f3ff-200d-2642-fe0f", [":merman_tone5:"], "🧜🏿‍♂️"], ["1f469-1f3fb-200d-2708-fe0f", [":woman_pilot_tone1:"], "👩🏻‍✈️"], ["1f469-1f3fc-200d-2708-fe0f", [":woman_pilot_tone2:"], "👩🏼‍✈️"], ["1f469-1f3fd-200d-2708-fe0f", [":woman_pilot_tone3:"], "👩🏽‍✈️"], ["1f469-1f3fe-200d-2708-fe0f", [":woman_pilot_tone4:"], "👩🏾‍✈️"], ["1f469-1f3ff-200d-2708-fe0f", [":woman_pilot_tone5:"], "👩🏿‍✈️"], ["1f468-1f3fb-200d-2708-fe0f", [":man_pilot_tone1:"], "👨🏻‍✈️"], ["1f468-1f3fc-200d-2708-fe0f", [":man_pilot_tone2:"], "👨🏼‍✈️"], ["1f468-1f3fd-200d-2708-fe0f", [":man_pilot_tone3:"], "👨🏽‍✈️"], ["1f468-1f3fe-200d-2708-fe0f", [":man_pilot_tone4:"], "👨🏾‍✈️"], ["1f468-1f3ff-200d-2708-fe0f", [":man_pilot_tone5:"], "👨🏿‍✈️"], ["1f9dc-1f3ff-200d-2640-fe0f", [":mermaid_tone5:"], "🧜🏿‍♀️"], ["1f9dc-1f3fe-200d-2642-fe0f", [":merman_tone4:"], "🧜🏾‍♂️"], ["1f9dc-1f3fe-200d-2640-fe0f", [":mermaid_tone4:"], "🧜🏾‍♀️"], ["1f9dc-1f3fd-200d-2642-fe0f", [":merman_tone3:"], "🧜🏽‍♂️"], ["1f9dc-1f3fd-200d-2640-fe0f", [":mermaid_tone3:"], "🧜🏽‍♀️"], ["1f9dc-1f3fc-200d-2642-fe0f", [":merman_tone2:"], "🧜🏼‍♂️"], ["1f9dc-1f3fc-200d-2640-fe0f", [":mermaid_tone2:"], "🧜🏼‍♀️"], ["1f9dc-1f3fb-200d-2642-fe0f", [":merman_tone1:"], "🧜🏻‍♂️"], ["1f9dc-1f3fb-200d-2640-fe0f", [":mermaid_tone1:"], "🧜🏻‍♀️"], ["1f9db-1f3ff-200d-2642-fe0f", [":man_vampire_tone5:"], "🧛🏿‍♂️"], ["1f9db-1f3ff-200d-2640-fe0f", [":woman_vampire_tone5:"], "🧛🏿‍♀️"], ["1f9db-1f3fe-200d-2642-fe0f", [":man_vampire_tone4:"], "🧛🏾‍♂️"], ["1f469-1f3fb-200d-2696-fe0f", [":woman_judge_tone1:"], "👩🏻‍⚖️"], ["1f469-1f3fc-200d-2696-fe0f", [":woman_judge_tone2:"], "👩🏼‍⚖️"], ["1f9dd-1f3ff-200d-2642-fe0f", [":man_elf_tone5:"], "🧝🏿‍♂️"], ["1f469-1f3fe-200d-2696-fe0f", [":woman_judge_tone4:"], "👩🏾‍⚖️"], ["1f469-1f3ff-200d-2696-fe0f", [":woman_judge_tone5:"], "👩🏿‍⚖️"], ["1f468-1f3fb-200d-2696-fe0f", [":man_judge_tone1:"], "👨🏻‍⚖️"], ["1f468-1f3fc-200d-2696-fe0f", [":man_judge_tone2:"], "👨🏼‍⚖️"], ["1f468-1f3fd-200d-2696-fe0f", [":man_judge_tone3:"], "👨🏽‍⚖️"], ["1f468-1f3fe-200d-2696-fe0f", [":man_judge_tone4:"], "👨🏾‍⚖️"], ["1f468-1f3ff-200d-2696-fe0f", [":man_judge_tone5:"], "👨🏿‍⚖️"], ["1f647-1f3fb-200d-2640-fe0f", [":woman_bowing_tone1:"], "🙇🏻‍♀️"], ["1f647-1f3fc-200d-2640-fe0f", [":woman_bowing_tone2:"], "🙇🏼‍♀️"], ["1f647-1f3fd-200d-2640-fe0f", [":woman_bowing_tone3:"], "🙇🏽‍♀️"], ["1f647-1f3fe-200d-2640-fe0f", [":woman_bowing_tone4:"], "🙇🏾‍♀️"], ["1f647-1f3ff-200d-2640-fe0f", [":woman_bowing_tone5:"], "🙇🏿‍♀️"], ["1f647-1f3ff-200d-2642-fe0f", [":man_bowing_tone5:"], "🙇🏿‍♂️"], ["1f647-1f3fe-200d-2642-fe0f", [":man_bowing_tone4:"], "🙇🏾‍♂️"], ["1f647-1f3fd-200d-2642-fe0f", [":man_bowing_tone3:"], "🙇🏽‍♂️"], ["1f647-1f3fc-200d-2642-fe0f", [":man_bowing_tone2:"], "🙇🏼‍♂️"], ["1f647-1f3fb-200d-2642-fe0f", [":man_bowing_tone1:"], "🙇🏻‍♂️"], ["1f481-1f3fb-200d-2642-fe0f", [":man_tipping_hand_tone1:"], "💁🏻‍♂️"], ["1f481-1f3fc-200d-2642-fe0f", [":man_tipping_hand_tone2:"], "💁🏼‍♂️"], ["1f481-1f3fd-200d-2642-fe0f", [":man_tipping_hand_tone3:"], "💁🏽‍♂️"], ["1f481-1f3fe-200d-2642-fe0f", [":man_tipping_hand_tone4:"], "💁🏾‍♂️"], ["1f481-1f3ff-200d-2642-fe0f", [":man_tipping_hand_tone5:"], "💁🏿‍♂️"], ["1f481-1f3ff-200d-2640-fe0f", [":woman_tipping_hand_tone5:"], "💁🏿‍♀️"], ["1f481-1f3fe-200d-2640-fe0f", [":woman_tipping_hand_tone4:"], "💁🏾‍♀️"], ["1f481-1f3fd-200d-2640-fe0f", [":woman_tipping_hand_tone3:"], "💁🏽‍♀️"], ["1f481-1f3fc-200d-2640-fe0f", [":woman_tipping_hand_tone2:"], "💁🏼‍♀️"], ["1f481-1f3fb-200d-2640-fe0f", [":woman_tipping_hand_tone1:"], "💁🏻‍♀️"], ["1f645-1f3fb-200d-2642-fe0f", [":man_gesturing_no_tone1:"], "🙅🏻‍♂️"], ["1f645-1f3fc-200d-2642-fe0f", [":man_gesturing_no_tone2:"], "🙅🏼‍♂️"], ["1f645-1f3fd-200d-2642-fe0f", [":man_gesturing_no_tone3:"], "🙅🏽‍♂️"], ["1f645-1f3fe-200d-2642-fe0f", [":man_gesturing_no_tone4:"], "🙅🏾‍♂️"], ["1f645-1f3ff-200d-2642-fe0f", [":man_gesturing_no_tone5:"], "🙅🏿‍♂️"], ["1f645-1f3ff-200d-2640-fe0f", [":woman_gesturing_no_tone5:"], "🙅🏿‍♀️"], ["1f645-1f3fe-200d-2640-fe0f", [":woman_gesturing_no_tone4:"], "🙅🏾‍♀️"], ["1f645-1f3fd-200d-2640-fe0f", [":woman_gesturing_no_tone3:"], "🙅🏽‍♀️"], ["1f645-1f3fc-200d-2640-fe0f", [":woman_gesturing_no_tone2:"], "🙅🏼‍♀️"], ["1f645-1f3fb-200d-2640-fe0f", [":woman_gesturing_no_tone1:"], "🙅🏻‍♀️"], ["1f646-1f3fb-200d-2642-fe0f", [":man_gesturing_ok_tone1:"], "🙆🏻‍♂️"], ["1f646-1f3fc-200d-2642-fe0f", [":man_gesturing_ok_tone2:"], "🙆🏼‍♂️"], ["1f646-1f3fd-200d-2642-fe0f", [":man_gesturing_ok_tone3:"], "🙆🏽‍♂️"], ["1f646-1f3fe-200d-2642-fe0f", [":man_gesturing_ok_tone4:"], "🙆🏾‍♂️"], ["1f646-1f3ff-200d-2642-fe0f", [":man_gesturing_ok_tone5:"], "🙆🏿‍♂️"], ["1f646-1f3ff-200d-2640-fe0f", [":woman_gesturing_ok_tone5:"], "🙆🏿‍♀️"], ["1f646-1f3fe-200d-2640-fe0f", [":woman_gesturing_ok_tone4:"], "🙆🏾‍♀️"], ["1f646-1f3fd-200d-2640-fe0f", [":woman_gesturing_ok_tone3:"], "🙆🏽‍♀️"], ["1f646-1f3fc-200d-2640-fe0f", [":woman_gesturing_ok_tone2:"], "🙆🏼‍♀️"], ["1f646-1f3fb-200d-2640-fe0f", [":woman_gesturing_ok_tone1:"], "🙆🏻‍♀️"], ["1f64b-1f3fb-200d-2642-fe0f", [":man_raising_hand_tone1:"], "🙋🏻‍♂️"], ["1f64b-1f3fc-200d-2642-fe0f", [":man_raising_hand_tone2:"], "🙋🏼‍♂️"], ["1f64b-1f3fd-200d-2642-fe0f", [":man_raising_hand_tone3:"], "🙋🏽‍♂️"], ["1f64b-1f3fe-200d-2642-fe0f", [":man_raising_hand_tone4:"], "🙋🏾‍♂️"], ["1f64b-1f3ff-200d-2642-fe0f", [":man_raising_hand_tone5:"], "🙋🏿‍♂️"], ["1f64b-1f3ff-200d-2640-fe0f", [":woman_raising_hand_tone5:"], "🙋🏿‍♀️"], ["1f64b-1f3fe-200d-2640-fe0f", [":woman_raising_hand_tone4:"], "🙋🏾‍♀️"], ["1f64b-1f3fd-200d-2640-fe0f", [":woman_raising_hand_tone3:"], "🙋🏽‍♀️"], ["1f64b-1f3fc-200d-2640-fe0f", [":woman_raising_hand_tone2:"], "🙋🏼‍♀️"], ["1f64b-1f3fb-200d-2640-fe0f", [":woman_raising_hand_tone1:"], "🙋🏻‍♀️"], ["1f926-1f3fb-200d-2640-fe0f", [":woman_facepalming_tone1:"], "🤦🏻‍♀️"], ["1f926-1f3fc-200d-2640-fe0f", [":woman_facepalming_tone2:"], "🤦🏼‍♀️"], ["1f926-1f3fd-200d-2640-fe0f", [":woman_facepalming_tone3:"], "🤦🏽‍♀️"], ["1f926-1f3fe-200d-2640-fe0f", [":woman_facepalming_tone4:"], "🤦🏾‍♀️"], ["1f926-1f3ff-200d-2640-fe0f", [":woman_facepalming_tone5:"], "🤦🏿‍♀️"], ["1f926-1f3fb-200d-2642-fe0f", [":man_facepalming_tone1:"], "🤦🏻‍♂️"], ["1f926-1f3fc-200d-2642-fe0f", [":man_facepalming_tone2:"], "🤦🏼‍♂️"], ["1f926-1f3fd-200d-2642-fe0f", [":man_facepalming_tone3:"], "🤦🏽‍♂️"], ["1f926-1f3fe-200d-2642-fe0f", [":man_facepalming_tone4:"], "🤦🏾‍♂️"], ["1f926-1f3ff-200d-2642-fe0f", [":man_facepalming_tone5:"], "🤦🏿‍♂️"], ["1f937-1f3fb-200d-2640-fe0f", [":woman_shrugging_tone1:"], "🤷🏻‍♀️"], ["1f937-1f3fc-200d-2640-fe0f", [":woman_shrugging_tone2:"], "🤷🏼‍♀️"], ["1f937-1f3fd-200d-2640-fe0f", [":woman_shrugging_tone3:"], "🤷🏽‍♀️"], ["1f937-1f3fe-200d-2640-fe0f", [":woman_shrugging_tone4:"], "🤷🏾‍♀️"], ["1f937-1f3ff-200d-2640-fe0f", [":woman_shrugging_tone5:"], "🤷🏿‍♀️"], ["1f937-1f3fb-200d-2642-fe0f", [":man_shrugging_tone1:"], "🤷🏻‍♂️"], ["1f937-1f3fc-200d-2642-fe0f", [":man_shrugging_tone2:"], "🤷🏼‍♂️"], ["1f937-1f3fd-200d-2642-fe0f", [":man_shrugging_tone3:"], "🤷🏽‍♂️"], ["1f937-1f3fe-200d-2642-fe0f", [":man_shrugging_tone4:"], "🤷🏾‍♂️"], ["1f937-1f3ff-200d-2642-fe0f", [":man_shrugging_tone5:"], "🤷🏿‍♂️"], ["1f64e-1f3fb-200d-2642-fe0f", [":man_pouting_tone1:"], "🙎🏻‍♂️"], ["1f64e-1f3fc-200d-2642-fe0f", [":man_pouting_tone2:"], "🙎🏼‍♂️"], ["1f64e-1f3fd-200d-2642-fe0f", [":man_pouting_tone3:"], "🙎🏽‍♂️"], ["1f64e-1f3fe-200d-2642-fe0f", [":man_pouting_tone4:"], "🙎🏾‍♂️"], ["1f64e-1f3ff-200d-2642-fe0f", [":man_pouting_tone5:"], "🙎🏿‍♂️"], ["1f64e-1f3ff-200d-2640-fe0f", [":woman_pouting_tone5:"], "🙎🏿‍♀️"], ["1f64e-1f3fe-200d-2640-fe0f", [":woman_pouting_tone4:"], "🙎🏾‍♀️"], ["1f64e-1f3fd-200d-2640-fe0f", [":woman_pouting_tone3:"], "🙎🏽‍♀️"], ["1f64e-1f3fc-200d-2640-fe0f", [":woman_pouting_tone2:"], "🙎🏼‍♀️"], ["1f64e-1f3fb-200d-2640-fe0f", [":woman_pouting_tone1:"], "🙎🏻‍♀️"], ["1f64d-1f3fb-200d-2642-fe0f", [":man_frowning_tone1:"], "🙍🏻‍♂️"], ["1f64d-1f3fc-200d-2642-fe0f", [":man_frowning_tone2:"], "🙍🏼‍♂️"], ["1f64d-1f3fd-200d-2642-fe0f", [":man_frowning_tone3:"], "🙍🏽‍♂️"], ["1f64d-1f3fe-200d-2642-fe0f", [":man_frowning_tone4:"], "🙍🏾‍♂️"], ["1f64d-1f3ff-200d-2642-fe0f", [":man_frowning_tone5:"], "🙍🏿‍♂️"], ["1f64d-1f3ff-200d-2640-fe0f", [":woman_frowning_tone5:"], "🙍🏿‍♀️"], ["1f64d-1f3fe-200d-2640-fe0f", [":woman_frowning_tone4:"], "🙍🏾‍♀️"], ["1f64d-1f3fd-200d-2640-fe0f", [":woman_frowning_tone3:"], "🙍🏽‍♀️"], ["1f64d-1f3fc-200d-2640-fe0f", [":woman_frowning_tone2:"], "🙍🏼‍♀️"], ["1f64d-1f3fb-200d-2640-fe0f", [":woman_frowning_tone1:"], "🙍🏻‍♀️"], ["1f487-1f3fb-200d-2642-fe0f", [":man_getting_haircut_tone1:"], "💇🏻‍♂️"], ["1f487-1f3fc-200d-2642-fe0f", [":man_getting_haircut_tone2:"], "💇🏼‍♂️"], ["1f487-1f3fd-200d-2642-fe0f", [":man_getting_haircut_tone3:"], "💇🏽‍♂️"], ["1f487-1f3fe-200d-2642-fe0f", [":man_getting_haircut_tone4:"], "💇🏾‍♂️"], ["1f487-1f3ff-200d-2642-fe0f", [":man_getting_haircut_tone5:"], "💇🏿‍♂️"], ["1f487-1f3ff-200d-2640-fe0f", [":woman_getting_haircut_tone5:"], "💇🏿‍♀️"], ["1f487-1f3fe-200d-2640-fe0f", [":woman_getting_haircut_tone4:"], "💇🏾‍♀️"], ["1f487-1f3fd-200d-2640-fe0f", [":woman_getting_haircut_tone3:"], "💇🏽‍♀️"], ["1f487-1f3fc-200d-2640-fe0f", [":woman_getting_haircut_tone2:"], "💇🏼‍♀️"], ["1f487-1f3fb-200d-2640-fe0f", [":woman_getting_haircut_tone1:"], "💇🏻‍♀️"], ["1f486-1f3fb-200d-2642-fe0f", [":man_getting_face_massage_tone1:"], "💆🏻‍♂️"], ["1f486-1f3fc-200d-2642-fe0f", [":man_getting_face_massage_tone2:"], "💆🏼‍♂️"], ["1f486-1f3fd-200d-2642-fe0f", [":man_getting_face_massage_tone3:"], "💆🏽‍♂️"], ["1f486-1f3fe-200d-2642-fe0f", [":man_getting_face_massage_tone4:"], "💆🏾‍♂️"], ["1f486-1f3ff-200d-2642-fe0f", [":man_getting_face_massage_tone5:"], "💆🏿‍♂️"], ["1f486-1f3ff-200d-2640-fe0f", [":woman_getting_face_massage_tone5:"], "💆🏿‍♀️"], ["1f486-1f3fe-200d-2640-fe0f", [":woman_getting_face_massage_tone4:"], "💆🏾‍♀️"], ["1f486-1f3fd-200d-2640-fe0f", [":woman_getting_face_massage_tone3:"], "💆🏽‍♀️"], ["1f486-1f3fc-200d-2640-fe0f", [":woman_getting_face_massage_tone2:"], "💆🏼‍♀️"], ["1f486-1f3fb-200d-2640-fe0f", [":woman_getting_face_massage_tone1:"], "💆🏻‍♀️"], ["1f6b6-1f3fb-200d-2640-fe0f", [":woman_walking_tone1:"], "🚶🏻‍♀️"], ["1f6b6-1f3fc-200d-2640-fe0f", [":woman_walking_tone2:"], "🚶🏼‍♀️"], ["1f6b6-1f3fd-200d-2640-fe0f", [":woman_walking_tone3:"], "🚶🏽‍♀️"], ["1f6b6-1f3fe-200d-2640-fe0f", [":woman_walking_tone4:"], "🚶🏾‍♀️"], ["1f6b6-1f3ff-200d-2640-fe0f", [":woman_walking_tone5:"], "🚶🏿‍♀️"], ["1f6b6-1f3ff-200d-2642-fe0f", [":man_walking_tone5:"], "🚶🏿‍♂️"], ["1f6b6-1f3fe-200d-2642-fe0f", [":man_walking_tone4:"], "🚶🏾‍♂️"], ["1f6b6-1f3fd-200d-2642-fe0f", [":man_walking_tone3:"], "🚶🏽‍♂️"], ["1f6b6-1f3fc-200d-2642-fe0f", [":man_walking_tone2:"], "🚶🏼‍♂️"], ["1f6b6-1f3fb-200d-2642-fe0f", [":man_walking_tone1:"], "🚶🏻‍♂️"], ["1f3c3-1f3fb-200d-2640-fe0f", [":woman_running_tone1:"], "🏃🏻‍♀️"], ["1f3c3-1f3fc-200d-2640-fe0f", [":woman_running_tone2:"], "🏃🏼‍♀️"], ["1f3c3-1f3fd-200d-2640-fe0f", [":woman_running_tone3:"], "🏃🏽‍♀️"], ["1f3c3-1f3fe-200d-2640-fe0f", [":woman_running_tone4:"], "🏃🏾‍♀️"], ["1f3c3-1f3ff-200d-2640-fe0f", [":woman_running_tone5:"], "🏃🏿‍♀️"], ["1f3c3-1f3ff-200d-2642-fe0f", [":man_running_tone5:"], "🏃🏿‍♂️"], ["1f3c3-1f3fe-200d-2642-fe0f", [":man_running_tone4:"], "🏃🏾‍♂️"], ["1f3c3-1f3fd-200d-2642-fe0f", [":man_running_tone3:"], "🏃🏽‍♂️"], ["1f3c3-1f3fc-200d-2642-fe0f", [":man_running_tone2:"], "🏃🏼‍♂️"], ["1f3c3-1f3fb-200d-2642-fe0f", [":man_running_tone1:"], "🏃🏻‍♂️"], ["1f9db-1f3fe-200d-2640-fe0f", [":woman_vampire_tone4:"], "🧛🏾‍♀️"], ["1f9db-1f3fd-200d-2642-fe0f", [":man_vampire_tone3:"], "🧛🏽‍♂️"], ["1f9db-1f3fd-200d-2640-fe0f", [":woman_vampire_tone3:"], "🧛🏽‍♀️"], ["1f9db-1f3fc-200d-2642-fe0f", [":man_vampire_tone2:"], "🧛🏼‍♂️"], ["1f9db-1f3fc-200d-2640-fe0f", [":woman_vampire_tone2:"], "🧛🏼‍♀️"], ["1f9db-1f3fb-200d-2642-fe0f", [":man_vampire_tone1:"], "🧛🏻‍♂️"], ["1f9db-1f3fb-200d-2640-fe0f", [":woman_vampire_tone1:"], "🧛🏻‍♀️"], ["1f938-1f3fe-200d-2642-fe0f", [":man_cartwheeling_tone4:"], "🤸🏾‍♂️"], ["1f575-fe0f-200d-2642-fe0f", [":man_detective:"], "🕵️‍♂️"], ["26f9-1f3ff-200d-2642-fe0f", [":man_bouncing_ball_tone5:"], "⛹🏿‍♂️"], ["1f3cc-fe0f-200d-2642-fe0f", [":man_golfing:"], "🏌️‍♂️"], ["26f9-1f3fd-200d-2642-fe0f", [":man_bouncing_ball_tone3:"], "⛹🏽‍♂️"], ["26f9-1f3fc-200d-2642-fe0f", [":man_bouncing_ball_tone2:"], "⛹🏼‍♂️"], ["1f575-fe0f-200d-2640-fe0f", [":woman_detective:"], "🕵️‍♀️"], ["26f9-1f3ff-200d-2640-fe0f", [":woman_bouncing_ball_tone5:"], "⛹🏿‍♀️"], ["26f9-1f3fe-200d-2640-fe0f", [":woman_bouncing_ball_tone4:"], "⛹🏾‍♀️"], ["26f9-1f3fe-200d-2642-fe0f", [":man_bouncing_ball_tone4:"], "⛹🏾‍♂️"], ["26f9-1f3fc-200d-2640-fe0f", [":woman_bouncing_ball_tone2:"], "⛹🏼‍♀️"], ["26f9-1f3fb-200d-2640-fe0f", [":woman_bouncing_ball_tone1:"], "⛹🏻‍♀️"], ["1f3cb-fe0f-200d-2642-fe0f", [":man_lifting_weights:"], "🏋️‍♂️"], ["26f9-1f3fb-200d-2642-fe0f", [":man_bouncing_ball_tone1:"], "⛹🏻‍♂️"], ["1f3cc-fe0f-200d-2640-fe0f", [":woman_golfing:"], "🏌️‍♀️"], ["1f3cb-fe0f-200d-2640-fe0f", [":woman_lifting_weights:"], "🏋️‍♀️"], ["26f9-1f3fd-200d-2640-fe0f", [":woman_bouncing_ball_tone3:"], "⛹🏽‍♀️"], ["26f9-fe0f-200d-2640-fe0f", [":woman_bouncing_ball:"], "⛹️‍♀️"], ["26f9-fe0f-200d-2642-fe0f", [":man_bouncing_ball:"], "⛹️‍♂️"], ["1f468-1f3ff-200d-1f680", [":man_astronaut_tone5:"], "👨🏿‍🚀"], ["1f469-1f3ff-200d-1f680", [":woman_astronaut_tone5:"], "👩🏿‍🚀"], ["1f469-1f3ff-200d-1f692", [":woman_firefighter_tone5:"], "👩🏿‍🚒"], ["1f469-1f3fe-200d-1f692", [":woman_firefighter_tone4:"], "👩🏾‍🚒"], ["1f469-1f3fd-200d-1f692", [":woman_firefighter_tone3:"], "👩🏽‍🚒"], ["1f469-1f3fc-200d-1f692", [":woman_firefighter_tone2:"], "👩🏼‍🚒"], ["1f469-1f3fb-200d-1f692", [":woman_firefighter_tone1:"], "👩🏻‍🚒"], ["1f469-1f3fe-200d-1f680", [":woman_astronaut_tone4:"], "👩🏾‍🚀"], ["1f469-1f3fd-200d-1f680", [":woman_astronaut_tone3:"], "👩🏽‍🚀"], ["1f469-1f3fc-200d-1f680", [":woman_astronaut_tone2:"], "👩🏼‍🚀"], ["1f469-1f3fb-200d-1f680", [":woman_astronaut_tone1:"], "👩🏻‍🚀"], ["1f468-1f3fd-200d-1f680", [":man_astronaut_tone3:"], "👨🏽‍🚀"], ["1f468-1f3fc-200d-1f680", [":man_astronaut_tone2:"], "👨🏼‍🚀"], ["1f468-1f3fb-200d-1f680", [":man_astronaut_tone1:"], "👨🏻‍🚀"], ["1f468-1f3ff-200d-1f3a8", [":man_artist_tone5:"], "👨🏿‍🎨"], ["1f468-1f3fe-200d-1f3a8", [":man_artist_tone4:"], "👨🏾‍🎨"], ["1f468-1f3fd-200d-1f3a8", [":man_artist_tone3:"], "👨🏽‍🎨"], ["1f468-1f3fc-200d-1f3a8", [":man_artist_tone2:"], "👨🏼‍🎨"], ["1f468-1f3fb-200d-1f3a8", [":man_artist_tone1:"], "👨🏻‍🎨"], ["1f469-1f3ff-200d-1f3a8", [":woman_artist_tone5:"], "👩🏿‍🎨"], ["1f469-1f3fe-200d-1f3a8", [":woman_artist_tone4:"], "👩🏾‍🎨"], ["1f469-1f3fd-200d-1f3a8", [":woman_artist_tone3:"], "👩🏽‍🎨"], ["1f469-1f3fc-200d-1f3a8", [":woman_artist_tone2:"], "👩🏼‍🎨"], ["1f469-1f3fb-200d-1f3a8", [":woman_artist_tone1:"], "👩🏻‍🎨"], ["1f468-1f3ff-200d-1f52c", [":man_scientist_tone5:"], "👨🏿‍🔬"], ["1f468-1f3fe-200d-1f52c", [":man_scientist_tone4:"], "👨🏾‍🔬"], ["1f468-1f3fd-200d-1f52c", [":man_scientist_tone3:"], "👨🏽‍🔬"], ["1f468-1f3fc-200d-1f52c", [":man_scientist_tone2:"], "👨🏼‍🔬"], ["1f468-1f3fb-200d-1f52c", [":man_scientist_tone1:"], "👨🏻‍🔬"], ["1f469-1f3ff-200d-1f52c", [":woman_scientist_tone5:"], "👩🏿‍🔬"], ["1f469-1f3fe-200d-1f52c", [":woman_scientist_tone4:"], "👩🏾‍🔬"], ["1f469-1f3fd-200d-1f52c", [":woman_scientist_tone3:"], "👩🏽‍🔬"], ["1f469-1f3fc-200d-1f52c", [":woman_scientist_tone2:"], "👩🏼‍🔬"], ["1f469-1f3fb-200d-1f52c", [":woman_scientist_tone1:"], "👩🏻‍🔬"], ["1f468-1f3ff-200d-1f527", [":man_mechanic_tone5:"], "👨🏿‍🔧"], ["1f468-1f3fe-200d-1f527", [":man_mechanic_tone4:"], "👨🏾‍🔧"], ["1f468-1f3fd-200d-1f527", [":man_mechanic_tone3:"], "👨🏽‍🔧"], ["1f468-1f3fc-200d-1f527", [":man_mechanic_tone2:"], "👨🏼‍🔧"], ["1f468-1f3fb-200d-1f527", [":man_mechanic_tone1:"], "👨🏻‍🔧"], ["1f469-1f3ff-200d-1f527", [":woman_mechanic_tone5:"], "👩🏿‍🔧"], ["1f469-1f3fe-200d-1f527", [":woman_mechanic_tone4:"], "👩🏾‍🔧"], ["1f469-1f3fd-200d-1f527", [":woman_mechanic_tone3:"], "👩🏽‍🔧"], ["1f469-1f3fc-200d-1f527", [":woman_mechanic_tone2:"], "👩🏼‍🔧"], ["1f469-1f3fb-200d-1f527", [":woman_mechanic_tone1:"], "👩🏻‍🔧"], ["1f468-1f3ff-200d-1f4bc", [":man_office_worker_tone5:"], "👨🏿‍💼"], ["1f468-1f3fe-200d-1f4bc", [":man_office_worker_tone4:"], "👨🏾‍💼"], ["1f468-1f3fd-200d-1f4bc", [":man_office_worker_tone3:"], "👨🏽‍💼"], ["1f468-1f3fc-200d-1f4bc", [":man_office_worker_tone2:"], "👨🏼‍💼"], ["1f468-1f3fb-200d-1f4bc", [":man_office_worker_tone1:"], "👨🏻‍💼"], ["1f469-1f3ff-200d-1f4bc", [":woman_office_worker_tone5:"], "👩🏿‍💼"], ["1f469-1f3fe-200d-1f4bc", [":woman_office_worker_tone4:"], "👩🏾‍💼"], ["1f469-1f3fd-200d-1f4bc", [":woman_office_worker_tone3:"], "👩🏽‍💼"], ["1f469-1f3fc-200d-1f4bc", [":woman_office_worker_tone2:"], "👩🏼‍💼"], ["1f469-1f3fb-200d-1f4bc", [":woman_office_worker_tone1:"], "👩🏻‍💼"], ["1f468-1f3ff-200d-1f4bb", [":man_technologist_tone5:"], "👨🏿‍💻"], ["1f468-1f3fe-200d-1f4bb", [":man_technologist_tone4:"], "👨🏾‍💻"], ["1f468-1f3fe-200d-1f680", [":man_astronaut_tone4:"], "👨🏾‍🚀"], ["1f468-1f3fc-200d-1f4bb", [":man_technologist_tone2:"], "👨🏼‍💻"], ["1f468-1f3fb-200d-1f4bb", [":man_technologist_tone1:"], "👨🏻‍💻"], ["1f469-1f3ff-200d-1f4bb", [":woman_technologist_tone5:"], "👩🏿‍💻"], ["1f469-1f3fe-200d-1f4bb", [":woman_technologist_tone4:"], "👩🏾‍💻"], ["1f469-1f3fd-200d-1f4bb", [":woman_technologist_tone3:"], "👩🏽‍💻"], ["1f469-1f3fc-200d-1f4bb", [":woman_technologist_tone2:"], "👩🏼‍💻"], ["1f469-1f3fb-200d-1f4bb", [":woman_technologist_tone1:"], "👩🏻‍💻"], ["1f468-1f3ff-200d-1f3ed", [":man_factory_worker_tone5:"], "👨🏿‍🏭"], ["1f468-1f3fe-200d-1f3ed", [":man_factory_worker_tone4:"], "👨🏾‍🏭"], ["1f468-1f3fd-200d-1f3ed", [":man_factory_worker_tone3:"], "👨🏽‍🏭"], ["1f468-1f3fc-200d-1f3ed", [":man_factory_worker_tone2:"], "👨🏼‍🏭"], ["1f468-1f3fb-200d-1f3ed", [":man_factory_worker_tone1:"], "👨🏻‍🏭"], ["1f469-1f3ff-200d-1f3ed", [":woman_factory_worker_tone5:"], "👩🏿‍🏭"], ["1f469-1f3fe-200d-1f3ed", [":woman_factory_worker_tone4:"], "👩🏾‍🏭"], ["1f469-1f3fd-200d-1f3ed", [":woman_factory_worker_tone3:"], "👩🏽‍🏭"], ["1f469-1f3fc-200d-1f3ed", [":woman_factory_worker_tone2:"], "👩🏼‍🏭"], ["1f469-1f3fb-200d-1f3ed", [":woman_factory_worker_tone1:"], "👩🏻‍🏭"], ["1f468-1f3ff-200d-1f3eb", [":man_teacher_tone5:"], "👨🏿‍🏫"], ["1f468-1f3fe-200d-1f3eb", [":man_teacher_tone4:"], "👨🏾‍🏫"], ["1f468-1f3fd-200d-1f3eb", [":man_teacher_tone3:"], "👨🏽‍🏫"], ["1f468-1f3fc-200d-1f3eb", [":man_teacher_tone2:"], "👨🏼‍🏫"], ["1f468-1f3fb-200d-1f3eb", [":man_teacher_tone1:"], "👨🏻‍🏫"], ["1f469-1f3ff-200d-1f3eb", [":woman_teacher_tone5:"], "👩🏿‍🏫"], ["1f469-1f3fe-200d-1f3eb", [":woman_teacher_tone4:"], "👩🏾‍🏫"], ["1f469-1f3fd-200d-1f3eb", [":woman_teacher_tone3:"], "👩🏽‍🏫"], ["1f469-1f3fc-200d-1f3eb", [":woman_teacher_tone2:"], "👩🏼‍🏫"], ["1f469-1f3fb-200d-1f3eb", [":woman_teacher_tone1:"], "👩🏻‍🏫"], ["1f468-1f3ff-200d-1f692", [":man_firefighter_tone5:"], "👨🏿‍🚒"], ["1f468-1f3ff-200d-1f3a4", [":man_singer_tone5:"], "👨🏿‍🎤"], ["1f468-1f3fe-200d-1f3a4", [":man_singer_tone4:"], "👨🏾‍🎤"], ["1f468-1f3fd-200d-1f3a4", [":man_singer_tone3:"], "👨🏽‍🎤"], ["1f468-1f3fc-200d-1f3a4", [":man_singer_tone2:"], "👨🏼‍🎤"], ["1f468-1f3fb-200d-1f3a4", [":man_singer_tone1:"], "👨🏻‍🎤"], ["1f469-1f3ff-200d-1f3a4", [":woman_singer_tone5:"], "👩🏿‍🎤"], ["1f469-1f3fe-200d-1f3a4", [":woman_singer_tone4:"], "👩🏾‍🎤"], ["1f469-1f3fd-200d-1f3a4", [":woman_singer_tone3:"], "👩🏽‍🎤"], ["1f469-1f3fc-200d-1f3a4", [":woman_singer_tone2:"], "👩🏼‍🎤"], ["1f469-1f3fb-200d-1f3a4", [":woman_singer_tone1:"], "👩🏻‍🎤"], ["1f468-1f3ff-200d-1f393", [":man_student_tone5:"], "👨🏿‍🎓"], ["1f468-1f3fe-200d-1f393", [":man_student_tone4:"], "👨🏾‍🎓"], ["1f468-1f3fd-200d-1f393", [":man_student_tone3:"], "👨🏽‍🎓"], ["1f468-1f3fc-200d-1f393", [":man_student_tone2:"], "👨🏼‍🎓"], ["1f468-1f3fb-200d-1f393", [":man_student_tone1:"], "👨🏻‍🎓"], ["1f469-1f3ff-200d-1f393", [":woman_student_tone5:"], "👩🏿‍🎓"], ["1f469-1f3fe-200d-1f393", [":woman_student_tone4:"], "👩🏾‍🎓"], ["1f469-1f3fd-200d-1f393", [":woman_student_tone3:"], "👩🏽‍🎓"], ["1f469-1f3fc-200d-1f393", [":woman_student_tone2:"], "👩🏼‍🎓"], ["1f469-1f3fb-200d-1f393", [":woman_student_tone1:"], "👩🏻‍🎓"], ["1f468-1f3ff-200d-1f373", [":man_cook_tone5:"], "👨🏿‍🍳"], ["1f468-1f3fe-200d-1f373", [":man_cook_tone4:"], "👨🏾‍🍳"], ["1f468-1f3fd-200d-1f373", [":man_cook_tone3:"], "👨🏽‍🍳"], ["1f468-1f3fc-200d-1f373", [":man_cook_tone2:"], "👨🏼‍🍳"], ["1f468-1f3fb-200d-1f373", [":man_cook_tone1:"], "👨🏻‍🍳"], ["1f468-1f3fe-200d-1f692", [":man_firefighter_tone4:"], "👨🏾‍🚒"], ["1f469-1f3ff-200d-1f373", [":woman_cook_tone5:"], "👩🏿‍🍳"], ["1f469-1f3fe-200d-1f373", [":woman_cook_tone4:"], "👩🏾‍🍳"], ["1f469-1f3fd-200d-1f373", [":woman_cook_tone3:"], "👩🏽‍🍳"], ["1f469-1f3fc-200d-1f373", [":woman_cook_tone2:"], "👩🏼‍🍳"], ["1f469-1f3fb-200d-1f373", [":woman_cook_tone1:"], "👩🏻‍🍳"], ["1f468-1f3fd-200d-1f692", [":man_firefighter_tone3:"], "👨🏽‍🚒"], ["1f468-1f3ff-200d-1f33e", [":man_farmer_tone5:"], "👨🏿‍🌾"], ["1f468-1f3fe-200d-1f33e", [":man_farmer_tone4:"], "👨🏾‍🌾"], ["1f468-1f3fd-200d-1f33e", [":man_farmer_tone3:"], "👨🏽‍🌾"], ["1f468-1f3fc-200d-1f33e", [":man_farmer_tone2:"], "👨🏼‍🌾"], ["1f468-1f3fb-200d-1f33e", [":man_farmer_tone1:"], "👨🏻‍🌾"], ["1f468-1f3fc-200d-1f692", [":man_firefighter_tone2:"], "👨🏼‍🚒"], ["1f469-1f3ff-200d-1f33e", [":woman_farmer_tone5:"], "👩🏿‍🌾"], ["1f469-1f3fe-200d-1f33e", [":woman_farmer_tone4:"], "👩🏾‍🌾"], ["1f469-1f3fd-200d-1f33e", [":woman_farmer_tone3:"], "👩🏽‍🌾"], ["1f469-1f3fc-200d-1f33e", [":woman_farmer_tone2:"], "👩🏼‍🌾"], ["1f469-1f3fb-200d-1f33e", [":woman_farmer_tone1:"], "👩🏻‍🌾"], ["1f468-1f3fb-200d-1f692", [":man_firefighter_tone1:"], "👨🏻‍🚒"], ["1f468-1f3fd-200d-1f4bb", [":man_technologist_tone3:"], "👨🏽‍💻"], ["1f3f3-fe0f-200d-1f308", [":rainbow_flag:", ":gay_pride_flag:"], "🏳️‍🌈"], ["1f645-200d-2640-fe0f", [":woman_gesturing_no:"], "🙅‍♀️"], ["1f468-200d-2696-fe0f", [":man_judge:"], "👨‍⚖️"], ["1f469-200d-2708-fe0f", [":woman_pilot:"], "👩‍✈️"], ["1f6b5-200d-2640-fe0f", [":woman_mountain_biking:"], "🚵‍♀️"], ["1f9dd-200d-2640-fe0f", [":woman_elf:"], "🧝‍♀️"], ["1f937-200d-2642-fe0f", [":man_shrugging:"], "🤷‍♂️"], ["1f46f-200d-2642-fe0f", [":men_with_bunny_ears_partying:"], "👯‍♂️"], ["1f46f-200d-2640-fe0f", [":women_with_bunny_ears_partying:"], "👯‍♀️"], ["1f6b6-200d-2640-fe0f", [":woman_walking:"], "🚶‍♀️"], ["1f6b4-200d-2642-fe0f", [":man_biking:"], "🚴‍♂️"], ["1f9dc-200d-2642-fe0f", [":merman:"], "🧜‍♂️"], ["1f46e-200d-2642-fe0f", [":man_police_officer:"], "👮‍♂️"], ["1f646-200d-2642-fe0f", [":man_gesturing_ok:"], "🙆‍♂️"], ["1f473-200d-2640-fe0f", [":woman_wearing_turban:"], "👳‍♀️"], ["1f647-200d-2640-fe0f", [":woman_bowing:"], "🙇‍♀️"], ["1f6b4-200d-2640-fe0f", [":woman_biking:"], "🚴‍♀️"], ["1f6b6-200d-2642-fe0f", [":man_walking:"], "🚶‍♂️"], ["1f64e-200d-2642-fe0f", [":man_pouting:"], "🙎‍♂️"], ["1f468-200d-2695-fe0f", [":man_health_worker:"], "👨‍⚕️"], ["1f468-200d-2708-fe0f", [":man_pilot:"], "👨‍✈️"], ["1f482-200d-2642-fe0f", [":man_guard:"], "💂‍♂️"], ["1f6a3-200d-2642-fe0f", [":man_rowing_boat:"], "🚣‍♂️"], ["1f646-200d-2640-fe0f", [":woman_gesturing_ok:"], "🙆‍♀️"], ["1f3c3-200d-2640-fe0f", [":woman_running:"], "🏃‍♀️"], ["1f9dc-200d-2640-fe0f", [":mermaid:"], "🧜‍♀️"], ["1f64e-200d-2640-fe0f", [":woman_pouting:"], "🙎‍♀️"], ["1f9de-200d-2642-fe0f", [":man_genie:"], "🧞‍♂️"], ["1f6a3-200d-2640-fe0f", [":woman_rowing_boat:"], "🚣‍♀️"], ["1f9d8-200d-2642-fe0f", [":man_in_lotus_position:"], "🧘‍♂️"], ["1f9d8-200d-2640-fe0f", [":woman_in_lotus_position:"], "🧘‍♀️"], ["1f647-200d-2642-fe0f", [":man_bowing:"], "🙇‍♂️"], ["1f9de-200d-2640-fe0f", [":woman_genie:"], "🧞‍♀️"], ["1f3c3-200d-2642-fe0f", [":man_running:"], "🏃‍♂️"], ["1f93d-200d-2642-fe0f", [":man_playing_water_polo:"], "🤽‍♂️"], ["1f93e-200d-2640-fe0f", [":woman_playing_handball:"], "🤾‍♀️"], ["1f64b-200d-2642-fe0f", [":man_raising_hand:"], "🙋‍♂️"], ["1f64d-200d-2642-fe0f", [":man_frowning:"], "🙍‍♂️"], ["1f471-200d-2640-fe0f", [":blond-haired_woman:"], "👱‍♀️"], ["1f477-200d-2640-fe0f", [":woman_construction_worker:"], "👷‍♀️"], ["1f93d-200d-2640-fe0f", [":woman_playing_water_polo:"], "🤽‍♀️"], ["1f9df-200d-2642-fe0f", [":man_zombie:"], "🧟‍♂️"], ["1f481-200d-2642-fe0f", [":man_tipping_hand:"], "💁‍♂️"], ["1f9d7-200d-2642-fe0f", [":man_climbing:"], "🧗‍♂️"], ["1f9d7-200d-2640-fe0f", [":woman_climbing:"], "🧗‍♀️"], ["1f473-200d-2642-fe0f", [":man_wearing_turban:"], "👳‍♂️"], ["1f3ca-200d-2642-fe0f", [":man_swimming:"], "🏊‍♂️"], ["1f64d-200d-2640-fe0f", [":woman_frowning:"], "🙍‍♀️"], ["1f64b-200d-2640-fe0f", [":woman_raising_hand:"], "🙋‍♀️"], ["1f9db-200d-2642-fe0f", [":man_vampire:"], "🧛‍♂️"], ["1f9db-200d-2640-fe0f", [":woman_vampire:"], "🧛‍♀️"], ["1f9dd-200d-2642-fe0f", [":man_elf:"], "🧝‍♂️"], ["1f3ca-200d-2640-fe0f", [":woman_swimming:"], "🏊‍♀️"], ["1f477-200d-2642-fe0f", [":man_construction_worker:"], "👷‍♂️"], ["1f487-200d-2642-fe0f", [":man_getting_haircut:"], "💇‍♂️"], ["1f481-200d-2640-fe0f", [":woman_tipping_hand:"], "💁‍♀️"], ["1f926-200d-2640-fe0f", [":woman_facepalming:"], "🤦‍♀️"], ["1f9d6-200d-2642-fe0f", [":man_in_steamy_room:"], "🧖‍♂️"], ["1f3c4-200d-2642-fe0f", [":man_surfing:"], "🏄‍♂️"], ["1f9d6-200d-2640-fe0f", [":woman_in_steamy_room:"], "🧖‍♀️"], ["1f9da-200d-2642-fe0f", [":man_fairy:"], "🧚‍♂️"], ["1f471-200d-2642-fe0f", [":blond-haired_man:"], "👱‍♂️"], ["1f46e-200d-2640-fe0f", [":woman_police_officer:"], "👮‍♀️"], ["1f487-200d-2640-fe0f", [":woman_getting_haircut:"], "💇‍♀️"], ["1f9d9-200d-2642-fe0f", [":man_mage:"], "🧙‍♂️"], ["1f939-200d-2642-fe0f", [":man_juggling:"], "🤹‍♂️"], ["1f469-200d-2696-fe0f", [":woman_judge:"], "👩‍⚖️"], ["1f926-200d-2642-fe0f", [":man_facepalming:"], "🤦‍♂️"], ["1f9df-200d-2640-fe0f", [":woman_zombie:"], "🧟‍♀️"], ["1f9d9-200d-2640-fe0f", [":woman_mage:"], "🧙‍♀️"], ["1f486-200d-2642-fe0f", [":man_getting_face_massage:"], "💆‍♂️"], ["1f93c-200d-2640-fe0f", [":women_wrestling:"], "🤼‍♀️"], ["1f93c-200d-2642-fe0f", [":men_wrestling:"], "🤼‍♂️"], ["1f938-200d-2640-fe0f", [":woman_cartwheeling:"], "🤸‍♀️"], ["1f939-200d-2640-fe0f", [":woman_juggling:"], "🤹‍♀️"], ["1f482-200d-2640-fe0f", [":woman_guard:"], "💂‍♀️"], ["1f469-200d-2695-fe0f", [":woman_health_worker:"], "👩‍⚕️"], ["1f3c4-200d-2640-fe0f", [":woman_surfing:"], "🏄‍♀️"], ["1f9da-200d-2640-fe0f", [":woman_fairy:"], "🧚‍♀️"], ["1f938-200d-2642-fe0f", [":man_cartwheeling:"], "🤸‍♂️"], ["1f937-200d-2640-fe0f", [":woman_shrugging:"], "🤷‍♀️"], ["1f6b5-200d-2642-fe0f", [":man_mountain_biking:"], "🚵‍♂️"], ["1f93e-200d-2642-fe0f", [":man_playing_handball:"], "🤾‍♂️"], ["1f486-200d-2640-fe0f", [":woman_getting_face_massage:"], "💆‍♀️"], ["1f645-200d-2642-fe0f", [":man_gesturing_no:"], "🙅‍♂️"], ["1f469-200d-1f3a8", [":woman_artist:"], "👩‍🎨"], ["1f469-200d-1f33e", [":woman_farmer:"], "👩‍🌾"], ["1f468-200d-1f33e", [":man_farmer:"], "👨‍🌾"], ["1f469-200d-1f373", [":woman_cook:"], "👩‍🍳"], ["1f468-200d-1f373", [":man_cook:"], "👨‍🍳"], ["1f469-200d-1f393", [":woman_student:"], "👩‍🎓"], ["1f468-200d-1f393", [":man_student:"], "👨‍🎓"], ["1f469-200d-1f3a4", [":woman_singer:"], "👩‍🎤"], ["1f468-200d-1f3a4", [":man_singer:"], "👨‍🎤"], ["1f469-200d-1f3eb", [":woman_teacher:"], "👩‍🏫"], ["1f468-200d-1f3eb", [":man_teacher:"], "👨‍🏫"], ["1f468-200d-1f467", [":family_man_girl:"], "👨‍👧"], ["1f468-200d-1f466", [":family_man_boy:"], "👨‍👦"], ["1f469-200d-1f467", [":family_woman_girl:"], "👩‍👧"], ["1f469-200d-1f466", [":family_woman_boy:"], "👩‍👦"], ["1f468-200d-1f680", [":man_astronaut:"], "👨‍🚀"], ["1f469-200d-1f680", [":woman_astronaut:"], "👩‍🚀"], ["1f468-200d-1f692", [":man_firefighter:"], "👨‍🚒"], ["1f469-200d-1f692", [":woman_firefighter:"], "👩‍🚒"], ["1f468-200d-1f3a8", [":man_artist:"], "👨‍🎨"], ["1f469-200d-1f3ed", [":woman_factory_worker:"], "👩‍🏭"], ["1f468-200d-1f52c", [":man_scientist:"], "👨‍🔬"], ["1f469-200d-1f52c", [":woman_scientist:"], "👩‍🔬"], ["1f468-200d-1f527", [":man_mechanic:"], "👨‍🔧"], ["1f469-200d-1f527", [":woman_mechanic:"], "👩‍🔧"], ["1f468-200d-1f4bc", [":man_office_worker:"], "👨‍💼"], ["1f469-200d-1f4bc", [":woman_office_worker:"], "👩‍💼"], ["1f468-200d-1f4bb", [":man_technologist:"], "👨‍💻"], ["1f469-200d-1f4bb", [":woman_technologist:"], "👩‍💻"], ["1f468-200d-1f3ed", [":man_factory_worker:"], "👨‍🏭"], ["0036-fe0f-20e3", [":six:"], "6️⃣"], ["0031-fe0f-20e3", [":one:"], "1️⃣"], ["0023-fe0f-20e3", [":hash:"], "#️⃣"], ["0039-fe0f-20e3", [":nine:"], "9️⃣"], ["0038-fe0f-20e3", [":eight:"], "8️⃣"], ["0037-fe0f-20e3", [":seven:"], "7️⃣"], ["002a-fe0f-20e3", [":asterisk:", ":keycap_asterisk:"], "*️⃣"], ["0035-fe0f-20e3", [":five:"], "5️⃣"], ["0034-fe0f-20e3", [":four:"], "4️⃣"], ["0033-fe0f-20e3", [":three:"], "3️⃣"], ["0032-fe0f-20e3", [":two:"], "2️⃣"], ["0030-fe0f-20e3", [":zero:"], "0️⃣"], ["1f1f5-1f1ec", [":flag_pg:", ":pg:"], "🇵🇬"], ["1f1f5-1f1e6", [":flag_pa:", ":pa:"], "🇵🇦"], ["1f1f2-1f1f7", [":flag_mr:", ":mr:"], "🇲🇷"], ["1f936-1f3fb", [":mrs_claus_tone1:"], "🤶🏻"], ["1f936-1f3fc", [":mrs_claus_tone2:"], "🤶🏼"], ["1f936-1f3fd", [":mrs_claus_tone3:"], "🤶🏽"], ["1f936-1f3fe", [":mrs_claus_tone4:"], "🤶🏾"], ["1f936-1f3ff", [":mrs_claus_tone5:"], "🤶🏿"], ["1f1f2-1f1f6", [":flag_mq:", ":mq:"], "🇲🇶"], ["1f385-1f3fb", [":santa_tone1:"], "🎅🏻"], ["1f385-1f3fc", [":santa_tone2:"], "🎅🏼"], ["1f385-1f3fd", [":santa_tone3:"], "🎅🏽"], ["1f385-1f3fe", [":santa_tone4:"], "🎅🏾"], ["1f385-1f3ff", [":santa_tone5:"], "🎅🏿"], ["1f1f2-1f1ed", [":flag_mh:", ":mh:"], "🇲🇭"], ["1f478-1f3fb", [":princess_tone1:"], "👸🏻"], ["1f478-1f3fc", [":princess_tone2:"], "👸🏼"], ["1f478-1f3fd", [":princess_tone3:"], "👸🏽"], ["1f478-1f3fe", [":princess_tone4:"], "👸🏾"], ["1f478-1f3ff", [":princess_tone5:"], "👸🏿"], ["1f1f2-1f1f9", [":flag_mt:", ":mt:"], "🇲🇹"], ["1f934-1f3fb", [":prince_tone1:"], "🤴🏻"], ["1f934-1f3fc", [":prince_tone2:"], "🤴🏼"], ["1f934-1f3fd", [":prince_tone3:"], "🤴🏽"], ["1f934-1f3fe", [":prince_tone4:"], "🤴🏾"], ["1f934-1f3ff", [":prince_tone5:"], "🤴🏿"], ["1f1f2-1f1f1", [":flag_ml:", ":ml:"], "🇲🇱"], ["1f470-1f3fb", [":bride_with_veil_tone1:"], "👰🏻"], ["1f470-1f3fc", [":bride_with_veil_tone2:"], "👰🏼"], ["1f470-1f3fd", [":bride_with_veil_tone3:"], "👰🏽"], ["1f470-1f3fe", [":bride_with_veil_tone4:"], "👰🏾"], ["1f470-1f3ff", [":bride_with_veil_tone5:"], "👰🏿"], ["1f1f2-1f1fb", [":flag_mv:", ":mv:"], "🇲🇻"], ["1f935-1f3fb", [":man_in_tuxedo_tone1:"], "🤵🏻"], ["1f935-1f3fc", [":man_in_tuxedo_tone2:"], "🤵🏼"], ["1f935-1f3fd", [":man_in_tuxedo_tone3:"], "🤵🏽"], ["1f935-1f3fe", [":man_in_tuxedo_tone4:"], "🤵🏾"], ["1f935-1f3ff", [":man_in_tuxedo_tone5:"], "🤵🏿"], ["1f1f2-1f1fe", [":flag_my:", ":my:"], "🇲🇾"], ["1f47c-1f3fb", [":angel_tone1:"], "👼🏻"], ["1f47c-1f3fc", [":angel_tone2:"], "👼🏼"], ["1f47c-1f3fd", [":angel_tone3:"], "👼🏽"], ["1f47c-1f3fe", [":angel_tone4:"], "👼🏾"], ["1f47c-1f3ff", [":angel_tone5:"], "👼🏿"], ["1f1f2-1f1fc", [":flag_mw:", ":mw:"], "🇲🇼"], ["1f930-1f3fb", [":pregnant_woman_tone1:"], "🤰🏻"], ["1f930-1f3fc", [":pregnant_woman_tone2:"], "🤰🏼"], ["1f930-1f3fd", [":pregnant_woman_tone3:"], "🤰🏽"], ["1f930-1f3fe", [":pregnant_woman_tone4:"], "🤰🏾"], ["1f930-1f3ff", [":pregnant_woman_tone5:"], "🤰🏿"], ["1f1f5-1f1f8", [":flag_ps:", ":ps:"], "🇵🇸"], ["1f1f5-1f1fc", [":flag_pw:", ":pw:"], "🇵🇼"], ["1f933-1f3fb", [":selfie_tone1:"], "🤳🏻"], ["1f933-1f3fc", [":selfie_tone2:"], "🤳🏼"], ["1f933-1f3fd", [":selfie_tone3:"], "🤳🏽"], ["1f933-1f3fe", [":selfie_tone4:"], "🤳🏾"], ["1f1f2-1f1ec", [":flag_mg:", ":mg:"], "🇲🇬"], ["1f647-1f3fb", [":person_bowing_tone1:"], "🙇🏻"], ["1f647-1f3fc", [":person_bowing_tone2:"], "🙇🏼"], ["1f647-1f3fd", [":person_bowing_tone3:"], "🙇🏽"], ["1f647-1f3fe", [":person_bowing_tone4:"], "🙇🏾"], ["1f647-1f3ff", [":person_bowing_tone5:"], "🙇🏿"], ["1f933-1f3ff", [":selfie_tone5:"], "🤳🏿"], ["1f1f5-1f1f0", [":flag_pk:", ":pk:"], "🇵🇰"], ["1f485-1f3fb", [":nail_care_tone1:"], "💅🏻"], ["1f485-1f3fc", [":nail_care_tone2:"], "💅🏼"], ["1f485-1f3fd", [":nail_care_tone3:"], "💅🏽"], ["1f485-1f3fe", [":nail_care_tone4:"], "💅🏾"], ["1f1f2-1f1f0", [":flag_mk:", ":mk:"], "🇲🇰"], ["1f481-1f3fb", [":person_tipping_hand_tone1:"], "💁🏻"], ["1f481-1f3fc", [":person_tipping_hand_tone2:"], "💁🏼"], ["1f481-1f3fd", [":person_tipping_hand_tone3:"], "💁🏽"], ["1f481-1f3fe", [":person_tipping_hand_tone4:"], "💁🏾"], ["1f481-1f3ff", [":person_tipping_hand_tone5:"], "💁🏿"], ["1f485-1f3ff", [":nail_care_tone5:"], "💅🏿"], ["1f1f4-1f1f2", [":flag_om:", ":om:"], "🇴🇲"], ["1f1f3-1f1f4", [":flag_no:", ":no:"], "🇳🇴"], ["1f1f2-1f1f5", [":flag_mp:", ":mp:"], "🇲🇵"], ["1f1f0-1f1f5", [":flag_kp:", ":kp:"], "🇰🇵"], ["1f1f3-1f1eb", [":flag_nf:", ":nf:"], "🇳🇫"], ["1f1f3-1f1fa", [":flag_nu:", ":nu:"], "🇳🇺"], ["1f442-1f3fb", [":ear_tone1:"], "👂🏻"], ["1f442-1f3fc", [":ear_tone2:"], "👂🏼"], ["1f442-1f3fd", [":ear_tone3:"], "👂🏽"], ["1f442-1f3fe", [":ear_tone4:"], "👂🏾"], ["1f442-1f3ff", [":ear_tone5:"], "👂🏿"], ["1f1f2-1f1f4", [":flag_mo:", ":mo:"], "🇲🇴"], ["1f645-1f3fb", [":person_gesturing_no_tone1:"], "🙅🏻"], ["1f645-1f3fc", [":person_gesturing_no_tone2:"], "🙅🏼"], ["1f645-1f3fd", [":person_gesturing_no_tone3:"], "🙅🏽"], ["1f645-1f3fe", [":person_gesturing_no_tone4:"], "🙅🏾"], ["1f645-1f3ff", [":person_gesturing_no_tone5:"], "🙅🏿"], ["1f1f3-1f1ec", [":flag_ng:", ":nigeria:"], "🇳🇬"], ["1f443-1f3fb", [":nose_tone1:"], "👃🏻"], ["1f443-1f3fc", [":nose_tone2:"], "👃🏼"], ["1f443-1f3fd", [":nose_tone3:"], "👃🏽"], ["1f443-1f3fe", [":nose_tone4:"], "👃🏾"], ["1f443-1f3ff", [":nose_tone5:"], "👃🏿"], ["1f1f3-1f1ea", [":flag_ne:", ":ne:"], "🇳🇪"], ["1f1f3-1f1ee", [":flag_ni:", ":ni:"], "🇳🇮"], ["1f1f3-1f1ff", [":flag_nz:", ":nz:"], "🇳🇿"], ["1f1f3-1f1e8", [":flag_nc:", ":nc:"], "🇳🇨"], ["1f1f3-1f1f1", [":flag_nl:", ":nl:"], "🇳🇱"], ["1f1f3-1f1f5", [":flag_np:", ":np:"], "🇳🇵"], ["1f1f1-1f1fa", [":flag_lu:", ":lu:"], "🇱🇺"], ["1f646-1f3fb", [":person_gesturing_ok_tone1:"], "🙆🏻"], ["1f646-1f3fc", [":person_gesturing_ok_tone2:"], "🙆🏼"], ["1f646-1f3fd", [":person_gesturing_ok_tone3:"], "🙆🏽"], ["1f646-1f3fe", [":person_gesturing_ok_tone4:"], "🙆🏾"], ["1f646-1f3ff", [":person_gesturing_ok_tone5:"], "🙆🏿"], ["1f1f3-1f1f7", [":flag_nr:", ":nr:"], "🇳🇷"], ["1f476-1f3fb", [":baby_tone1:"], "👶🏻"], ["1f476-1f3fc", [":baby_tone2:"], "👶🏼"], ["1f476-1f3fd", [":baby_tone3:"], "👶🏽"], ["1f476-1f3fe", [":baby_tone4:"], "👶🏾"], ["1f476-1f3ff", [":baby_tone5:"], "👶🏿"], ["1f1f3-1f1e6", [":flag_na:", ":na:"], "🇳🇦"], ["1f466-1f3fb", [":boy_tone1:"], "👦🏻"], ["1f466-1f3fc", [":boy_tone2:"], "👦🏼"], ["1f466-1f3fd", [":boy_tone3:"], "👦🏽"], ["1f466-1f3fe", [":boy_tone4:"], "👦🏾"], ["1f466-1f3ff", [":boy_tone5:"], "👦🏿"], ["1f1f1-1f1f9", [":flag_lt:", ":lt:"], "🇱🇹"], ["1f64b-1f3fb", [":person_raising_hand_tone1:"], "🙋🏻"], ["1f64b-1f3fc", [":person_raising_hand_tone2:"], "🙋🏼"], ["1f64b-1f3fd", [":person_raising_hand_tone3:"], "🙋🏽"], ["1f64b-1f3fe", [":person_raising_hand_tone4:"], "🙋🏾"], ["1f64b-1f3ff", [":person_raising_hand_tone5:"], "🙋🏿"], ["1f1f2-1f1f2", [":flag_mm:", ":mm:"], "🇲🇲"], ["1f467-1f3fb", [":girl_tone1:"], "👧🏻"], ["1f467-1f3fc", [":girl_tone2:"], "👧🏼"], ["1f467-1f3fd", [":girl_tone3:"], "👧🏽"], ["1f467-1f3fe", [":girl_tone4:"], "👧🏾"], ["1f467-1f3ff", [":girl_tone5:"], "👧🏿"], ["1f1f2-1f1ff", [":flag_mz:", ":mz:"], "🇲🇿"], ["1f468-1f3fb", [":man_tone1:"], "👨🏻"], ["1f468-1f3fc", [":man_tone2:"], "👨🏼"], ["1f468-1f3fd", [":man_tone3:"], "👨🏽"], ["1f468-1f3fe", [":man_tone4:"], "👨🏾"], ["1f468-1f3ff", [":man_tone5:"], "👨🏿"], ["1f1f2-1f1e6", [":flag_ma:", ":ma:"], "🇲🇦"], ["1f469-1f3fb", [":woman_tone1:"], "👩🏻"], ["1f469-1f3fc", [":woman_tone2:"], "👩🏼"], ["1f469-1f3fd", [":woman_tone3:"], "👩🏽"], ["1f469-1f3fe", [":woman_tone4:"], "👩🏾"], ["1f469-1f3ff", [":woman_tone5:"], "👩🏿"], ["1f9dc-1f3ff", [":merperson_tone5:"], "🧜🏿"], ["1f9dc-1f3fe", [":merperson_tone4:"], "🧜🏾"], ["1f9dc-1f3fd", [":merperson_tone3:"], "🧜🏽"], ["1f9dc-1f3fc", [":merperson_tone2:"], "🧜🏼"], ["1f9dc-1f3fb", [":merperson_tone1:"], "🧜🏻"], ["1f9db-1f3ff", [":vampire_tone5:"], "🧛🏿"], ["1f1f1-1f1ee", [":flag_li:", ":li:"], "🇱🇮"], ["1f926-1f3fb", [":person_facepalming_tone1:"], "🤦🏻"], ["1f926-1f3fc", [":person_facepalming_tone2:"], "🤦🏼"], ["1f926-1f3fd", [":person_facepalming_tone3:"], "🤦🏽"], ["1f926-1f3fe", [":person_facepalming_tone4:"], "🤦🏾"], ["1f926-1f3ff", [":person_facepalming_tone5:"], "🤦🏿"], ["1f1f2-1f1f8", [":flag_ms:", ":ms:"], "🇲🇸"], ["1f471-1f3fb", [":blond_haired_person_tone1:"], "👱🏻"], ["1f471-1f3fc", [":blond_haired_person_tone2:"], "👱🏼"], ["1f471-1f3fd", [":blond_haired_person_tone3:"], "👱🏽"], ["1f471-1f3fe", [":blond_haired_person_tone4:"], "👱🏾"], ["1f471-1f3ff", [":blond_haired_person_tone5:"], "👱🏿"], ["1f9db-1f3fe", [":vampire_tone4:"], "🧛🏾"], ["1f9db-1f3fd", [":vampire_tone3:"], "🧛🏽"], ["1f9db-1f3fc", [":vampire_tone2:"], "🧛🏼"], ["1f9db-1f3fb", [":vampire_tone1:"], "🧛🏻"], ["1f9da-1f3ff", [":fairy_tone5:"], "🧚🏿"], ["1f9da-1f3fe", [":fairy_tone4:"], "🧚🏾"], ["1f1f1-1f1fe", [":flag_ly:", ":ly:"], "🇱🇾"], ["1f937-1f3fb", [":person_shrugging_tone1:"], "🤷🏻"], ["1f937-1f3fc", [":person_shrugging_tone2:"], "🤷🏼"], ["1f937-1f3fd", [":person_shrugging_tone3:"], "🤷🏽"], ["1f937-1f3fe", [":person_shrugging_tone4:"], "🤷🏾"], ["1f937-1f3ff", [":person_shrugging_tone5:"], "🤷🏿"], ["1f1f1-1f1f7", [":flag_lr:", ":lr:"], "🇱🇷"], ["1f64e-1f3fb", [":person_pouting_tone1:"], "🙎🏻"], ["1f64e-1f3fc", [":person_pouting_tone2:"], "🙎🏼"], ["1f64e-1f3fd", [":person_pouting_tone3:"], "🙎🏽"], ["1f64e-1f3fe", [":person_pouting_tone4:"], "🙎🏾"], ["1f64e-1f3ff", [":person_pouting_tone5:"], "🙎🏿"], ["1f1f2-1f1ea", [":flag_me:", ":me:"], "🇲🇪"], ["1f474-1f3fb", [":older_man_tone1:"], "👴🏻"], ["1f474-1f3fc", [":older_man_tone2:"], "👴🏼"], ["1f474-1f3fd", [":older_man_tone3:"], "👴🏽"], ["1f474-1f3fe", [":older_man_tone4:"], "👴🏾"], ["1f474-1f3ff", [":older_man_tone5:"], "👴🏿"], ["1f1f2-1f1f3", [":flag_mn:", ":mn:"], "🇲🇳"], ["1f475-1f3fb", [":older_woman_tone1:"], "👵🏻"], ["1f475-1f3fc", [":older_woman_tone2:"], "👵🏼"], ["1f475-1f3fd", [":older_woman_tone3:"], "👵🏽"], ["1f475-1f3fe", [":older_woman_tone4:"], "👵🏾"], ["1f475-1f3ff", [":older_woman_tone5:"], "👵🏿"], ["1f1f1-1f1f8", [":flag_ls:", ":ls:"], "🇱🇸"], ["1f64d-1f3fb", [":person_frowning_tone1:"], "🙍🏻"], ["1f64d-1f3fc", [":person_frowning_tone2:"], "🙍🏼"], ["1f64d-1f3fd", [":person_frowning_tone3:"], "🙍🏽"], ["1f64d-1f3fe", [":person_frowning_tone4:"], "🙍🏾"], ["1f64d-1f3ff", [":person_frowning_tone5:"], "🙍🏿"], ["1f1f2-1f1e8", [":flag_mc:", ":mc:"], "🇲🇨"], ["1f472-1f3fb", [":man_with_chinese_cap_tone1:"], "👲🏻"], ["1f472-1f3fc", [":man_with_chinese_cap_tone2:"], "👲🏼"], ["1f472-1f3fd", [":man_with_chinese_cap_tone3:"], "👲🏽"], ["1f472-1f3fe", [":man_with_chinese_cap_tone4:"], "👲🏾"], ["1f472-1f3ff", [":man_with_chinese_cap_tone5:"], "👲🏿"], ["1f9da-1f3fd", [":fairy_tone3:"], "🧚🏽"], ["1f9da-1f3fc", [":fairy_tone2:"], "🧚🏼"], ["1f9da-1f3fb", [":fairy_tone1:"], "🧚🏻"], ["1f9d9-1f3ff", [":mage_tone5:"], "🧙🏿"], ["1f9d9-1f3fe", [":mage_tone4:"], "🧙🏾"], ["1f9d9-1f3fd", [":mage_tone3:"], "🧙🏽"], ["1f1f1-1f1e7", [":flag_lb:", ":lb:"], "🇱🇧"], ["1f487-1f3fb", [":person_getting_haircut_tone1:"], "💇🏻"], ["1f487-1f3fc", [":person_getting_haircut_tone2:"], "💇🏼"], ["1f487-1f3fd", [":person_getting_haircut_tone3:"], "💇🏽"], ["1f487-1f3fe", [":person_getting_haircut_tone4:"], "💇🏾"], ["1f487-1f3ff", [":person_getting_haircut_tone5:"], "💇🏿"], ["1f1f2-1f1e9", [":flag_md:", ":md:"], "🇲🇩"], ["1f473-1f3fb", [":person_wearing_turban_tone1:"], "👳🏻"], ["1f473-1f3fc", [":person_wearing_turban_tone2:"], "👳🏼"], ["1f473-1f3fd", [":person_wearing_turban_tone3:"], "👳🏽"], ["1f473-1f3fe", [":person_wearing_turban_tone4:"], "👳🏾"], ["1f473-1f3ff", [":person_wearing_turban_tone5:"], "👳🏿"], ["1f9d9-1f3fc", [":mage_tone2:"], "🧙🏼"], ["1f9d9-1f3fb", [":mage_tone1:"], "🧙🏻"], ["1f9d5-1f3ff", [":woman_with_headscarf_tone5:"], "🧕🏿"], ["1f9d5-1f3fe", [":woman_with_headscarf_tone4:"], "🧕🏾"], ["1f9d5-1f3fd", [":woman_with_headscarf_tone3:"], "🧕🏽"], ["1f9d5-1f3fc", [":woman_with_headscarf_tone2:"], "🧕🏼"], ["1f1f1-1f1fb", [":flag_lv:", ":lv:"], "🇱🇻"], ["1f486-1f3fb", [":person_getting_massage_tone1:"], "💆🏻"], ["1f486-1f3fc", [":person_getting_massage_tone2:"], "💆🏼"], ["1f486-1f3fd", [":person_getting_massage_tone3:"], "💆🏽"], ["1f486-1f3fe", [":person_getting_massage_tone4:"], "💆🏾"], ["1f486-1f3ff", [":person_getting_massage_tone5:"], "💆🏿"], ["1f9d5-1f3fb", [":woman_with_headscarf_tone1:"], "🧕🏻"], ["1f9d4-1f3ff", [":bearded_person_tone5:"], "🧔🏿"], ["1f9d4-1f3fe", [":bearded_person_tone4:"], "🧔🏾"], ["1f9d4-1f3fd", [":bearded_person_tone3:"], "🧔🏽"], ["1f9d4-1f3fc", [":bearded_person_tone2:"], "🧔🏼"], ["1f9d4-1f3fb", [":bearded_person_tone1:"], "🧔🏻"], ["1f1eb-1f1f2", [":flag_fm:", ":fm:"], "🇫🇲"], ["1f46e-1f3fb", [":police_officer_tone1:"], "👮🏻"], ["1f46e-1f3fc", [":police_officer_tone2:"], "👮🏼"], ["1f46e-1f3fd", [":police_officer_tone3:"], "👮🏽"], ["1f46e-1f3fe", [":police_officer_tone4:"], "👮🏾"], ["1f46e-1f3ff", [":police_officer_tone5:"], "👮🏿"], ["1f1f1-1f1e6", [":flag_la:", ":la:"], "🇱🇦"], ["1f574-1f3fb", [":man_in_business_suit_levitating_tone1:"], "🕴🏻"], ["1f574-1f3fc", [":man_in_business_suit_levitating_tone2:"], "🕴🏼"], ["1f574-1f3fd", [":man_in_business_suit_levitating_tone3:"], "🕴🏽"], ["1f574-1f3fe", [":man_in_business_suit_levitating_tone4:"], "🕴🏾"], ["1f574-1f3ff", [":man_in_business_suit_levitating_tone5:"], "🕴🏿"], ["1f1f0-1f1ec", [":flag_kg:", ":kg:"], "🇰🇬"], ["1f483-1f3fb", [":dancer_tone1:"], "💃🏻"], ["1f483-1f3fc", [":dancer_tone2:"], "💃🏼"], ["1f483-1f3fd", [":dancer_tone3:"], "💃🏽"], ["1f483-1f3fe", [":dancer_tone4:"], "💃🏾"], ["1f483-1f3ff", [":dancer_tone5:"], "💃🏿"], ["1f1f0-1f1fc", [":flag_kw:", ":kw:"], "🇰🇼"], ["1f57a-1f3fb", [":man_dancing_tone1:"], "🕺🏻"], ["1f57a-1f3fc", [":man_dancing_tone2:"], "🕺🏼"], ["1f57a-1f3fd", [":man_dancing_tone3:"], "🕺🏽"], ["1f57a-1f3fe", [":man_dancing_tone4:"], "🕺🏾"], ["1f57a-1f3ff", [":man_dancing_tone5:"], "🕺🏿"], ["1f1fd-1f1f0", [":flag_xk:", ":xk:"], "🇽🇰"], ["1f9d3-1f3ff", [":older_adult_tone5:"], "🧓🏿"], ["1f9d3-1f3fe", [":older_adult_tone4:"], "🧓🏾"], ["1f9d3-1f3fd", [":older_adult_tone3:"], "🧓🏽"], ["1f9d3-1f3fc", [":older_adult_tone2:"], "🧓🏼"], ["1f9d3-1f3fb", [":older_adult_tone1:"], "🧓🏻"], ["1f9d2-1f3ff", [":child_tone5:"], "🧒🏿"], ["1f9d2-1f3fe", [":child_tone4:"], "🧒🏾"], ["1f9d2-1f3fd", [":child_tone3:"], "🧒🏽"], ["1f1f0-1f1ee", [":flag_ki:", ":ki:"], "🇰🇮"], ["1f6b6-1f3fb", [":person_walking_tone1:"], "🚶🏻"], ["1f6b6-1f3fc", [":person_walking_tone2:"], "🚶🏼"], ["1f6b6-1f3fd", [":person_walking_tone3:"], "🚶🏽"], ["1f6b6-1f3fe", [":person_walking_tone4:"], "🚶🏾"], ["1f6b6-1f3ff", [":person_walking_tone5:"], "🚶🏿"], ["1f9d2-1f3fc", [":child_tone2:"], "🧒🏼"], ["1f9d2-1f3fb", [":child_tone1:"], "🧒🏻"], ["1f9d1-1f3ff", [":adult_tone5:"], "🧑🏿"], ["1f9d1-1f3fe", [":adult_tone4:"], "🧑🏾"], ["1f1f2-1f1fd", [":flag_mx:", ":mx:"], "🇲🇽"], ["1f477-1f3fb", [":construction_worker_tone1:"], "👷🏻"], ["1f477-1f3fc", [":construction_worker_tone2:"], "👷🏼"], ["1f477-1f3fd", [":construction_worker_tone3:"], "👷🏽"], ["1f477-1f3fe", [":construction_worker_tone4:"], "👷🏾"], ["1f477-1f3ff", [":construction_worker_tone5:"], "👷🏿"], ["1f9d1-1f3fd", [":adult_tone3:"], "🧑🏽"], ["1f9d1-1f3fc", [":adult_tone2:"], "🧑🏼"], ["1f1f0-1f1ea", [":flag_ke:", ":ke:"], "🇰🇪"], ["1f3c3-1f3fb", [":person_running_tone1:"], "🏃🏻"], ["1f3c3-1f3fc", [":person_running_tone2:"], "🏃🏼"], ["1f3c3-1f3fd", [":person_running_tone3:"], "🏃🏽"], ["1f3c3-1f3fe", [":person_running_tone4:"], "🏃🏾"], ["1f3c3-1f3ff", [":person_running_tone5:"], "🏃🏿"], ["1f9d1-1f3fb", [":adult_tone1:"], "🧑🏻"], ["1f932-1f3ff", [":palms_up_together_tone5:"], "🤲🏿"], ["1f932-1f3fe", [":palms_up_together_tone4:"], "🤲🏾"], ["1f932-1f3fd", [":palms_up_together_tone3:"], "🤲🏽"], ["1f932-1f3fc", [":palms_up_together_tone2:"], "🤲🏼"], ["1f932-1f3fb", [":palms_up_together_tone1:"], "🤲🏻"], ["1f1f0-1f1ff", [":flag_kz:", ":kz:"], "🇰🇿"], ["1f1ef-1f1f4", [":flag_jo:", ":jo:"], "🇯🇴"], ["1f1ef-1f1ea", [":flag_je:", ":je:"], "🇯🇪"], ["1f1ef-1f1f5", [":flag_jp:", ":jp:"], "🇯🇵"], ["1f91f-1f3ff", [":love_you_gesture_tone5:"], "🤟🏿"], ["1f91f-1f3fe", [":love_you_gesture_tone4:"], "🤟🏾"], ["1f1ef-1f1f2", [":flag_jm:", ":jm:"], "🇯🇲"], ["1f91f-1f3fd", [":love_you_gesture_tone3:"], "🤟🏽"], ["1f91f-1f3fc", [":love_you_gesture_tone2:"], "🤟🏼"], ["1f1ee-1f1f9", [":flag_it:", ":it:"], "🇮🇹"], ["1f1fe-1f1f9", [":flag_yt:", ":yt:"], "🇾🇹"], ["1f482-1f3fb", [":guard_tone1:"], "💂🏻"], ["1f482-1f3fc", [":guard_tone2:"], "💂🏼"], ["1f482-1f3fd", [":guard_tone3:"], "💂🏽"], ["1f482-1f3fe", [":guard_tone4:"], "💂🏾"], ["1f482-1f3ff", [":guard_tone5:"], "💂🏿"], ["1f91f-1f3fb", [":love_you_gesture_tone1:"], "🤟🏻"], ["1f1ee-1f1ea", [":flag_ie:", ":ie:"], "🇮🇪"], ["1f9dd-1f3ff", [":elf_tone5:"], "🧝🏿"], ["1f9dd-1f3fe", [":elf_tone4:"], "🧝🏾"], ["1f9dd-1f3fd", [":elf_tone3:"], "🧝🏽"], ["1f9dd-1f3fc", [":elf_tone2:"], "🧝🏼"], ["1f9dd-1f3fb", [":elf_tone1:"], "🧝🏻"], ["1f1fa-1f1f3", [":united_nations:"], "🇺🇳"], ["1f1f2-1f1eb", [":flag_mf:", ":mf:"], "🇲🇫"], ["1f1e9-1f1ec", [":flag_dg:", ":dg:"], "🇩🇬"], ["1f1e8-1f1f5", [":flag_cp:", ":cp:"], "🇨🇵"], ["1f1ea-1f1e6", [":flag_ea:", ":ea:"], "🇪🇦"], ["1f1f2-1f1fa", [":flag_mu:", ":mu:"], "🇲🇺"], ["1f575-1f3fb", [":detective_tone1:"], "🕵🏻"], ["1f575-1f3fc", [":detective_tone2:"], "🕵🏼"], ["1f575-1f3fd", [":detective_tone3:"], "🕵🏽"], ["1f575-1f3fe", [":detective_tone4:"], "🕵🏾"], ["1f575-1f3ff", [":detective_tone5:"], "🕵🏿"], ["1f1ee-1f1f1", [":flag_il:", ":il:"], "🇮🇱"], ["1f1ee-1f1f2", [":flag_im:", ":im:"], "🇮🇲"], ["1f1ee-1f1f6", [":flag_iq:", ":iq:"], "🇮🇶"], ["1f1ee-1f1f7", [":flag_ir:", ":ir:"], "🇮🇷"], ["1f1ee-1f1e9", [":flag_id:", ":indonesia:"], "🇮🇩"], ["1f1ee-1f1f3", [":flag_in:", ":in:"], "🇮🇳"], ["1f1ee-1f1f8", [":flag_is:", ":is:"], "🇮🇸"], ["1f1ed-1f1fa", [":flag_hu:", ":hu:"], "🇭🇺"], ["1f1ed-1f1f0", [":flag_hk:", ":hk:"], "🇭🇰"], ["1f1ed-1f1f3", [":flag_hn:", ":hn:"], "🇭🇳"], ["1f1ed-1f1f9", [":flag_ht:", ":ht:"], "🇭🇹"], ["1f1ec-1f1fe", [":flag_gy:", ":gy:"], "🇬🇾"], ["1f1ec-1f1fc", [":flag_gw:", ":gw:"], "🇬🇼"], ["1f1ec-1f1f3", [":flag_gn:", ":gn:"], "🇬🇳"], ["1f1ec-1f1ec", [":flag_gg:", ":gg:"], "🇬🇬"], ["1f1ec-1f1f9", [":flag_gt:", ":gt:"], "🇬🇹"], ["1f1ec-1f1fa", [":flag_gu:", ":gu:"], "🇬🇺"], ["1f1ec-1f1f5", [":flag_gp:", ":gp:"], "🇬🇵"], ["1f1ec-1f1e9", [":flag_gd:", ":gd:"], "🇬🇩"], ["1f1ec-1f1f1", [":flag_gl:", ":gl:"], "🇬🇱"], ["1f1ec-1f1f7", [":flag_gr:", ":gr:"], "🇬🇷"], ["1f1ec-1f1ee", [":flag_gi:", ":gi:"], "🇬🇮"], ["1f1ec-1f1ed", [":flag_gh:", ":gh:"], "🇬🇭"], ["1f1e9-1f1ea", [":flag_de:", ":de:"], "🇩🇪"], ["1f1ec-1f1ea", [":flag_ge:", ":ge:"], "🇬🇪"], ["1f1ec-1f1f2", [":flag_gm:", ":gm:"], "🇬🇲"], ["1f1ec-1f1e6", [":flag_ga:", ":ga:"], "🇬🇦"], ["1f1f9-1f1eb", [":flag_tf:", ":tf:"], "🇹🇫"], ["1f1f5-1f1eb", [":flag_pf:", ":pf:"], "🇵🇫"], ["1f1ec-1f1eb", [":flag_gf:", ":gf:"], "🇬🇫"], ["1f1eb-1f1f7", [":flag_fr:", ":fr:"], "🇫🇷"], ["1f1eb-1f1ee", [":flag_fi:", ":fi:"], "🇫🇮"], ["1f1eb-1f1ef", [":flag_fj:", ":fj:"], "🇫🇯"], ["1f1eb-1f1f4", [":flag_fo:", ":fo:"], "🇫🇴"], ["1f1eb-1f1f0", [":flag_fk:", ":fk:"], "🇫🇰"], ["1f1ea-1f1fa", [":flag_eu:", ":eu:"], "🇪🇺"], ["1f1ea-1f1f9", [":flag_et:", ":et:"], "🇪🇹"], ["1f1ea-1f1ea", [":flag_ee:", ":ee:"], "🇪🇪"], ["1f1ea-1f1f7", [":flag_er:", ":er:"], "🇪🇷"], ["1f1ec-1f1f6", [":flag_gq:", ":gq:"], "🇬🇶"], ["1f1f8-1f1fb", [":flag_sv:", ":sv:"], "🇸🇻"], ["1f1ea-1f1ec", [":flag_eg:", ":eg:"], "🇪🇬"], ["1f1ea-1f1e8", [":flag_ec:", ":ec:"], "🇪🇨"], ["1f1e9-1f1f4", [":flag_do:", ":do:"], "🇩🇴"], ["1f1e9-1f1f2", [":flag_dm:", ":dm:"], "🇩🇲"], ["1f1e9-1f1ef", [":flag_dj:", ":dj:"], "🇩🇯"], ["1f1e9-1f1f0", [":flag_dk:", ":dk:"], "🇩🇰"], ["1f1e8-1f1ff", [":flag_cz:", ":cz:"], "🇨🇿"], ["1f1e8-1f1fe", [":flag_cy:", ":cy:"], "🇨🇾"], ["1f1e8-1f1fc", [":flag_cw:", ":cw:"], "🇨🇼"], ["1f1e8-1f1fa", [":flag_cu:", ":cu:"], "🇨🇺"], ["1f1ed-1f1f7", [":flag_hr:", ":hr:"], "🇭🇷"], ["1f1e8-1f1ee", [":flag_ci:", ":ci:"], "🇨🇮"], ["1f1e8-1f1f7", [":flag_cr:", ":cr:"], "🇨🇷"], ["1f1e8-1f1f0", [":flag_ck:", ":ck:"], "🇨🇰"], ["1f1e8-1f1e9", [":flag_cd:", ":congo:"], "🇨🇩"], ["1f1e8-1f1ec", [":flag_cg:", ":cg:"], "🇨🇬"], ["1f1f0-1f1f2", [":flag_km:", ":km:"], "🇰🇲"], ["1f1e8-1f1f4", [":flag_co:", ":co:"], "🇨🇴"], ["1f1e8-1f1e8", [":flag_cc:", ":cc:"], "🇨🇨"], ["1f1e8-1f1fd", [":flag_cx:", ":cx:"], "🇨🇽"], ["1f1e8-1f1f3", [":flag_cn:", ":cn:"], "🇨🇳"], ["1f1e8-1f1f1", [":flag_cl:", ":chile:"], "🇨🇱"], ["1f1f9-1f1e9", [":flag_td:", ":td:"], "🇹🇩"], ["1f1e8-1f1eb", [":flag_cf:", ":cf:"], "🇨🇫"], ["1f1f0-1f1fe", [":flag_ky:", ":ky:"], "🇰🇾"], ["1f1e7-1f1f6", [":flag_bq:", ":bq:"], "🇧🇶"], ["1f1e8-1f1fb", [":flag_cv:", ":cv:"], "🇨🇻"], ["1f1ee-1f1e8", [":flag_ic:", ":ic:"], "🇮🇨"], ["1f1e8-1f1e6", [":flag_ca:", ":ca:"], "🇨🇦"], ["1f1e8-1f1f2", [":flag_cm:", ":cm:"], "🇨🇲"], ["1f1f0-1f1ed", [":flag_kh:", ":kh:"], "🇰🇭"], ["1f1e7-1f1ee", [":flag_bi:", ":bi:"], "🇧🇮"], ["1f1e7-1f1eb", [":flag_bf:", ":bf:"], "🇧🇫"], ["1f1e7-1f1ec", [":flag_bg:", ":bg:"], "🇧🇬"], ["1f1e7-1f1f3", [":flag_bn:", ":bn:"], "🇧🇳"], ["1f1fb-1f1ec", [":flag_vg:", ":vg:"], "🇻🇬"], ["1f1ee-1f1f4", [":flag_io:", ":io:"], "🇮🇴"], ["1f1e7-1f1f7", [":flag_br:", ":br:"], "🇧🇷"], ["1f1e7-1f1fc", [":flag_bw:", ":bw:"], "🇧🇼"], ["1f1e7-1f1e6", [":flag_ba:", ":ba:"], "🇧🇦"], ["1f1e7-1f1f4", [":flag_bo:", ":bo:"], "🇧🇴"], ["1f1e7-1f1f9", [":flag_bt:", ":bt:"], "🇧🇹"], ["1f1e7-1f1f2", [":flag_bm:", ":bm:"], "🇧🇲"], ["1f1e7-1f1ef", [":flag_bj:", ":bj:"], "🇧🇯"], ["1f1e7-1f1ff", [":flag_bz:", ":bz:"], "🇧🇿"], ["1f1e7-1f1ea", [":flag_be:", ":be:"], "🇧🇪"], ["1f1e7-1f1fe", [":flag_by:", ":by:"], "🇧🇾"], ["1f1e7-1f1e7", [":flag_bb:", ":bb:"], "🇧🇧"], ["1f1e7-1f1e9", [":flag_bd:", ":bd:"], "🇧🇩"], ["1f1e7-1f1ed", [":flag_bh:", ":bh:"], "🇧🇭"], ["1f1e7-1f1f8", [":flag_bs:", ":bs:"], "🇧🇸"], ["1f1e6-1f1ff", [":flag_az:", ":az:"], "🇦🇿"], ["1f1e6-1f1f9", [":flag_at:", ":at:"], "🇦🇹"], ["1f1e6-1f1fa", [":flag_au:", ":au:"], "🇦🇺"], ["1f1e6-1f1fc", [":flag_aw:", ":aw:"], "🇦🇼"], ["1f1e6-1f1f2", [":flag_am:", ":am:"], "🇦🇲"], ["1f1e6-1f1f7", [":flag_ar:", ":ar:"], "🇦🇷"], ["1f1e6-1f1ec", [":flag_ag:", ":ag:"], "🇦🇬"], ["1f1e6-1f1f6", [":flag_aq:", ":aq:"], "🇦🇶"], ["1f1e6-1f1ee", [":flag_ai:", ":ai:"], "🇦🇮"], ["1f1e6-1f1f4", [":flag_ao:", ":ao:"], "🇦🇴"], ["1f1e6-1f1e9", [":flag_ad:", ":ad:"], "🇦🇩"], ["1f1e6-1f1f8", [":flag_as:", ":as:"], "🇦🇸"], ["1f1e9-1f1ff", [":flag_dz:", ":dz:"], "🇩🇿"], ["1f1e6-1f1f1", [":flag_al:", ":al:"], "🇦🇱"], ["1f1e6-1f1fd", [":flag_ax:", ":ax:"], "🇦🇽"], ["1f1e6-1f1eb", [":flag_af:", ":af:"], "🇦🇫"], ["1f1fa-1f1f2", [":flag_um:", ":um:"], "🇺🇲"], ["1f1f8-1f1ef", [":flag_sj:", ":sj:"], "🇸🇯"], ["1f1ed-1f1f2", [":flag_hm:", ":hm:"], "🇭🇲"], ["1f1e7-1f1fb", [":flag_bv:", ":bv:"], "🇧🇻"], ["1f1f9-1f1e6", [":flag_ta:", ":ta:"], "🇹🇦"], ["1f1e6-1f1e8", [":flag_ac:", ":ac:"], "🇦🇨"], ["1f1ff-1f1fc", [":flag_zw:", ":zw:"], "🇿🇼"], ["1f1ff-1f1f2", [":flag_zm:", ":zm:"], "🇿🇲"], ["1f1fe-1f1ea", [":flag_ye:", ":ye:"], "🇾🇪"], ["1f1ea-1f1ed", [":flag_eh:", ":eh:"], "🇪🇭"], ["1f1fc-1f1eb", [":flag_wf:", ":wf:"], "🇼🇫"], ["1f1fb-1f1f3", [":flag_vn:", ":vn:"], "🇻🇳"], ["1f1fb-1f1ea", [":flag_ve:", ":ve:"], "🇻🇪"], ["1f1fb-1f1e6", [":flag_va:", ":va:"], "🇻🇦"], ["1f6cc-1f3ff", [":person_in_bed_tone5:"], "🛌🏿"], ["1f6cc-1f3fe", [":person_in_bed_tone4:"], "🛌🏾"], ["1f6cc-1f3fd", [":person_in_bed_tone3:"], "🛌🏽"], ["1f6cc-1f3fc", [":person_in_bed_tone2:"], "🛌🏼"], ["1f6cc-1f3fb", [":person_in_bed_tone1:"], "🛌🏻"], ["1f6c0-1f3ff", [":bath_tone5:"], "🛀🏿"], ["1f6c0-1f3fe", [":bath_tone4:"], "🛀🏾"], ["1f6c0-1f3fd", [":bath_tone3:"], "🛀🏽"], ["1f6c0-1f3fc", [":bath_tone2:"], "🛀🏼"], ["1f6c0-1f3fb", [":bath_tone1:"], "🛀🏻"], ["1f1fb-1f1fa", [":flag_vu:", ":vu:"], "🇻🇺"], ["1f1fa-1f1ff", [":flag_uz:", ":uz:"], "🇺🇿"], ["1f1fa-1f1fe", [":flag_uy:", ":uy:"], "🇺🇾"], ["1f1fa-1f1f8", [":flag_us:", ":us:"], "🇺🇸"], ["1f1ec-1f1e7", [":flag_gb:", ":gb:"], "🇬🇧"], ["1f1e6-1f1ea", [":flag_ae:", ":ae:"], "🇦🇪"], ["1f1fa-1f1e6", [":flag_ua:", ":ua:"], "🇺🇦"], ["1f1fa-1f1ec", [":flag_ug:", ":ug:"], "🇺🇬"], ["1f1fb-1f1ee", [":flag_vi:", ":vi:"], "🇻🇮"], ["1f1f9-1f1fb", [":flag_tv:", ":tuvalu:"], "🇹🇻"], ["1f1f9-1f1e8", [":flag_tc:", ":tc:"], "🇹🇨"], ["1f1f9-1f1f2", [":flag_tm:", ":turkmenistan:"], "🇹🇲"], ["1f1f9-1f1f7", [":flag_tr:", ":tr:"], "🇹🇷"], ["1f1f9-1f1f3", [":flag_tn:", ":tn:"], "🇹🇳"], ["1f1f9-1f1f9", [":flag_tt:", ":tt:"], "🇹🇹"], ["1f1f9-1f1f4", [":flag_to:", ":to:"], "🇹🇴"], ["1f1f9-1f1f0", [":flag_tk:", ":tk:"], "🇹🇰"], ["1f450-1f3fb", [":open_hands_tone1:"], "👐🏻"], ["1f450-1f3fc", [":open_hands_tone2:"], "👐🏼"], ["1f450-1f3fd", [":open_hands_tone3:"], "👐🏽"], ["1f450-1f3fe", [":open_hands_tone4:"], "👐🏾"], ["1f450-1f3ff", [":open_hands_tone5:"], "👐🏿"], ["1f1f9-1f1ec", [":flag_tg:", ":tg:"], "🇹🇬"], ["1f64c-1f3fb", [":raised_hands_tone1:"], "🙌🏻"], ["1f64c-1f3fc", [":raised_hands_tone2:"], "🙌🏼"], ["1f64c-1f3fd", [":raised_hands_tone3:"], "🙌🏽"], ["1f64c-1f3fe", [":raised_hands_tone4:"], "🙌🏾"], ["1f64c-1f3ff", [":raised_hands_tone5:"], "🙌🏿"], ["1f1f9-1f1f1", [":flag_tl:", ":tl:"], "🇹🇱"], ["1f44f-1f3fb", [":clap_tone1:"], "👏🏻"], ["1f44f-1f3fc", [":clap_tone2:"], "👏🏼"], ["1f44f-1f3fd", [":clap_tone3:"], "👏🏽"], ["1f44f-1f3fe", [":clap_tone4:"], "👏🏾"], ["1f44f-1f3ff", [":clap_tone5:"], "👏🏿"], ["1f1f9-1f1ed", [":flag_th:", ":th:"], "🇹🇭"], ["1f64f-1f3fb", [":pray_tone1:"], "🙏🏻"], ["1f9d8-1f3ff", [":person_in_lotus_position_tone5:"], "🧘🏿"], ["1f9d8-1f3fe", [":person_in_lotus_position_tone4:"], "🧘🏾"], ["1f9d8-1f3fd", [":person_in_lotus_position_tone3:"], "🧘🏽"], ["1f9d8-1f3fc", [":person_in_lotus_position_tone2:"], "🧘🏼"], ["1f9d8-1f3fb", [":person_in_lotus_position_tone1:"], "🧘🏻"], ["1f9d7-1f3ff", [":person_climbing_tone5:"], "🧗🏿"], ["1f9d7-1f3fe", [":person_climbing_tone4:"], "🧗🏾"], ["1f9d7-1f3fd", [":person_climbing_tone3:"], "🧗🏽"], ["1f9d7-1f3fc", [":person_climbing_tone2:"], "🧗🏼"], ["1f9d7-1f3fb", [":person_climbing_tone1:"], "🧗🏻"], ["1f9d6-1f3ff", [":person_in_steamy_room_tone5:"], "🧖🏿"], ["1f9d6-1f3fe", [":person_in_steamy_room_tone4:"], "🧖🏾"], ["1f9d6-1f3fd", [":person_in_steamy_room_tone3:"], "🧖🏽"], ["1f9d6-1f3fc", [":person_in_steamy_room_tone2:"], "🧖🏼"], ["1f9d6-1f3fb", [":person_in_steamy_room_tone1:"], "🧖🏻"], ["1f931-1f3ff", [":breast_feeding_tone5:"], "🤱🏿"], ["1f931-1f3fe", [":breast_feeding_tone4:"], "🤱🏾"], ["1f931-1f3fd", [":breast_feeding_tone3:"], "🤱🏽"], ["1f931-1f3fc", [":breast_feeding_tone2:"], "🤱🏼"], ["1f931-1f3fb", [":breast_feeding_tone1:"], "🤱🏻"], ["1f939-1f3ff", [":person_juggling_tone5:"], "🤹🏿"], ["1f939-1f3fe", [":person_juggling_tone4:"], "🤹🏾"], ["1f939-1f3fd", [":person_juggling_tone3:"], "🤹🏽"], ["1f939-1f3fc", [":person_juggling_tone2:"], "🤹🏼"], ["1f939-1f3fb", [":person_juggling_tone1:"], "🤹🏻"], ["1f64f-1f3fc", [":pray_tone2:"], "🙏🏼"], ["1f64f-1f3fd", [":pray_tone3:"], "🙏🏽"], ["1f64f-1f3fe", [":pray_tone4:"], "🙏🏾"], ["1f64f-1f3ff", [":pray_tone5:"], "🙏🏿"], ["1f1f9-1f1ff", [":flag_tz:", ":tz:"], "🇹🇿"], ["1f1f9-1f1ef", [":flag_tj:", ":tj:"], "🇹🇯"], ["1f44d-1f3fb", [":thumbsup_tone1:"], "👍🏻"], ["1f44d-1f3fc", [":thumbsup_tone2:"], "👍🏼"], ["1f44d-1f3fd", [":thumbsup_tone3:"], "👍🏽"], ["1f44d-1f3fe", [":thumbsup_tone4:"], "👍🏾"], ["1f44d-1f3ff", [":thumbsup_tone5:"], "👍🏿"], ["1f1f9-1f1fc", [":flag_tw:", ":tw:"], "🇹🇼"], ["1f44e-1f3fb", [":thumbsdown_tone1:"], "👎🏻"], ["1f44e-1f3fc", [":thumbsdown_tone2:"], "👎🏼"], ["1f44e-1f3fd", [":thumbsdown_tone3:"], "👎🏽"], ["1f44e-1f3fe", [":thumbsdown_tone4:"], "👎🏾"], ["1f44e-1f3ff", [":thumbsdown_tone5:"], "👎🏿"], ["1f1f8-1f1fe", [":flag_sy:", ":sy:"], "🇸🇾"], ["1f6b5-1f3ff", [":person_mountain_biking_tone5:"], "🚵🏿"], ["1f6b5-1f3fe", [":person_mountain_biking_tone4:"], "🚵🏾"], ["1f6b5-1f3fd", [":person_mountain_biking_tone3:"], "🚵🏽"], ["1f6b5-1f3fc", [":person_mountain_biking_tone2:"], "🚵🏼"], ["1f6b5-1f3fb", [":person_mountain_biking_tone1:"], "🚵🏻"], ["1f44a-1f3fb", [":punch_tone1:"], "👊🏻"], ["1f44a-1f3fc", [":punch_tone2:"], "👊🏼"], ["1f44a-1f3fd", [":punch_tone3:"], "👊🏽"], ["1f44a-1f3fe", [":punch_tone4:"], "👊🏾"], ["1f44a-1f3ff", [":punch_tone5:"], "👊🏿"], ["1f1e8-1f1ed", [":flag_ch:", ":ch:"], "🇨🇭"], ["1f1f8-1f1ea", [":flag_se:", ":se:"], "🇸🇪"], ["1f1f8-1f1ff", [":flag_sz:", ":sz:"], "🇸🇿"], ["1f1f8-1f1f7", [":flag_sr:", ":sr:"], "🇸🇷"], ["1f1f8-1f1e9", [":flag_sd:", ":sd:"], "🇸🇩"], ["1f1fb-1f1e8", [":flag_vc:", ":vc:"], "🇻🇨"], ["1f1f5-1f1f2", [":flag_pm:", ":pm:"], "🇵🇲"], ["1f6b4-1f3ff", [":person_biking_tone5:"], "🚴🏿"], ["1f6b4-1f3fe", [":person_biking_tone4:"], "🚴🏾"], ["1f6b4-1f3fd", [":person_biking_tone3:"], "🚴🏽"], ["1f6b4-1f3fc", [":person_biking_tone2:"], "🚴🏼"], ["1f6b4-1f3fb", [":person_biking_tone1:"], "🚴🏻"], ["1f91b-1f3fb", [":left_facing_fist_tone1:"], "🤛🏻"], ["1f91b-1f3fc", [":left_facing_fist_tone2:"], "🤛🏼"], ["1f91b-1f3fd", [":left_facing_fist_tone3:"], "🤛🏽"], ["1f91b-1f3fe", [":left_facing_fist_tone4:"], "🤛🏾"], ["1f91b-1f3ff", [":left_facing_fist_tone5:"], "🤛🏿"], ["1f1f1-1f1e8", [":flag_lc:", ":lc:"], "🇱🇨"], ["1f3c7-1f3ff", [":horse_racing_tone5:"], "🏇🏿"], ["1f3c7-1f3fe", [":horse_racing_tone4:"], "🏇🏾"], ["1f3c7-1f3fd", [":horse_racing_tone3:"], "🏇🏽"], ["1f3c7-1f3fc", [":horse_racing_tone2:"], "🏇🏼"], ["1f3c7-1f3fb", [":horse_racing_tone1:"], "🏇🏻"], ["1f91c-1f3fb", [":right_facing_fist_tone1:"], "🤜🏻"], ["1f91c-1f3fc", [":right_facing_fist_tone2:"], "🤜🏼"], ["1f91c-1f3fd", [":right_facing_fist_tone3:"], "🤜🏽"], ["1f91c-1f3fe", [":right_facing_fist_tone4:"], "🤜🏾"], ["1f91c-1f3ff", [":right_facing_fist_tone5:"], "🤜🏿"], ["1f1f0-1f1f3", [":flag_kn:", ":kn:"], "🇰🇳"], ["1f6a3-1f3ff", [":person_rowing_boat_tone5:"], "🚣🏿"], ["1f6a3-1f3fe", [":person_rowing_boat_tone4:"], "🚣🏾"], ["1f6a3-1f3fd", [":person_rowing_boat_tone3:"], "🚣🏽"], ["1f6a3-1f3fc", [":person_rowing_boat_tone2:"], "🚣🏼"], ["1f6a3-1f3fb", [":person_rowing_boat_tone1:"], "🚣🏻"], ["1f91e-1f3fb", [":fingers_crossed_tone1:"], "🤞🏻"], ["1f91e-1f3fc", [":fingers_crossed_tone2:"], "🤞🏼"], ["1f91e-1f3fd", [":fingers_crossed_tone3:"], "🤞🏽"], ["1f91e-1f3fe", [":fingers_crossed_tone4:"], "🤞🏾"], ["1f91e-1f3ff", [":fingers_crossed_tone5:"], "🤞🏿"], ["1f1f8-1f1ed", [":flag_sh:", ":sh:"], "🇸🇭"], ["1f93d-1f3ff", [":person_playing_water_polo_tone5:"], "🤽🏿"], ["1f93d-1f3fe", [":person_playing_water_polo_tone4:"], "🤽🏾"], ["1f93d-1f3fd", [":person_playing_water_polo_tone3:"], "🤽🏽"], ["1f93d-1f3fc", [":person_playing_water_polo_tone2:"], "🤽🏼"], ["1f93d-1f3fb", [":person_playing_water_polo_tone1:"], "🤽🏻"], ["1f1e7-1f1f1", [":flag_bl:", ":bl:"], "🇧🇱"], ["1f1f1-1f1f0", [":flag_lk:", ":lk:"], "🇱🇰"], ["1f1ea-1f1f8", [":flag_es:", ":es:"], "🇪🇸"], ["1f1f8-1f1f8", [":flag_ss:", ":ss:"], "🇸🇸"], ["1f1f0-1f1f7", [":flag_kr:", ":kr:"], "🇰🇷"], ["1f1ff-1f1e6", [":flag_za:", ":za:"], "🇿🇦"], ["1f918-1f3fb", [":metal_tone1:"], "🤘🏻"], ["1f918-1f3fc", [":metal_tone2:"], "🤘🏼"], ["1f918-1f3fd", [":metal_tone3:"], "🤘🏽"], ["1f918-1f3fe", [":metal_tone4:"], "🤘🏾"], ["1f918-1f3ff", [":metal_tone5:"], "🤘🏿"], ["1f1f8-1f1f4", [":flag_so:", ":so:"], "🇸🇴"], ["1f44c-1f3fb", [":ok_hand_tone1:"], "👌🏻"], ["1f44c-1f3fc", [":ok_hand_tone2:"], "👌🏼"], ["1f44c-1f3fd", [":ok_hand_tone3:"], "👌🏽"], ["1f44c-1f3fe", [":ok_hand_tone4:"], "👌🏾"], ["1f44c-1f3ff", [":ok_hand_tone5:"], "👌🏿"], ["1f1f8-1f1e7", [":flag_sb:", ":sb:"], "🇸🇧"], ["1f3ca-1f3ff", [":person_swimming_tone5:"], "🏊🏿"], ["1f3ca-1f3fe", [":person_swimming_tone4:"], "🏊🏾"], ["1f3ca-1f3fd", [":person_swimming_tone3:"], "🏊🏽"], ["1f3ca-1f3fc", [":person_swimming_tone2:"], "🏊🏼"], ["1f3ca-1f3fb", [":person_swimming_tone1:"], "🏊🏻"], ["1f448-1f3fb", [":point_left_tone1:"], "👈🏻"], ["1f448-1f3fc", [":point_left_tone2:"], "👈🏼"], ["1f448-1f3fd", [":point_left_tone3:"], "👈🏽"], ["1f448-1f3fe", [":point_left_tone4:"], "👈🏾"], ["1f448-1f3ff", [":point_left_tone5:"], "👈🏿"], ["1f1ec-1f1f8", [":flag_gs:", ":gs:"], "🇬🇸"], ["1f449-1f3fb", [":point_right_tone1:"], "👉🏻"], ["1f449-1f3fc", [":point_right_tone2:"], "👉🏼"], ["1f449-1f3fd", [":point_right_tone3:"], "👉🏽"], ["1f449-1f3fe", [":point_right_tone4:"], "👉🏾"], ["1f449-1f3ff", [":point_right_tone5:"], "👉🏿"], ["1f1f8-1f1ee", [":flag_si:", ":si:"], "🇸🇮"], ["1f3c4-1f3ff", [":person_surfing_tone5:"], "🏄🏿"], ["1f3c4-1f3fe", [":person_surfing_tone4:"], "🏄🏾"], ["1f3c2-1f3fb", [":snowboarder_tone1:"], "🏂🏻"], ["1f3c2-1f3fc", [":snowboarder_tone2:"], "🏂🏼"], ["1f3c2-1f3fd", [":snowboarder_tone3:"], "🏂🏽"], ["1f3c2-1f3fe", [":snowboarder_tone4:"], "🏂🏾"], ["1f3c2-1f3ff", [":snowboarder_tone5:"], "🏂🏿"], ["1f446-1f3fb", [":point_up_2_tone1:"], "👆🏻"], ["1f446-1f3fc", [":point_up_2_tone2:"], "👆🏼"], ["1f446-1f3fd", [":point_up_2_tone3:"], "👆🏽"], ["1f446-1f3fe", [":point_up_2_tone4:"], "👆🏾"], ["1f446-1f3ff", [":point_up_2_tone5:"], "👆🏿"], ["1f1f8-1f1f0", [":flag_sk:", ":sk:"], "🇸🇰"], ["1f3c4-1f3fd", [":person_surfing_tone3:"], "🏄🏽"], ["1f3cb-1f3fb", [":person_lifting_weights_tone1:"], "🏋🏻"], ["1f3cb-1f3fc", [":person_lifting_weights_tone2:"], "🏋🏼"], ["1f3cb-1f3fd", [":person_lifting_weights_tone3:"], "🏋🏽"], ["1f3cb-1f3fe", [":person_lifting_weights_tone4:"], "🏋🏾"], ["1f3cb-1f3ff", [":person_lifting_weights_tone5:"], "🏋🏿"], ["1f447-1f3fb", [":point_down_tone1:"], "👇🏻"], ["1f447-1f3fc", [":point_down_tone2:"], "👇🏼"], ["1f447-1f3fd", [":point_down_tone3:"], "👇🏽"], ["1f447-1f3fe", [":point_down_tone4:"], "👇🏾"], ["1f447-1f3ff", [":point_down_tone5:"], "👇🏿"], ["1f1f8-1f1fd", [":flag_sx:", ":sx:"], "🇸🇽"], ["1f3c4-1f3fc", [":person_surfing_tone2:"], "🏄🏼"], ["1f1f8-1f1ec", [":flag_sg:", ":sg:"], "🇸🇬"], ["1f1f8-1f1f1", [":flag_sl:", ":sl:"], "🇸🇱"], ["1f3c4-1f3fb", [":person_surfing_tone1:"], "🏄🏻"], ["1f1f8-1f1e8", [":flag_sc:", ":sc:"], "🇸🇨"], ["1f1f7-1f1f8", [":flag_rs:", ":rs:"], "🇷🇸"], ["1f1f8-1f1f3", [":flag_sn:", ":sn:"], "🇸🇳"], ["1f1f8-1f1e6", [":flag_sa:", ":saudiarabia:", ":saudi:"], "🇸🇦"], ["1f1f8-1f1f9", [":flag_st:", ":st:"], "🇸🇹"], ["1f1f8-1f1f2", [":flag_sm:", ":sm:"], "🇸🇲"], ["1f1fc-1f1f8", [":flag_ws:", ":ws:"], "🇼🇸"], ["1f1f7-1f1fc", [":flag_rw:", ":rw:"], "🇷🇼"], ["1f1f7-1f1fa", [":flag_ru:", ":ru:"], "🇷🇺"], ["1f1f7-1f1f4", [":flag_ro:", ":ro:"], "🇷🇴"], ["1f91a-1f3fb", [":raised_back_of_hand_tone1:"], "🤚🏻"], ["1f91a-1f3fc", [":raised_back_of_hand_tone2:"], "🤚🏼"], ["1f91a-1f3fd", [":raised_back_of_hand_tone3:"], "🤚🏽"], ["1f938-1f3fb", [":person_doing_cartwheel_tone1:"], "🤸🏻"], ["1f938-1f3fc", [":person_doing_cartwheel_tone2:"], "🤸🏼"], ["1f938-1f3fd", [":person_doing_cartwheel_tone3:"], "🤸🏽"], ["1f938-1f3fe", [":person_doing_cartwheel_tone4:"], "🤸🏾"], ["1f938-1f3ff", [":person_doing_cartwheel_tone5:"], "🤸🏿"], ["1f91a-1f3fe", [":raised_back_of_hand_tone4:"], "🤚🏾"], ["1f91a-1f3ff", [":raised_back_of_hand_tone5:"], "🤚🏿"], ["1f1f7-1f1ea", [":flag_re:", ":re:"], "🇷🇪"], ["1f590-1f3fb", [":hand_splayed_tone1:"], "🖐🏻"], ["1f590-1f3fc", [":hand_splayed_tone2:"], "🖐🏼"], ["1f590-1f3fd", [":hand_splayed_tone3:"], "🖐🏽"], ["1f590-1f3fe", [":hand_splayed_tone4:"], "🖐🏾"], ["1f590-1f3ff", [":hand_splayed_tone5:"], "🖐🏿"], ["1f1f6-1f1e6", [":flag_qa:", ":qa:"], "🇶🇦"], ["1f596-1f3fb", [":vulcan_tone1:"], "🖖🏻"], ["1f596-1f3fc", [":vulcan_tone2:"], "🖖🏼"], ["1f596-1f3fd", [":vulcan_tone3:"], "🖖🏽"], ["1f596-1f3fe", [":vulcan_tone4:"], "🖖🏾"], ["1f596-1f3ff", [":vulcan_tone5:"], "🖖🏿"], ["1f1f5-1f1f7", [":flag_pr:", ":pr:"], "🇵🇷"], ["1f44b-1f3fb", [":wave_tone1:"], "👋🏻"], ["1f44b-1f3fc", [":wave_tone2:"], "👋🏼"], ["1f44b-1f3fd", [":wave_tone3:"], "👋🏽"], ["1f44b-1f3fe", [":wave_tone4:"], "👋🏾"], ["1f44b-1f3ff", [":wave_tone5:"], "👋🏿"], ["1f1f5-1f1f9", [":flag_pt:", ":pt:"], "🇵🇹"], ["1f919-1f3fb", [":call_me_tone1:"], "🤙🏻"], ["1f919-1f3fc", [":call_me_tone2:"], "🤙🏼"], ["1f919-1f3fd", [":call_me_tone3:"], "🤙🏽"], ["1f919-1f3fe", [":call_me_tone4:"], "🤙🏾"], ["1f919-1f3ff", [":call_me_tone5:"], "🤙🏿"], ["1f1f5-1f1f1", [":flag_pl:", ":pl:"], "🇵🇱"], ["1f4aa-1f3fb", [":muscle_tone1:"], "💪🏻"], ["1f4aa-1f3fc", [":muscle_tone2:"], "💪🏼"], ["1f4aa-1f3fd", [":muscle_tone3:"], "💪🏽"], ["1f4aa-1f3fe", [":muscle_tone4:"], "💪🏾"], ["1f93e-1f3fb", [":person_playing_handball_tone1:"], "🤾🏻"], ["1f93e-1f3fc", [":person_playing_handball_tone2:"], "🤾🏼"], ["1f93e-1f3fd", [":person_playing_handball_tone3:"], "🤾🏽"], ["1f93e-1f3fe", [":person_playing_handball_tone4:"], "🤾🏾"], ["1f93e-1f3ff", [":person_playing_handball_tone5:"], "🤾🏿"], ["1f4aa-1f3ff", [":muscle_tone5:"], "💪🏿"], ["1f1f5-1f1f3", [":flag_pn:", ":pn:"], "🇵🇳"], ["1f595-1f3fb", [":middle_finger_tone1:"], "🖕🏻"], ["1f595-1f3fc", [":middle_finger_tone2:"], "🖕🏼"], ["1f595-1f3fd", [":middle_finger_tone3:"], "🖕🏽"], ["1f595-1f3fe", [":middle_finger_tone4:"], "🖕🏾"], ["1f595-1f3ff", [":middle_finger_tone5:"], "🖕🏿"], ["1f3cc-1f3fb", [":person_golfing_tone1:"], "🏌🏻"], ["1f3cc-1f3fc", [":person_golfing_tone2:"], "🏌🏼"], ["1f3cc-1f3fd", [":person_golfing_tone3:"], "🏌🏽"], ["1f3cc-1f3fe", [":person_golfing_tone4:"], "🏌🏾"], ["1f3cc-1f3ff", [":person_golfing_tone5:"], "🏌🏿"], ["1f1f5-1f1ed", [":flag_ph:", ":ph:"], "🇵🇭"], ["1f1f5-1f1ea", [":flag_pe:", ":pe:"], "🇵🇪"], ["1f1f5-1f1fe", [":flag_py:", ":py:"], "🇵🇾"], ["1f5de-fe0f", [":newspaper2:", ":rolled_up_newspaper:"], "🗞️"], ["1f3cc-fe0f", [":person_golfing:", ":golfer:"], "🏌️"], ["26f9-1f3fe", [":person_bouncing_ball_tone4:"], "⛹🏾"], ["26f9-1f3fd", [":person_bouncing_ball_tone3:"], "⛹🏽"], ["26f9-1f3fc", [":person_bouncing_ball_tone2:"], "⛹🏼"], ["26f9-1f3fb", [":person_bouncing_ball_tone1:"], "⛹🏻"], ["1f3cb-fe0f", [":person_lifting_weights:", ":lifter:", ":weight_lifter:"], "🏋️"], ["1f37d-fe0f", [":fork_knife_plate:", ":fork_and_knife_with_plate:"], "🍽️"], ["270a-1f3fb", [":fist_tone1:"], "✊🏻"], ["270a-1f3fc", [":fist_tone2:"], "✊🏼"], ["270a-1f3fd", [":fist_tone3:"], "✊🏽"], ["270a-1f3fe", [":fist_tone4:"], "✊🏾"], ["270a-1f3ff", [":fist_tone5:"], "✊🏿"], ["270c-1f3fb", [":v_tone1:"], "✌🏻"], ["270c-1f3fc", [":v_tone2:"], "✌🏼"], ["270c-1f3fd", [":v_tone3:"], "✌🏽"], ["270c-1f3fe", [":v_tone4:"], "✌🏾"], ["270c-1f3ff", [":v_tone5:"], "✌🏿"], ["261d-1f3fb", [":point_up_tone1:"], "☝🏻"], ["261d-1f3fc", [":point_up_tone2:"], "☝🏼"], ["261d-1f3fd", [":point_up_tone3:"], "☝🏽"], ["261d-1f3fe", [":point_up_tone4:"], "☝🏾"], ["261d-1f3ff", [":point_up_tone5:"], "☝🏿"], ["270b-1f3fb", [":raised_hand_tone1:"], "✋🏻"], ["270b-1f3fc", [":raised_hand_tone2:"], "✋🏼"], ["270b-1f3fd", [":raised_hand_tone3:"], "✋🏽"], ["270b-1f3fe", [":raised_hand_tone4:"], "✋🏾"], ["270b-1f3ff", [":raised_hand_tone5:"], "✋🏿"], ["1f590-fe0f", [":hand_splayed:", ":raised_hand_with_fingers_splayed:"], "🖐️"], ["270d-1f3fb", [":writing_hand_tone1:"], "✍🏻"], ["270d-1f3fc", [":writing_hand_tone2:"], "✍🏼"], ["270d-1f3fd", [":writing_hand_tone3:"], "✍🏽"], ["270d-1f3fe", [":writing_hand_tone4:"], "✍🏾"], ["270d-1f3ff", [":writing_hand_tone5:"], "✍🏿"], ["1f441-fe0f", [":eye:"], "👁️"], ["1f5e3-fe0f", [":speaking_head:", ":speaking_head_in_silhouette:"], "🗣️"], ["1f575-fe0f", [":detective:", ":spy:", ":sleuth_or_spy:"], "🕵️"], ["1f574-fe0f", [":levitate:"], "🕴️"], ["1f576-fe0f", [":dark_sunglasses:"], "🕶️"], ["1f577-fe0f", [":spider:"], "🕷️"], ["1f578-fe0f", [":spider_web:"], "🕸️"], ["1f54a-fe0f", [":dove:", ":dove_of_peace:"], "🕊️"], ["1f3f3-fe0f", [":flag_white:", ":waving_white_flag:"], "🏳️"], ["1f5ef-fe0f", [":anger_right:", ":right_anger_bubble:"], "🗯️"], ["1f43f-fe0f", [":chipmunk:"], "🐿️"], ["1f396-fe0f", [":military_medal:"], "🎖️"], ["1f5e8-fe0f", [":speech_left:", ":left_speech_bubble:"], "🗨️"], ["1f3f5-fe0f", [":rosette:"], "🏵️"], ["1f397-fe0f", [":reminder_ribbon:"], "🎗️"], ["1f39f-fe0f", [":tickets:", ":admission_tickets:"], "🎟️"], ["1f336-fe0f", [":hot_pepper:"], "🌶️"], ["1f202-fe0f", [":sa:"], "🈂️"], ["1f17f-fe0f", [":parking:"], "🅿️"], ["1f17e-fe0f", [":o2:"], "🅾️"], ["1f171-fe0f", [":b:"], "🅱️"], ["1f170-fe0f", [":a:"], "🅰️"], ["1f237-fe0f", [":u6708:"], "🈷️"], ["1f549-fe0f", [":om_symbol:"], "🕉️"], ["1f58d-fe0f", [":crayon:", ":lower_left_crayon:"], "🖍️"], ["1f58c-fe0f", [":paintbrush:", ":lower_left_paintbrush:"], "🖌️"], ["1f58b-fe0f", [":pen_fountain:", ":lower_left_fountain_pen:"], "🖋️"], ["1f58a-fe0f", [":pen_ballpoint:", ":lower_left_ballpoint_pen:"], "🖊️"], ["1f587-fe0f", [":paperclips:", ":linked_paperclips:"], "🖇️"], ["26f9-1f3ff", [":person_bouncing_ball_tone5:"], "⛹🏿"], ["1f5c2-fe0f", [":dividers:", ":card_index_dividers:"], "🗂️"], ["1f5c4-fe0f", [":file_cabinet:"], "🗄️"], ["1f5f3-fe0f", [":ballot_box:", ":ballot_box_with_ballot:"], "🗳️"], ["1f5c3-fe0f", [":card_box:", ":card_file_box:"], "🗃️"], ["1f5d3-fe0f", [":calendar_spiral:", ":spiral_calendar_pad:"], "🗓️"], ["1f5d2-fe0f", [":notepad_spiral:", ":spiral_note_pad:"], "🗒️"], ["1f3f7-fe0f", [":label:"], "🏷️"], ["1f6cd-fe0f", [":shopping_bags:"], "🛍️"], ["1f5bc-fe0f", [":frame_photo:", ":frame_with_picture:"], "🖼️"], ["1f6cf-fe0f", [":bed:"], "🛏️"], ["1f6cb-fe0f", [":couch:", ":couch_and_lamp:"], "🛋️"], ["1f5dd-fe0f", [":key2:", ":old_key:"], "🗝️"], ["1f6ce-fe0f", [":bellhop:", ":bellhop_bell:"], "🛎️"], ["1f321-fe0f", [":thermometer:"], "🌡️"], ["1f32b-fe0f", [":fog:"], "🌫️"], ["1f32a-fe0f", [":cloud_tornado:", ":cloud_with_tornado:"], "🌪️"], ["1f573-fe0f", [":hole:"], "🕳️"], ["1f32c-fe0f", [":wind_blowing_face:"], "🌬️"], ["1f328-fe0f", [":cloud_snow:", ":cloud_with_snow:"], "🌨️"], ["1f329-fe0f", [":cloud_lightning:", ":cloud_with_lightning:"], "🌩️"], ["1f327-fe0f", [":cloud_rain:", ":cloud_with_rain:"], "🌧️"], ["1f326-fe0f", [":white_sun_rain_cloud:", ":white_sun_behind_cloud_with_rain:"], "🌦️"], ["1f325-fe0f", [":white_sun_cloud:", ":white_sun_behind_cloud:"], "🌥️"], ["1f6e1-fe0f", [":shield:"], "🛡️"], ["1f324-fe0f", [":white_sun_small_cloud:", ":white_sun_with_small_cloud:"], "🌤️"], ["1f5e1-fe0f", [":dagger:", ":dagger_knife:"], "🗡️"], ["1f6e0-fe0f", [":tools:", ":hammer_and_wrench:"], "🛠️"], ["1f6e2-fe0f", [":oil:", ":oil_drum:"], "🛢️"], ["1f5d1-fe0f", [":wastebasket:"], "🗑️"], ["1f56f-fe0f", [":candle:"], "🕯️"], ["1f570-fe0f", [":clock:", ":mantlepiece_clock:"], "🕰️"], ["1f39b-fe0f", [":control_knobs:"], "🎛️"], ["1f39a-fe0f", [":level_slider:"], "🎚️"], ["1f399-fe0f", [":microphone2:", ":studio_microphone:"], "🎙️"], ["1f39e-fe0f", [":film_frames:"], "🎞️"], ["1f4fd-fe0f", [":projector:", ":film_projector:"], "📽️"], ["1f5dc-fe0f", [":compression:"], "🗜️"], ["1f579-fe0f", [":joystick:"], "🕹️"], ["1f5b2-fe0f", [":trackball:"], "🖲️"], ["1f5b1-fe0f", [":mouse_three_button:", ":three_button_mouse:"], "🖱️"], ["1f5a8-fe0f", [":printer:"], "🖨️"], ["1f5a5-fe0f", [":desktop:", ":desktop_computer:"], "🖥️"], ["1f3d9-fe0f", [":cityscape:"], "🏙️"], ["1f3de-fe0f", [":park:", ":national_park:"], "🏞️"], ["1f3db-fe0f", [":classical_building:"], "🏛️"], ["1f3da-fe0f", [":house_abandoned:", ":derelict_house_building:"], "🏚️"], ["1f3d8-fe0f", [":homes:", ":house_buildings:"], "🏘️"], ["1f3d7-fe0f", [":construction_site:", ":building_construction:"], "🏗️"], ["1f6e3-fe0f", [":motorway:"], "🛣️"], ["1f6e4-fe0f", [":railway_track:", ":railroad_track:"], "🛤️"], ["1f3d5-fe0f", [":camping:"], "🏕️"], ["1f3ce-fe0f", [":race_car:", ":racing_car:"], "🏎️"], ["1f3dc-fe0f", [":desert:"], "🏜️"], ["1f3d4-fe0f", [":mountain_snow:", ":snow_capped_mountain:"], "🏔️"], ["1f3dd-fe0f", [":island:", ":desert_island:"], "🏝️"], ["1f3d6-fe0f", [":beach:", ":beach_with_umbrella:"], "🏖️"], ["1f3df-fe0f", [":stadium:"], "🏟️"], ["1f5fa-fe0f", [":map:", ":world_map:"], "🗺️"], ["1f6f3-fe0f", [":cruise_ship:", ":passenger_ship:"], "🛳️"], ["1f3cd-fe0f", [":motorcycle:", ":racing_motorcycle:"], "🏍️"], ["1f6e5-fe0f", [":motorboat:"], "🛥️"], ["1f6f0-fe0f", [":satellite_orbital:"], "🛰️"], ["1f6e9-fe0f", [":airplane_small:", ":small_airplane:"], "🛩️"], ["2714-fe0f", [":heavy_check_mark:"], "✔️"], ["00ae-fe0f", [":registered:"], "®️"], ["00a9-fe0f", [":copyright:"], "©️"], ["21a9-fe0f", [":leftwards_arrow_with_hook:"], "↩️"], ["26f9-fe0f", [":person_bouncing_ball:", ":basketball_player:", ":person_with_ball:"], "⛹️"], ["21aa-fe0f", [":arrow_right_hook:"], "↪️"], ["2b07-fe0f", [":arrow_down:"], "⬇️"], ["2b06-fe0f", [":arrow_up:"], "⬆️"], ["2b05-fe0f", [":arrow_left:"], "⬅️"], ["27a1-fe0f", [":arrow_right:"], "➡️"], ["25c0-fe0f", [":arrow_backward:"], "◀️"], ["23ee-fe0f", [":track_previous:", ":previous_track:"], "⏮️"], ["23ed-fe0f", [":track_next:", ":next_track:"], "⏭️"], ["23cf-fe0f", [":eject:", ":eject_symbol:"], "⏏️"], ["23fa-fe0f", [":record_button:"], "⏺️"], ["23f9-fe0f", [":stop_button:"], "⏹️"], ["23ef-fe0f", [":play_pause:"], "⏯️"], ["23f8-fe0f", [":pause_button:", ":double_vertical_bar:"], "⏸️"], ["25b6-fe0f", [":arrow_forward:"], "▶️"], ["2716-fe0f", [":heavy_multiplication_x:"], "✖️"], ["2721-fe0f", [":star_of_david:"], "✡️"], ["24c2-fe0f", [":m:"], "Ⓜ️"], ["267b-fe0f", [":recycle:"], "♻️"], ["269c-fe0f", [":fleur-de-lis:"], "⚜️"], ["26a0-fe0f", [":warning:"], "⚠️"], ["303d-fe0f", [":part_alternation_mark:"], "〽️"], ["203c-fe0f", [":bangbang:"], "‼️"], ["2733-fe0f", [":eight_spoked_asterisk:"], "✳️"], ["2734-fe0f", [":eight_pointed_black_star:"], "✴️"], ["2744-fe0f", [":snowflake:"], "❄️"], ["2747-fe0f", [":sparkle:"], "❇️"], ["269b-fe0f", [":atom:", ":atom_symbol:"], "⚛️"], ["262f-fe0f", [":yin_yang:"], "☯️"], ["2763-fe0f", [":heart_exclamation:", ":heavy_heart_exclamation_mark_ornament:"], "❣️"], ["262a-fe0f", [":star_and_crescent:"], "☪️"], ["271d-fe0f", [":cross:", ":latin_cross:"], "✝️"], ["262e-fe0f", [":peace:", ":peace_symbol:"], "☮️"], ["270f-fe0f", [":pencil2:"], "✏️"], ["2764-fe0f", [":heart:"], "❤️"], ["2934-fe0f", [":arrow_heading_up:"], "⤴️"], ["2935-fe0f", [":arrow_heading_down:"], "⤵️"], ["3030-fe0f", [":wavy_dash:"], "〰️"], ["3297-fe0f", [":congratulations:"], "㊗️"], ["3299-fe0f", [":secret:"], "㊙️"], ["263a-fe0f", [":relaxed:"], "☺️"], ["0030-fe0f", [":digit_zero:"], "0️"], ["0031-fe0f", [":digit_one:"], "1️"], ["0032-fe0f", [":digit_two:"], "2️"], ["0033-fe0f", [":digit_three:"], "3️"], ["0034-fe0f", [":digit_four:"], "4️"], ["0035-fe0f", [":digit_five:"], "5️"], ["0036-fe0f", [":digit_six:"], "6️"], ["0037-fe0f", [":digit_seven:"], "7️"], ["0038-fe0f", [":digit_eight:"], "8️"], ["0039-fe0f", [":digit_nine:"], "9️"], ["0023-fe0f", [":pound_symbol:"], "#️"], ["002a-fe0f", [":asterisk_symbol:"], "*️"], ["2139-fe0f", [":information_source:"], "ℹ️"], ["2194-fe0f", [":left_right_arrow:"], "↔️"], ["2195-fe0f", [":arrow_up_down:"], "↕️"], ["2196-fe0f", [":arrow_upper_left:"], "↖️"], ["2049-fe0f", [":interrobang:"], "⁉️"], ["26b1-fe0f", [":urn:", ":funeral_urn:"], "⚱️"], ["270c-fe0f", [":v:"], "✌️"], ["2197-fe0f", [":arrow_upper_right:"], "↗️"], ["26c8-fe0f", [":thunder_cloud_rain:", ":thunder_cloud_and_rain:"], "⛈️"], ["26f7-fe0f", [":skier:"], "⛷️"], ["26b0-fe0f", [":coffin:"], "⚰️"], ["2198-fe0f", [":arrow_lower_right:"], "↘️"], ["26f8-fe0f", [":ice_skate:"], "⛸️"], ["2199-fe0f", [":arrow_lower_left:"], "↙️"], ["261d-fe0f", [":point_up:"], "☝️"], ["2328-fe0f", [":keyboard:"], "⌨️"], ["26d3-fe0f", [":chains:"], "⛓️"], ["26cf-fe0f", [":pick:"], "⛏️"], ["2600-fe0f", [":sunny:"], "☀️"], ["2601-fe0f", [":cloud:"], "☁️"], ["2602-fe0f", [":umbrella2:"], "☂️"], ["2603-fe0f", [":snowman2:"], "☃️"], ["2604-fe0f", [":comet:"], "☄️"], ["23f2-fe0f", [":timer:", ":timer_clock:"], "⏲️"], ["23f1-fe0f", [":stopwatch:"], "⏱️"], ["2611-fe0f", [":ballot_box_with_check:"], "☑️"], ["2618-fe0f", [":shamrock:"], "☘️"], ["2620-fe0f", [":skull_crossbones:", ":skull_and_crossbones:"], "☠️"], ["260e-fe0f", [":telephone:"], "☎️"], ["2622-fe0f", [":radioactive:", ":radioactive_sign:"], "☢️"], ["2623-fe0f", [":biohazard:", ":biohazard_sign:"], "☣️"], ["270d-fe0f", [":writing_hand:"], "✍️"], ["2626-fe0f", [":orthodox_cross:"], "☦️"], ["2638-fe0f", [":wheel_of_dharma:"], "☸️"], ["2639-fe0f", [":frowning2:", ":white_frowning_face:"], "☹️"], ["2640-fe0f", [":female_sign:"], "♀️"], ["2642-fe0f", [":male_sign:"], "♂️"], ["2660-fe0f", [":spades:"], "♠️"], ["2663-fe0f", [":clubs:"], "♣️"], ["26e9-fe0f", [":shinto_shrine:"], "⛩️"], ["2665-fe0f", [":hearts:"], "♥️"], ["2666-fe0f", [":diamonds:"], "♦️"], ["2122-fe0f", [":tm:"], "™️"], ["26d1-fe0f", [":helmet_with_cross:", ":helmet_with_white_cross:"], "⛑️"], ["2668-fe0f", [":hotsprings:"], "♨️"], ["2692-fe0f", [":hammer_pick:", ":hammer_and_pick:"], "⚒️"], ["2694-fe0f", [":crossed_swords:"], "⚔️"], ["2695-fe0f", [":medical_symbol:"], "⚕️"], ["2696-fe0f", [":scales:"], "⚖️"], ["2697-fe0f", [":alembic:"], "⚗️"], ["26f0-fe0f", [":mountain:"], "⛰️"], ["2699-fe0f", [":gear:"], "⚙️"], ["2702-fe0f", [":scissors:"], "✂️"], ["26f1-fe0f", [":beach_umbrella:", ":umbrella_on_ground:"], "⛱️"], ["2708-fe0f", [":airplane:"], "✈️"], ["25fb-fe0f", [":white_medium_square:"], "◻️"], ["26f4-fe0f", [":ferry:"], "⛴️"], ["25fc-fe0f", [":black_medium_square:"], "◼️"], ["25ab-fe0f", [":white_small_square:"], "▫️"], ["2709-fe0f", [":envelope:"], "✉️"], ["2712-fe0f", [":black_nib:"], "✒️"], ["25aa-fe0f", [":black_small_square:"], "▪️"], ["1f557", [":clock8:"], "🕗"], ["1f698", [":oncoming_automobile:"], "🚘"], ["1f6a1", [":aerial_tramway:"], "🚡"], ["1f6a0", [":mountain_cableway:"], "🚠"], ["1f69f", [":suspension_railway:"], "🚟"], ["1f683", [":railway_car:"], "🚃"], ["1f68b", [":train:"], "🚋"], ["1f69e", [":mountain_railway:"], "🚞"], ["1f69d", [":monorail:"], "🚝"], ["1f684", [":bullettrain_side:"], "🚄"], ["1f685", [":bullettrain_front:"], "🚅"], ["1f688", [":light_rail:"], "🚈"], ["1f682", [":steam_locomotive:"], "🚂"], ["1f686", [":train2:"], "🚆"], ["1f687", [":metro:"], "🚇"], ["1f68a", [":tram:"], "🚊"], ["1f689", [":station:"], "🚉"], ["1f681", [":helicopter:"], "🚁"], ["1f68d", [":oncoming_bus:"], "🚍"], ["1f6eb", [":airplane_departure:"], "🛫"], ["1f6ec", [":airplane_arriving:"], "🛬"], ["1f680", [":rocket:"], "🚀"], ["1f694", [":oncoming_police_car:"], "🚔"], ["1f4ba", [":seat:"], "💺"], ["1f6f6", [":canoe:", ":kayak:"], "🛶"], ["1f938", [":person_doing_cartwheel:", ":cartwheel:"], "🤸"], ["1f6a8", [":rotating_light:"], "🚨"], ["1f6a4", [":speedboat:"], "🚤"], ["1f6f5", [":motor_scooter:", ":motorbike:"], "🛵"], ["1f6b2", [":bike:"], "🚲"], ["1f6a2", [":ship:"], "🚢"], ["1f6a7", [":construction:"], "🚧"], ["1f3c4", [":person_surfing:", ":surfer:"], "🏄"], ["1f68f", [":busstop:"], "🚏"], ["1f6a6", [":vertical_traffic_light:"], "🚦"], ["1f6a5", [":traffic_light:"], "🚥"], ["1f6f4", [":scooter:"], "🛴"], ["1f5ff", [":moyai:"], "🗿"], ["1f5fd", [":statue_of_liberty:"], "🗽"], ["1f93c", [":people_wrestling:", ":wrestlers:", ":wrestling:"], "🤼"], ["1f5fc", [":tokyo_tower:"], "🗼"], ["1f3f0", [":european_castle:"], "🏰"], ["1f3ef", [":japanese_castle:"], "🏯"], ["1f69c", [":tractor:"], "🚜"], ["1f3a1", [":ferris_wheel:"], "🎡"], ["1f3a2", [":roller_coaster:"], "🎢"], ["1f3a0", [":carousel_horse:"], "🎠"], ["1f69b", [":articulated_lorry:"], "🚛"], ["1f69a", [":truck:"], "🚚"], ["1f690", [":minibus:"], "🚐"], ["1f692", [":fire_engine:"], "🚒"], ["1f691", [":ambulance:"], "🚑"], ["1f5fb", [":mount_fuji:"], "🗻"], ["1f30b", [":volcano:"], "🌋"], ["1f693", [":police_car:"], "🚓"], ["1f68e", [":trolleybus:"], "🚎"], ["1f93a", [":person_fencing:", ":fencer:", ":fencing:"], "🤺"], ["1f68c", [":bus:"], "🚌"], ["1f699", [":blue_car:"], "🚙"], ["1f695", [":taxi:"], "🚕"], ["1f3ed", [":factory:"], "🏭"], ["1f3e0", [":house:"], "🏠"], ["1f3e1", [":house_with_garden:"], "🏡"], ["1f697", [":red_car:"], "🚗"], ["1f33b", [":sunflower:"], "🌻"], ["1f3e2", [":office:"], "🏢"], ["1f3ec", [":department_store:"], "🏬"], ["1f3e3", [":post_office:"], "🏣"], ["1f3e4", [":european_post_office:"], "🏤"], ["1f3e5", [":hospital:"], "🏥"], ["1f3e6", [":bank:"], "🏦"], ["1f3e8", [":hotel:"], "🏨"], ["1f3ea", [":convenience_store:"], "🏪"], ["1f3eb", [":school:"], "🏫"], ["1f3e9", [":love_hotel:"], "🏩"], ["1f492", [":wedding:"], "💒"], ["1f33c", [":blossom:"], "🌼"], ["1f3c2", [":snowboarder:"], "🏂"], ["1f54c", [":mosque:"], "🕌"], ["1f54d", [":synagogue:"], "🕍"], ["1f54b", [":kaaba:"], "🕋"], ["1f338", [":cherry_blossom:"], "🌸"], ["1f5fe", [":japan:"], "🗾"], ["1f391", [":rice_scene:"], "🎑"], ["1f33a", [":hibiscus:"], "🌺"], ["1f305", [":sunrise:"], "🌅"], ["1f304", [":sunrise_over_mountains:"], "🌄"], ["1f320", [":stars:"], "🌠"], ["1f387", [":sparkler:"], "🎇"], ["1f386", [":fireworks:"], "🎆"], ["1f307", [":city_sunset:", ":city_sunrise:"], "🌇"], ["1f306", [":city_dusk:"], "🌆"], ["1f30e", [":earth_americas:"], "🌎"], ["1f303", [":night_with_stars:"], "🌃"], ["1f30c", [":milky_way:"], "🌌"], ["1f309", [":bridge_at_night:"], "🌉"], ["1f301", [":foggy:"], "🌁"], ["1f6f8", [":flying_saucer:"], "🛸"], ["1f3bf", [":ski:"], "🎿"], ["1f4f1", [":iphone:"], "📱"], ["1f4f2", [":calling:"], "📲"], ["1f4bb", [":computer:"], "💻"], ["1f30d", [":earth_africa:"], "🌍"], ["1f30f", [":earth_asia:"], "🌏"], ["1f315", [":full_moon:"], "🌕"], ["1f316", [":waning_gibbous_moon:"], "🌖"], ["1f317", [":last_quarter_moon:"], "🌗"], ["1f318", [":waning_crescent_moon:"], "🌘"], ["1f4bd", [":minidisc:"], "💽"], ["1f4be", [":floppy_disk:"], "💾"], ["1f4bf", [":cd:"], "💿"], ["1f4c0", [":dvd:"], "📀"], ["1f4fc", [":vhs:"], "📼"], ["1f4f7", [":camera:"], "📷"], ["1f4f8", [":camera_with_flash:"], "📸"], ["1f4f9", [":video_camera:"], "📹"], ["1f3a5", [":movie_camera:"], "🎥"], ["1f311", [":new_moon:"], "🌑"], ["1f312", [":waxing_crescent_moon:"], "🌒"], ["1f4de", [":telephone_receiver:"], "📞"], ["1f313", [":first_quarter_moon:"], "🌓"], ["1f4df", [":pager:"], "📟"], ["1f4e0", [":fax:"], "📠"], ["1f4fa", [":tv:"], "📺"], ["1f4fb", [":radio:"], "📻"], ["1f314", [":waxing_gibbous_moon:"], "🌔"], ["1f31a", [":new_moon_with_face:"], "🌚"], ["1f31d", [":full_moon_with_face:"], "🌝"], ["1f31e", [":sun_with_face:"], "🌞"], ["1f31b", [":first_quarter_moon_with_face:"], "🌛"], ["1f94b", [":martial_arts_uniform:", ":karate_uniform:"], "🥋"], ["1f31c", [":last_quarter_moon_with_face:"], "🌜"], ["1f94a", [":boxing_glove:", ":boxing_gloves:"], "🥊"], ["1f3a3", [":fishing_pole_and_fish:"], "🎣"], ["1f4e1", [":satellite:"], "📡"], ["1f50b", [":battery:"], "🔋"], ["1f50c", [":electric_plug:"], "🔌"], ["1f4a1", [":bulb:"], "💡"], ["1f526", [":flashlight:"], "🔦"], ["1f319", [":crescent_moon:"], "🌙"], ["1f4ab", [":dizzy:"], "💫"], ["1f3f9", [":bow_and_arrow:", ":archery:"], "🏹"], ["1f4b8", [":money_with_wings:"], "💸"], ["1f4b5", [":dollar:"], "💵"], ["1f4b4", [":yen:"], "💴"], ["1f4b6", [":euro:"], "💶"], ["1f4b7", [":pound:"], "💷"], ["1f4b0", [":moneybag:"], "💰"], ["1f4b3", [":credit_card:"], "💳"], ["1f48e", [":gem:"], "💎"], ["1f527", [":wrench:"], "🔧"], ["1f528", [":hammer:"], "🔨"], ["1f31f", [":star2:"], "🌟"], ["1f3cf", [":cricket_game:", ":cricket_bat_ball:"], "🏏"], ["1f529", [":nut_and_bolt:"], "🔩"], ["1f525", [":fire:", ":flame:"], "🔥"], ["1f52b", [":gun:"], "🔫"], ["1f4a3", [":bomb:"], "💣"], ["1f52a", [":knife:"], "🔪"], ["1f4a5", [":boom:"], "💥"], ["1f3d1", [":field_hockey:"], "🏑"], ["1f6ac", [":smoking:"], "🚬"], ["1f308", [":rainbow:"], "🌈"], ["1f3d2", [":hockey:"], "🏒"], ["1f3fa", [":amphora:"], "🏺"], ["1f52e", [":crystal_ball:"], "🔮"], ["1f4ff", [":prayer_beads:"], "📿"], ["1f488", [":barber:"], "💈"], ["1f52d", [":telescope:"], "🔭"], ["1f52c", [":microscope:"], "🔬"], ["1f4a8", [":dash:"], "💨"], ["1f48a", [":pill:"], "💊"], ["1f489", [":syringe:"], "💉"], ["1f30a", [":ocean:"], "🌊"], ["1f6bd", [":toilet:"], "🚽"], ["1f6b0", [":potable_water:"], "🚰"], ["1f6bf", [":shower:"], "🚿"], ["1f6c1", [":bathtub:"], "🛁"], ["1f6c0", [":bath:"], "🛀"], ["1f940", [":wilted_rose:", ":wilted_flower:"], "🥀"], ["1f339", [":rose:"], "🌹"], ["1f337", [":tulip:"], "🌷"], ["1f490", [":bouquet:"], "💐"], ["1f33e", [":ear_of_rice:"], "🌾"], ["1f4a7", [":droplet:"], "💧"], ["1f511", [":key:"], "🔑"], ["1f4a6", [":sweat_drops:"], "💦"], ["1f6aa", [":door:"], "🚪"], ["1f992", [":giraffe:"], "🦒"], ["1f993", [":zebra:"], "🦓"], ["1f6cc", [":sleeping_accommodation:"], "🛌"], ["1f344", [":mushroom:"], "🍄"], ["1f341", [":maple_leaf:"], "🍁"], ["1f342", [":fallen_leaf:"], "🍂"], ["1f343", [":leaves:"], "🍃"], ["1f38b", [":tanabata_tree:"], "🎋"], ["1f994", [":hedgehog:"], "🦔"], ["1f995", [":sauropod:"], "🦕"], ["1f6d2", [":shopping_cart:", ":shopping_trolley:"], "🛒"], ["1f381", [":gift:"], "🎁"], ["1f388", [":balloon:"], "🎈"], ["1f38f", [":flags:"], "🎏"], ["1f380", [":ribbon:"], "🎀"], ["1f38a", [":confetti_ball:"], "🎊"], ["1f389", [":tada:"], "🎉"], ["1f38e", [":dolls:"], "🎎"], ["1f3ee", [":izakaya_lantern:"], "🏮"], ["1f390", [":wind_chime:"], "🎐"], ["1f4e9", [":envelope_with_arrow:"], "📩"], ["1f4e8", [":incoming_envelope:"], "📨"], ["1f4e7", [":e-mail:", ":email:"], "📧"], ["1f48c", [":love_letter:"], "💌"], ["1f4e5", [":inbox_tray:"], "📥"], ["1f4e4", [":outbox_tray:"], "📤"], ["1f4e6", [":package:"], "📦"], ["1f996", [":t_rex:"], "🦖"], ["1f4ea", [":mailbox_closed:"], "📪"], ["1f4eb", [":mailbox:"], "📫"], ["1f4ec", [":mailbox_with_mail:"], "📬"], ["1f4ed", [":mailbox_with_no_mail:"], "📭"], ["1f4ee", [":postbox:"], "📮"], ["1f4ef", [":postal_horn:"], "📯"], ["1f4dc", [":scroll:"], "📜"], ["1f4c3", [":page_with_curl:"], "📃"], ["1f4c4", [":page_facing_up:"], "📄"], ["1f4d1", [":bookmark_tabs:"], "📑"], ["1f4ca", [":bar_chart:"], "📊"], ["1f4c8", [":chart_with_upwards_trend:"], "📈"], ["1f4c9", [":chart_with_downwards_trend:"], "📉"], ["1f997", [":cricket:"], "🦗"], ["1f34f", [":green_apple:"], "🍏"], ["1f4c6", [":calendar:"], "📆"], ["1f4c5", [":date:"], "📅"], ["1f4c7", [":card_index:"], "📇"], ["1f34e", [":apple:"], "🍎"], ["1f350", [":pear:"], "🍐"], ["1f34a", [":tangerine:"], "🍊"], ["1f4cb", [":clipboard:"], "📋"], ["1f4c1", [":file_folder:"], "📁"], ["1f4c2", [":open_file_folder:"], "📂"], ["1f34b", [":lemon:"], "🍋"], ["1f34c", [":banana:"], "🍌"], ["1f4f0", [":newspaper:"], "📰"], ["1f4d3", [":notebook:"], "📓"], ["1f4d4", [":notebook_with_decorative_cover:"], "📔"], ["1f4d2", [":ledger:"], "📒"], ["1f4d5", [":closed_book:"], "📕"], ["1f4d7", [":green_book:"], "📗"], ["1f4d8", [":blue_book:"], "📘"], ["1f4d9", [":orange_book:"], "📙"], ["1f4da", [":books:"], "📚"], ["1f4d6", [":book:"], "📖"], ["1f516", [":bookmark:"], "🔖"], ["1f517", [":link:"], "🔗"], ["1f4ce", [":paperclip:"], "📎"], ["1f9d8", [":person_in_lotus_position:"], "🧘"], ["1f4d0", [":triangular_ruler:"], "📐"], ["1f4cf", [":straight_ruler:"], "📏"], ["1f4cc", [":pushpin:"], "📌"], ["1f4cd", [":round_pushpin:"], "📍"], ["1f9d7", [":person_climbing:"], "🧗"], ["1f9d6", [":person_in_steamy_room:"], "🧖"], ["1f94c", [":curling_stone:"], "🥌"], ["1f931", [":breast_feeding:"], "🤱"], ["1f4dd", [":pencil:", ":memo:"], "📝"], ["1f6f7", [":sled:"], "🛷"], ["1f50d", [":mag:"], "🔍"], ["1f50e", [":mag_right:"], "🔎"], ["1f50f", [":lock_with_ink_pen:"], "🔏"], ["1f510", [":closed_lock_with_key:"], "🔐"], ["1f512", [":lock:"], "🔒"], ["1f513", [":unlock:"], "🔓"], ["1f9e1", [":orange_heart:"], "🧡"], ["1f49b", [":yellow_heart:"], "💛"], ["1f49a", [":green_heart:"], "💚"], ["1f499", [":blue_heart:"], "💙"], ["1f49c", [":purple_heart:"], "💜"], ["1f5a4", [":black_heart:"], "🖤"], ["1f494", [":broken_heart:"], "💔"], ["1f495", [":two_hearts:"], "💕"], ["1f49e", [":revolving_hearts:"], "💞"], ["1f493", [":heartbeat:"], "💓"], ["1f497", [":heartpulse:"], "💗"], ["1f496", [":sparkling_heart:"], "💖"], ["1f498", [":cupid:"], "💘"], ["1f49d", [":gift_heart:"], "💝"], ["1f49f", [":heart_decoration:"], "💟"], ["1f3b0", [":slot_machine:"], "🎰"], ["1f3ae", [":video_game:"], "🎮"], ["1f3b3", [":bowling:"], "🎳"], ["1f3af", [":dart:"], "🎯"], ["1f52f", [":six_pointed_star:"], "🔯"], ["1f54e", [":menorah:"], "🕎"], ["1f3b2", [":game_die:"], "🎲"], ["1f6d0", [":place_of_worship:", ":worship_symbol:"], "🛐"], ["1f945", [":goal:", ":goal_net:"], "🥅"], ["1f3f8", [":badminton:"], "🏸"], ["1f3ca", [":person_swimming:", ":swimmer:"], "🏊"], ["1f3d3", [":ping_pong:", ":table_tennis:"], "🏓"], ["1f3b1", [":8ball:"], "🎱"], ["1f3c9", [":rugby_football:"], "🏉"], ["1f3d0", [":volleyball:"], "🏐"], ["1f194", [":id:"], "🆔"], ["1f3bb", [":violin:"], "🎻"], ["1f251", [":accept:"], "🉑"], ["1f4f4", [":mobile_phone_off:"], "📴"], ["1f4f3", [":vibration_mode:"], "📳"], ["1f236", [":u6709:"], "🈶"], ["1f21a", [":u7121:"], "🈚"], ["1f238", [":u7533:"], "🈸"], ["1f23a", [":u55b6:"], "🈺"], ["1f3b8", [":guitar:"], "🎸"], ["1f19a", [":vs:"], "🆚"], ["1f4ae", [":white_flower:"], "💮"], ["1f250", [":ideograph_advantage:"], "🉐"], ["1f234", [":u5408:"], "🈴"], ["1f235", [":u6e80:"], "🈵"], ["1f239", [":u5272:"], "🈹"], ["1f232", [":u7981:"], "🈲"], ["1f3ba", [":trumpet:"], "🎺"], ["1f3b7", [":saxophone:"], "🎷"], ["1f18e", [":ab:"], "🆎"], ["1f191", [":cl:"], "🆑"], ["1f941", [":drum:", ":drum_with_drumsticks:"], "🥁"], ["1f198", [":sos:"], "🆘"], ["1f3be", [":tennis:"], "🎾"], ["1f3c8", [":football:"], "🏈"], ["1f6d1", [":octagonal_sign:", ":stop_sign:"], "🛑"], ["1f3c0", [":basketball:"], "🏀"], ["1f4db", [":name_badge:"], "📛"], ["1f6ab", [":no_entry_sign:"], "🚫"], ["1f4af", [":100:"], "💯"], ["1f4a2", [":anger:"], "💢"], ["1f6b7", [":no_pedestrians:"], "🚷"], ["1f6af", [":do_not_litter:"], "🚯"], ["1f6b3", [":no_bicycles:"], "🚳"], ["1f6b1", [":non-potable_water:"], "🚱"], ["1f51e", [":underage:"], "🔞"], ["1f4f5", [":no_mobile_phones:"], "📵"], ["1f6ad", [":no_smoking:"], "🚭"], ["1f3b9", [":musical_keyboard:"], "🎹"], ["1f505", [":low_brightness:"], "🔅"], ["1f506", [":high_brightness:"], "🔆"], ["1f3bc", [":musical_score:"], "🎼"], ["1f3a7", [":headphones:"], "🎧"], ["1f6b8", [":children_crossing:"], "🚸"], ["1f531", [":trident:"], "🔱"], ["1f3a4", [":microphone:"], "🎤"], ["1f530", [":beginner:"], "🔰"], ["1f3ac", [":clapper:"], "🎬"], ["1f22f", [":u6307:"], "🈯"], ["1f4b9", [":chart:"], "💹"], ["1f96b", [":canned_food:"], "🥫"], ["1f310", [":globe_with_meridians:"], "🌐"], ["1f4a0", [":diamond_shape_with_a_dot_inside:"], "💠"], ["1f3a8", [":art:"], "🎨"], ["1f300", [":cyclone:"], "🌀"], ["1f4a4", [":zzz:"], "💤"], ["1f3e7", [":atm:"], "🏧"], ["1f6be", [":wc:"], "🚾"], ["1f96a", [":sandwich:"], "🥪"], ["1f3ad", [":performing_arts:"], "🎭"], ["1f233", [":u7a7a:"], "🈳"], ["1f349", [":watermelon:"], "🍉"], ["1f6c2", [":passport_control:"], "🛂"], ["1f6c3", [":customs:"], "🛃"], ["1f6c4", [":baggage_claim:"], "🛄"], ["1f6c5", [":left_luggage:"], "🛅"], ["1f6b9", [":mens:"], "🚹"], ["1f6ba", [":womens:"], "🚺"], ["1f6bc", [":baby_symbol:"], "🚼"], ["1f6bb", [":restroom:"], "🚻"], ["1f6ae", [":put_litter_in_its_place:"], "🚮"], ["1f3a6", [":cinema:"], "🎦"], ["1f4f6", [":signal_strength:"], "📶"], ["1f201", [":koko:"], "🈁"], ["1f523", [":symbols:"], "🔣"], ["1f524", [":abc:"], "🔤"], ["1f521", [":abcd:"], "🔡"], ["1f520", [":capital_abcd:"], "🔠"], ["1f196", [":ng:"], "🆖"], ["1f197", [":ok:"], "🆗"], ["1f199", [":up:"], "🆙"], ["1f192", [":cool:"], "🆒"], ["1f195", [":new:"], "🆕"], ["1f193", [":free:"], "🆓"], ["1f38d", [":bamboo:"], "🎍"], ["1f340", [":four_leaf_clover:"], "🍀"], ["1f33f", [":herb:"], "🌿"], ["1f331", [":seedling:"], "🌱"], ["1f334", [":palm_tree:"], "🌴"], ["1f93e", [":person_playing_handball:", ":handball:"], "🤾"], ["1f332", [":evergreen_tree:"], "🌲"], ["1f384", [":christmas_tree:"], "🎄"], ["1f335", [":cactus:"], "🌵"], ["1f432", [":dragon_face:"], "🐲"], ["1f51f", [":keycap_ten:"], "🔟"], ["1f522", [":1234:"], "🔢"], ["1f409", [":dragon:"], "🐉"], ["1f43e", [":feet:", ":paw_prints:"], "🐾"], ["1f347", [":grapes:"], "🍇"], ["1f353", [":strawberry:"], "🍓"], ["1f348", [":melon:"], "🍈"], ["1f352", [":cherries:"], "🍒"], ["1f939", [":person_juggling:", ":juggling:", ":juggler:"], "🤹"], ["1f351", [":peach:"], "🍑"], ["1f34d", [":pineapple:"], "🍍"], ["1f95d", [":kiwi:", ":kiwifruit:"], "🥝"], ["1f969", [":cut_of_meat:"], "🥩"], ["1f968", [":pretzel:"], "🥨"], ["1f967", [":pie:"], "🥧"], ["1f966", [":broccoli:"], "🥦"], ["1f951", [":avocado:"], "🥑"], ["1f53c", [":arrow_up_small:"], "🔼"], ["1f53d", [":arrow_down_small:"], "🔽"], ["1f345", [":tomato:"], "🍅"], ["1f346", [":eggplant:"], "🍆"], ["1f952", [":cucumber:"], "🥒"], ["1f955", [":carrot:"], "🥕"], ["1f33d", [":corn:"], "🌽"], ["1f954", [":potato:"], "🥔"], ["1f500", [":twisted_rightwards_arrows:"], "🔀"], ["1f501", [":repeat:"], "🔁"], ["1f502", [":repeat_one:"], "🔂"], ["1f504", [":arrows_counterclockwise:"], "🔄"], ["1f503", [":arrows_clockwise:"], "🔃"], ["1f3b5", [":musical_note:"], "🎵"], ["1f3b6", [":notes:"], "🎶"], ["1f4b2", [":heavy_dollar_sign:"], "💲"], ["1f4b1", [":currency_exchange:"], "💱"], ["1f360", [":sweet_potato:"], "🍠"], ["1f3aa", [":circus_tent:"], "🎪"], ["1f965", [":coconut:"], "🥥"], ["1f964", [":cup_with_straw:"], "🥤"], ["1f51a", [":end:"], "🔚"], ["1f519", [":back:"], "🔙"], ["1f51b", [":on:"], "🔛"], ["1f51d", [":top:"], "🔝"], ["1f51c", [":soon:"], "🔜"], ["1f518", [":radio_button:"], "🔘"], ["1f963", [":bowl_with_spoon:"], "🥣"], ["1f962", [":chopsticks:"], "🥢"], ["1f534", [":red_circle:"], "🔴"], ["1f535", [":blue_circle:"], "🔵"], ["1f53a", [":small_red_triangle:"], "🔺"], ["1f53b", [":small_red_triangle_down:"], "🔻"], ["1f538", [":small_orange_diamond:"], "🔸"], ["1f539", [":small_blue_diamond:"], "🔹"], ["1f536", [":large_orange_diamond:"], "🔶"], ["1f537", [":large_blue_diamond:"], "🔷"], ["1f533", [":white_square_button:"], "🔳"], ["1f532", [":black_square_button:"], "🔲"], ["1f3ab", [":ticket:"], "🎫"], ["1f3c6", [":trophy:"], "🏆"], ["1f961", [":takeout_box:"], "🥡"], ["1f960", [":fortune_cookie:"], "🥠"], ["1f949", [":third_place:", ":third_place_medal:"], "🥉"], ["1f948", [":second_place:", ":second_place_medal:"], "🥈"], ["1f95f", [":dumpling:"], "🥟"], ["1f93d", [":person_playing_water_polo:", ":water_polo:"], "🤽"], ["1f508", [":speaker:"], "🔈"], ["1f507", [":mute:"], "🔇"], ["1f509", [":sound:"], "🔉"], ["1f50a", [":loud_sound:"], "🔊"], ["1f514", [":bell:"], "🔔"], ["1f515", [":no_bell:"], "🔕"], ["1f4e3", [":mega:"], "📣"], ["1f4e2", [":loudspeaker:"], "📢"], ["1f947", [":first_place:", ":first_place_medal:"], "🥇"], ["1f3c5", [":medal:", ":sports_medal:"], "🏅"], ["1f4ac", [":speech_balloon:"], "💬"], ["1f4ad", [":thought_balloon:"], "💭"], ["1f3bd", [":running_shirt_with_sash:"], "🎽"], ["1f0cf", [":black_joker:"], "🃏"], ["1f3b4", [":flower_playing_cards:"], "🎴"], ["1f004", [":mahjong:"], "🀄"], ["1f550", [":clock1:"], "🕐"], ["1f551", [":clock2:"], "🕑"], ["1f552", [":clock3:"], "🕒"], ["1f553", [":clock4:"], "🕓"], ["1f554", [":clock5:"], "🕔"], ["1f555", [":clock6:"], "🕕"], ["1f556", [":clock7:"], "🕖"], ["1f696", [":oncoming_taxi:"], "🚖"], ["1f558", [":clock9:"], "🕘"], ["1f559", [":clock10:"], "🕙"], ["1f55a", [":clock11:"], "🕚"], ["1f55b", [":clock12:"], "🕛"], ["1f55c", [":clock130:"], "🕜"], ["1f55d", [":clock230:"], "🕝"], ["1f55e", [":clock330:"], "🕞"], ["1f55f", [":clock430:"], "🕟"], ["1f560", [":clock530:"], "🕠"], ["1f561", [":clock630:"], "🕡"], ["1f562", [":clock730:"], "🕢"], ["1f563", [":clock830:"], "🕣"], ["1f564", [":clock930:"], "🕤"], ["1f565", [":clock1030:"], "🕥"], ["1f566", [":clock1130:"], "🕦"], ["1f567", [":clock1230:"], "🕧"], ["1f330", [":chestnut:"], "🌰"], ["1f3f4", [":flag_black:", ":waving_black_flag:"], "🏴"], ["1f3c1", [":checkered_flag:"], "🏁"], ["1f6a9", [":triangular_flag_on_post:"], "🚩"], ["1f400", [":rat:"], "🐀"], ["1f401", [":mouse2:"], "🐁"], ["1f407", [":rabbit2:"], "🐇"], ["1f95c", [":peanuts:", ":shelled_peanut:"], "🥜"], ["1f983", [":turkey:"], "🦃"], ["1f413", [":rooster:"], "🐓"], ["1f408", [":cat2:"], "🐈"], ["1f429", [":poodle:"], "🐩"], ["1f415", [":dog2:"], "🐕"], ["1f411", [":sheep:"], "🐑"], ["1f40f", [":ram:"], "🐏"], ["1f410", [":goat:"], "🐐"], ["1f416", [":pig2:"], "🐖"], ["1f40e", [":racehorse:"], "🐎"], ["1f98d", [":gorilla:"], "🦍"], ["1f98f", [":rhino:", ":rhinoceros:"], "🦏"], ["1f418", [":elephant:"], "🐘"], ["1f42b", [":camel:"], "🐫"], ["1f42a", [":dromedary_camel:"], "🐪"], ["1f98c", [":deer:"], "🦌"], ["1f404", [":cow2:"], "🐄"], ["1f402", [":ox:"], "🐂"], ["1f403", [":water_buffalo:"], "🐃"], ["1f405", [":tiger2:"], "🐅"], ["1f406", [":leopard:"], "🐆"], ["1f40a", [":crocodile:"], "🐊"], ["1f40b", [":whale2:"], "🐋"], ["1f433", [":whale:"], "🐳"], ["1f988", [":shark:"], "🦈"], ["1f42c", [":dolphin:"], "🐬"], ["1f421", [":blowfish:"], "🐡"], ["1f41f", [":fish:"], "🐟"], ["1f420", [":tropical_fish:"], "🐠"], ["1f990", [":shrimp:"], "🦐"], ["1f419", [":octopus:"], "🐙"], ["1f991", [":squid:"], "🦑"], ["1f980", [":crab:"], "🦀"], ["1f982", [":scorpion:"], "🦂"], ["1f98e", [":lizard:"], "🦎"], ["1f40d", [":snake:"], "🐍"], ["1f422", [":turtle:"], "🐢"], ["1f36f", [":honey_pot:"], "🍯"], ["1f950", [":croissant:"], "🥐"], ["1f41c", [":ant:"], "🐜"], ["1f41e", [":beetle:"], "🐞"], ["1f41a", [":shell:"], "🐚"], ["1f40c", [":snail:"], "🐌"], ["1f98b", [":butterfly:"], "🦋"], ["1f41b", [":bug:"], "🐛"], ["1f41d", [":bee:"], "🐝"], ["1f984", [":unicorn:", ":unicorn_face:"], "🦄"], ["1f434", [":horse:"], "🐴"], ["1f417", [":boar:"], "🐗"], ["1f43a", [":wolf:"], "🐺"], ["1f987", [":bat:"], "🦇"], ["1f989", [":owl:"], "🦉"], ["1f985", [":eagle:"], "🦅"], ["1f986", [":duck:"], "🦆"], ["1f425", [":hatched_chick:"], "🐥"], ["1f423", [":hatching_chick:"], "🐣"], ["1f424", [":baby_chick:"], "🐤"], ["1f426", [":bird:"], "🐦"], ["1f427", [":penguin:"], "🐧"], ["1f414", [":chicken:"], "🐔"], ["1f412", [":monkey:"], "🐒"], ["1f64a", [":speak_no_evil:"], "🙊"], ["1f649", [":hear_no_evil:"], "🙉"], ["1f648", [":see_no_evil:"], "🙈"], ["1f435", [":monkey_face:"], "🐵"], ["1f438", [":frog:"], "🐸"], ["1f43d", [":pig_nose:"], "🐽"], ["1f437", [":pig:"], "🐷"], ["1f42e", [":cow:"], "🐮"], ["1f981", [":lion_face:", ":lion:"], "🦁"], ["1f42f", [":tiger:"], "🐯"], ["1f428", [":koala:"], "🐨"], ["1f43c", [":panda_face:"], "🐼"], ["1f43b", [":bear:"], "🐻"], ["1f98a", [":fox:", ":fox_face:"], "🦊"], ["1f430", [":rabbit:"], "🐰"], ["1f439", [":hamster:"], "🐹"], ["1f42d", [":mouse:"], "🐭"], ["1f431", [":cat:"], "🐱"], ["1f436", [":dog:"], "🐶"], ["1f302", [":closed_umbrella:"], "🌂"], ["1f35e", [":bread:"], "🍞"], ["1f453", [":eyeglasses:"], "👓"], ["1f4bc", [":briefcase:"], "💼"], ["1f45c", [":handbag:"], "👜"], ["1f45b", [":purse:"], "👛"], ["1f45d", [":pouch:"], "👝"], ["1f392", [":school_satchel:"], "🎒"], ["1f956", [":french_bread:", ":baguette_bread:"], "🥖"], ["1f451", [":crown:"], "👑"], ["1f393", [":mortar_board:"], "🎓"], ["1f3a9", [":tophat:"], "🎩"], ["1f452", [":womans_hat:"], "👒"], ["1f45f", [":athletic_shoe:"], "👟"], ["1f45e", [":mans_shoe:"], "👞"], ["1f462", [":boot:"], "👢"], ["1f461", [":sandal:"], "👡"], ["1f460", [":high_heel:"], "👠"], ["1f458", [":kimono:"], "👘"], ["1f459", [":bikini:"], "👙"], ["1f457", [":dress:"], "👗"], ["1f454", [":necktie:"], "👔"], ["1f456", [":jeans:"], "👖"], ["1f9c0", [":cheese:", ":cheese_wedge:"], "🧀"], ["1f455", [":shirt:"], "👕"], ["1f45a", [":womans_clothes:"], "👚"], ["1f46a", [":family:"], "👪"], ["1f48f", [":couplekiss:"], "💏"], ["1f491", [":couple_with_heart:"], "💑"], ["1f38c", [":crossed_flags:"], "🎌"], ["1f46c", [":two_men_holding_hands:"], "👬"], ["1f46d", [":two_women_holding_hands:"], "👭"], ["1f46b", [":couple:"], "👫"], ["1f3c3", [":person_running:", ":runner:"], "🏃"], ["1f6b6", [":person_walking:", ":walking:"], "🚶"], ["1f46f", [":people_with_bunny_ears_partying:", ":dancers:"], "👯"], ["1f57a", [":man_dancing:", ":male_dancer:"], "🕺"], ["1f483", [":dancer:"], "💃"], ["1f95a", [":egg:"], "🥚"], ["1f486", [":person_getting_massage:", ":massage:"], "💆"], ["1f487", [":person_getting_haircut:", ":haircut:"], "💇"], ["1f64d", [":person_frowning:"], "🙍"], ["1f64e", [":person_pouting:", ":person_with_pouting_face:"], "🙎"], ["1f937", [":person_shrugging:", ":shrug:"], "🤷"], ["1f926", [":person_facepalming:", ":face_palm:", ":facepalm:"], "🤦"], ["1f64b", [":person_raising_hand:", ":raising_hand:"], "🙋"], ["1f646", [":person_gesturing_ok:", ":ok_woman:"], "🙆"], ["1f645", [":person_gesturing_no:", ":no_good:"], "🙅"], ["1f481", [":person_tipping_hand:", ":information_desk_person:"], "💁"], ["1f647", [":person_bowing:", ":bow:"], "🙇"], ["1f930", [":pregnant_woman:", ":expecting_woman:"], "🤰"], ["1f47c", [":angel:"], "👼"], ["1f935", [":man_in_tuxedo:"], "🤵"], ["1f470", [":bride_with_veil:"], "👰"], ["1f934", [":prince:"], "🤴"], ["1f478", [":princess:"], "👸"], ["1f385", [":santa:"], "🎅"], ["1f936", [":mrs_claus:", ":mother_christmas:"], "🤶"], ["1f373", [":cooking:"], "🍳"], ["1f482", [":guard:", ":guardsman:"], "💂"], ["1f477", [":construction_worker:"], "👷"], ["1f46e", [":police_officer:", ":cop:"], "👮"], ["1f473", [":person_wearing_turban:", ":man_with_turban:"], "👳"], ["1f472", [":man_with_chinese_cap:", ":man_with_gua_pi_mao:"], "👲"], ["1f475", [":older_woman:", ":grandma:"], "👵"], ["1f474", [":older_man:"], "👴"], ["1f471", [":blond_haired_person:", ":person_with_blond_hair:"], "👱"], ["1f469", [":woman:"], "👩"], ["1f468", [":man:"], "👨"], ["1f467", [":girl:"], "👧"], ["1f466", [":boy:"], "👦"], ["1f476", [":baby:"], "👶"], ["1f465", [":busts_in_silhouette:"], "👥"], ["1f464", [":bust_in_silhouette:"], "👤"], ["1f953", [":bacon:"], "🥓"], ["1f440", [":eyes:"], "👀"], ["1f95e", [":pancakes:"], "🥞"], ["1f463", [":footprints:"], "👣"], ["1f443", [":nose:"], "👃"], ["1f442", [":ear:"], "👂"], ["1f445", [":tongue:"], "👅"], ["1f444", [":lips:"], "👄"], ["1f48b", [":kiss:"], "💋"], ["1f484", [":lipstick:"], "💄"], ["1f48d", [":ring:"], "💍"], ["1f485", [":nail_care:"], "💅"], ["1f933", [":selfie:"], "🤳"], ["1f6b5", [":person_mountain_biking:", ":mountain_bicyclist:"], "🚵"], ["1f364", [":fried_shrimp:"], "🍤"], ["1f357", [":poultry_leg:"], "🍗"], ["1f356", [":meat_on_bone:"], "🍖"], ["1f355", [":pizza:"], "🍕"], ["1f32d", [":hotdog:", ":hot_dog:"], "🌭"], ["1f595", [":middle_finger:", ":reversed_hand_with_middle_finger_extended:"], "🖕"], ["1f4aa", [":muscle:"], "💪"], ["1f919", [":call_me:", ":call_me_hand:"], "🤙"], ["1f44b", [":wave:"], "👋"], ["1f596", [":vulcan:", ":raised_hand_with_part_between_middle_and_ring_fingers:"], "🖖"], ["1f354", [":hamburger:"], "🍔"], ["1f91a", [":raised_back_of_hand:", ":back_of_hand:"], "🤚"], ["1f35f", [":fries:"], "🍟"], ["1f959", [":stuffed_flatbread:", ":stuffed_pita:"], "🥙"], ["1f32e", [":taco:"], "🌮"], ["1f32f", [":burrito:"], "🌯"], ["1f957", [":salad:", ":green_salad:"], "🥗"], ["1f374", [":fork_and_knife:"], "🍴"], ["1f958", [":shallow_pan_of_food:", ":paella:"], "🥘"], ["1f35d", [":spaghetti:"], "🍝"], ["1f35c", [":ramen:"], "🍜"], ["1f372", [":stew:"], "🍲"], ["1f365", [":fish_cake:"], "🍥"], ["1f363", [":sushi:"], "🍣"], ["1f447", [":point_down:"], "👇"], ["1f446", [":point_up_2:"], "👆"], ["1f449", [":point_right:"], "👉"], ["1f448", [":point_left:"], "👈"], ["1f44c", [":ok_hand:"], "👌"], ["1f918", [":metal:", ":sign_of_the_horns:"], "🤘"], ["1f6b4", [":person_biking:", ":bicyclist:"], "🚴"], ["1f371", [":bento:"], "🍱"], ["1f35b", [":curry:"], "🍛"], ["1f359", [":rice_ball:"], "🍙"], ["1f35a", [":rice:"], "🍚"], ["1f358", [":rice_cracker:"], "🍘"], ["1f91e", [":fingers_crossed:", ":hand_with_index_and_middle_finger_crossed:"], "🤞"], ["1f91c", [":right_facing_fist:", ":right_fist:"], "🤜"], ["1f91b", [":left_facing_fist:", ":left_fist:"], "🤛"], ["1f362", [":oden:"], "🍢"], ["1f361", [":dango:"], "🍡"], ["1f367", [":shaved_ice:"], "🍧"], ["1f368", [":ice_cream:"], "🍨"], ["1f366", [":icecream:"], "🍦"], ["1f944", [":spoon:"], "🥄"], ["1f44a", [":punch:"], "👊"], ["1f44e", [":thumbsdown:", ":-1:", ":thumbdown:"], "👎"], ["1f44d", [":thumbsup:", ":+1:", ":thumbup:"], "👍"], ["1f91d", [":handshake:", ":shaking_hands:"], "🤝"], ["1f64f", [":pray:"], "🙏"], ["1f44f", [":clap:"], "👏"], ["1f64c", [":raised_hands:"], "🙌"], ["1f450", [":open_hands:"], "👐"], ["1f63e", [":pouting_cat:"], "😾"], ["1f63f", [":crying_cat_face:"], "😿"], ["1f640", [":scream_cat:"], "🙀"], ["1f63d", [":kissing_cat:"], "😽"], ["1f63c", [":smirk_cat:"], "😼"], ["1f63b", [":heart_eyes_cat:"], "😻"], ["1f639", [":joy_cat:"], "😹"], ["1f638", [":smile_cat:"], "😸"], ["1f63a", [":smiley_cat:"], "😺"], ["1f383", [":jack_o_lantern:"], "🎃"], ["1f916", [":robot:", ":robot_face:"], "🤖"], ["1f47e", [":space_invader:"], "👾"], ["1f47d", [":alien:"], "👽"], ["1f480", [":skull:", ":skeleton:"], "💀"], ["1f47b", [":ghost:"], "👻"], ["1f4a9", [":poop:", ":shit:", ":hankey:", ":poo:"], "💩"], ["1f47a", [":japanese_goblin:"], "👺"], ["1f479", [":japanese_ogre:"], "👹"], ["1f47f", [":imp:"], "👿"], ["1f608", [":smiling_imp:"], "😈"], ["1f915", [":head_bandage:", ":face_with_head_bandage:"], "🤕"], ["1f912", [":thermometer_face:", ":face_with_thermometer:"], "🤒"], ["1f637", [":mask:"], "😷"], ["1f927", [":sneezing_face:", ":sneeze:"], "🤧"], ["1f922", [":nauseated_face:", ":sick:"], "🤢"], ["1f910", [":zipper_mouth:", ":zipper_mouth_face:"], "🤐"], ["1f62c", [":grimacing:"], "😬"], ["1f925", [":lying_face:", ":liar:"], "🤥"], ["1f914", [":thinking:", ":thinking_face:"], "🤔"], ["1f644", [":rolling_eyes:", ":face_with_rolling_eyes:"], "🙄"], ["1f634", [":sleeping:"], "😴"], ["1f62a", [":sleepy:"], "😪"], ["1f613", [":sweat:"], "😓"], ["1f62d", [":sob:"], "😭"], ["1f924", [":drooling_face:", ":drool:"], "🤤"], ["1f625", [":disappointed_relieved:"], "😥"], ["1f622", [":cry:"], "😢"], ["1f630", [":cold_sweat:"], "😰"], ["1f370", [":cake:"], "🍰"], ["1f1ff", [":regional_indicator_z:"], "🇿"], ["1f1fe", [":regional_indicator_y:"], "🇾"], ["1f1fd", [":regional_indicator_x:"], "🇽"], ["1f3c7", [":horse_racing:"], "🏇"], ["1f3fb", [":tone1:"], "🏻"], ["1f3fc", [":tone2:"], "🏼"], ["1f3fd", [":tone3:"], "🏽"], ["1f3fe", [":tone4:"], "🏾"], ["1f3ff", [":tone5:"], "🏿"], ["1f1fc", [":regional_indicator_w:"], "🇼"], ["1f1fb", [":regional_indicator_v:"], "🇻"], ["1f1fa", [":regional_indicator_u:"], "🇺"], ["1f1f9", [":regional_indicator_t:"], "🇹"], ["1f1f8", [":regional_indicator_s:"], "🇸"], ["1f1f7", [":regional_indicator_r:"], "🇷"], ["1f1f6", [":regional_indicator_q:"], "🇶"], ["1f1f5", [":regional_indicator_p:"], "🇵"], ["1f1f4", [":regional_indicator_o:"], "🇴"], ["1f1f3", [":regional_indicator_n:"], "🇳"], ["1f1f2", [":regional_indicator_m:"], "🇲"], ["1f1f1", [":regional_indicator_l:"], "🇱"], ["1f1f0", [":regional_indicator_k:"], "🇰"], ["1f1ef", [":regional_indicator_j:"], "🇯"], ["1f1ee", [":regional_indicator_i:"], "🇮"], ["1f1ed", [":regional_indicator_h:"], "🇭"], ["1f1ec", [":regional_indicator_g:"], "🇬"], ["1f1eb", [":regional_indicator_f:"], "🇫"], ["1f1ea", [":regional_indicator_e:"], "🇪"], ["1f1e9", [":regional_indicator_d:"], "🇩"], ["1f1e8", [":regional_indicator_c:"], "🇨"], ["1f1e7", [":regional_indicator_b:"], "🇧"], ["1f1e6", [":regional_indicator_a:"], "🇦"], ["1f382", [":birthday:"], "🎂"], ["1f36e", [":custard:", ":pudding:", ":flan:"], "🍮"], ["1f36d", [":lollipop:"], "🍭"], ["1f36c", [":candy:"], "🍬"], ["1f36b", [":chocolate_bar:"], "🍫"], ["1f37f", [":popcorn:"], "🍿"], ["1f369", [":doughnut:"], "🍩"], ["1f36a", [":cookie:"], "🍪"], ["1f95b", [":milk:", ":glass_of_milk:"], "🥛"], ["1f37c", [":baby_bottle:"], "🍼"], ["1f628", [":fearful:"], "😨"], ["1f631", [":scream:"], "😱"], ["1f633", [":flushed:"], "😳"], ["1f928", [":face_with_raised_eyebrow:"], "🤨"], ["1f929", [":star_struck:"], "🤩"], ["1f92a", [":crazy_face:"], "🤪"], ["1f92b", [":shushing_face:"], "🤫"], ["1f92c", [":face_with_symbols_over_mouth:"], "🤬"], ["1f92d", [":face_with_hand_over_mouth:"], "🤭"], ["1f92e", [":face_vomiting:"], "🤮"], ["1f92f", [":exploding_head:"], "🤯"], ["1f9d0", [":face_with_monocle:"], "🧐"], ["1f9d1", [":adult:"], "🧑"], ["1f9d2", [":child:"], "🧒"], ["1f9d3", [":older_adult:"], "🧓"], ["1f9d4", [":bearded_person:"], "🧔"], ["1f9d5", [":woman_with_headscarf:"], "🧕"], ["1f9e0", [":brain:"], "🧠"], ["1f9e2", [":billed_cap:"], "🧢"], ["1f9d9", [":mage:"], "🧙"], ["1f9da", [":fairy:"], "🧚"], ["1f9db", [":vampire:"], "🧛"], ["1f9dc", [":merperson:"], "🧜"], ["1f9dd", [":elf:"], "🧝"], ["1f9de", [":genie:"], "🧞"], ["1f9df", [":zombie:"], "🧟"], ["1f9e3", [":scarf:"], "🧣"], ["1f9e4", [":gloves:"], "🧤"], ["1f9e5", [":coat:"], "🧥"], ["1f9e6", [":socks:"], "🧦"], ["1f91f", [":love_you_gesture:"], "🤟"], ["1f635", [":dizzy_face:"], "😵"], ["1f632", [":astonished:"], "😲"], ["1f62e", [":open_mouth:"], "😮"], ["1f627", [":anguished:"], "😧"], ["1f626", [":frowning:"], "😦"], ["1f932", [":palms_up_together:"], "🤲"], ["1f62f", [":hushed:"], "😯"], ["1f611", [":expressionless:"], "😑"], ["1f610", [":neutral_face:"], "😐"], ["1f636", [":no_mouth:"], "😶"], ["1f621", [":rage:"], "😡"], ["1f620", [":angry:"], "😠"], ["1f624", [":triumph:"], "😤"], ["1f629", [":weary:"], "😩"], ["1f62b", [":tired_face:"], "😫"], ["1f616", [":confounded:"], "😖"], ["1f623", [":persevere:"], "😣"], ["1f641", [":slight_frown:", ":slightly_frowning_face:"], "🙁"], ["1f615", [":confused:"], "😕"], ["1f61f", [":worried:"], "😟"], ["1f614", [":pensive:"], "😔"], ["1f61e", [":disappointed:"], "😞"], ["1f612", [":unamused:"], "😒"], ["1f60f", [":smirk:"], "😏"], ["1f920", [":cowboy:", ":face_with_cowboy_hat:"], "🤠"], ["1f921", [":clown:", ":clown_face:"], "🤡"], ["1f60e", [":sunglasses:"], "😎"], ["1f913", [":nerd:", ":nerd_face:"], "🤓"], ["1f917", [":hugging:", ":hugging_face:"], "🤗"], ["1f911", [":money_mouth:", ":money_mouth_face:"], "🤑"], ["1f61b", [":stuck_out_tongue:"], "😛"], ["1f61d", [":stuck_out_tongue_closed_eyes:"], "😝"], ["1f61c", [":stuck_out_tongue_winking_eye:"], "😜"], ["1f60b", [":yum:"], "😋"], ["1f61a", [":kissing_closed_eyes:"], "😚"], ["1f619", [":kissing_smiling_eyes:"], "😙"], ["1f617", [":kissing:"], "😗"], ["1f618", [":kissing_heart:"], "😘"], ["1f60d", [":heart_eyes:"], "😍"], ["1f60c", [":relieved:"], "😌"], ["1f609", [":wink:"], "😉"], ["1f643", [":upside_down:", ":upside_down_face:"], "🙃"], ["1f642", [":slight_smile:", ":slightly_smiling_face:"], "🙂"], ["1f607", [":innocent:"], "😇"], ["1f60a", [":blush:"], "😊"], ["1f375", [":tea:"], "🍵"], ["1f923", [":rofl:", ":rolling_on_the_floor_laughing:"], "🤣"], ["1f602", [":joy:"], "😂"], ["1f605", [":sweat_smile:"], "😅"], ["1f606", [":laughing:", ":satisfied:"], "😆"], ["1f601", [":grin:"], "😁"], ["1f604", [":smile:"], "😄"], ["1f603", [":smiley:"], "😃"], ["1f600", [":grinning:"], "😀"], ["1f6a3", [":person_rowing_boat:", ":rowboat:"], "🚣"], ["1f376", [":sake:"], "🍶"], ["1f37a", [":beer:"], "🍺"], ["1f37b", [":beers:"], "🍻"], ["1f942", [":champagne_glass:", ":clinking_glass:"], "🥂"], ["1f37e", [":champagne:", ":bottle_with_popping_cork:"], "🍾"], ["1f379", [":tropical_drink:"], "🍹"], ["1f378", [":cocktail:"], "🍸"], ["1f377", [":wine_glass:"], "🍷"], ["1f943", [":tumbler_glass:", ":whisky:"], "🥃"], ["1f333", [":deciduous_tree:"], "🌳"], ["2757", [":exclamation:"], "❗"], ["2754", [":grey_question:"], "❔"], ["2753", [":question:"], "❓"], ["2795", [":heavy_plus_sign:"], "➕"], ["2796", [":heavy_minus_sign:"], "➖"], ["2797", [":heavy_division_sign:"], "➗"], ["270a", [":fist:"], "✊"], ["2728", [":sparkles:"], "✨"], ["270b", [":raised_hand:"], "✋"], ["2b1c", [":white_large_square:"], "⬜"], ["2b1b", [":black_large_square:"], "⬛"], ["25fd", [":white_medium_small_square:"], "◽"], ["25fe", [":black_medium_small_square:"], "◾"], ["26ab", [":black_circle:"], "⚫"], ["2705", [":white_check_mark:"], "✅"], ["26aa", [":white_circle:"], "⚪"], ["27bf", [":loop:"], "➿"], ["27b0", [":curly_loop:"], "➰"], ["23ec", [":arrow_double_down:"], "⏬"], ["23eb", [":arrow_double_up:"], "⏫"], ["23ea", [":rewind:"], "⏪"], ["2693", [":anchor:"], "⚓"], ["23e9", [":fast_forward:"], "⏩"], ["267f", [":wheelchair:"], "♿"], ["274e", [":negative_squared_cross_mark:"], "❎"], ["26bd", [":soccer:"], "⚽"], ["26d4", [":no_entry:"], "⛔"], ["2b55", [":o:"], "⭕"], ["2653", [":pisces:"], "♓"], ["2755", [":grey_exclamation:"], "❕"], ["2651", [":capricorn:"], "♑"], ["2650", [":sagittarius:"], "♐"], ["2649", [":taurus:"], "♉"], ["2648", [":aries:"], "♈"], ["26be", [":baseball:"], "⚾"], ["274c", [":x:"], "❌"], ["264f", [":scorpius:"], "♏"], ["264e", [":libra:"], "♎"], ["264d", [":virgo:"], "♍"], ["264c", [":leo:"], "♌"], ["264b", [":cancer:"], "♋"], ["264a", [":gemini:"], "♊"], ["26ce", [":ophiuchus:"], "⛎"], ["2615", [":coffee:"], "☕"], ["2614", [":umbrella:"], "☔"], ["26c4", [":snowman:"], "⛄"], ["26c5", [":partly_sunny:"], "⛅"], ["26a1", [":zap:"], "⚡"], ["26f3", [":golf:"], "⛳"], ["2b50", [":star:"], "⭐"], ["23f3", [":hourglass_flowing_sand:"], "⏳"], ["231b", [":hourglass:"], "⌛"], ["23f0", [":alarm_clock:"], "⏰"], ["231a", [":watch:"], "⌚"], ["26ea", [":church:"], "⛪"], ["26fa", [":tent:"], "⛺"], ["26f2", [":fountain:"], "⛲"], ["26fd", [":fuelpump:"], "⛽"], ["26f5", [":sailboat:"], "⛵"], ["2652", [":aquarius:"], "♒"]];
 
 /***/ }),
-/* 12 */
+/* 13 */
+/*!************************************************************!*\
+  !*** ./~/react-emojione/lib/renderers/unicode-renderer.js ***!
+  \************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _emojiFormatConversion = __webpack_require__(10);
-
+	
+	var _emojiFormatConversion = __webpack_require__(/*! ../utils/emoji-format-conversion */ 11);
+	
 	var getRenderer = function getRenderer() {
 	  return function (codepoint) {
 	    return _emojiFormatConversion.codepointToUnicode.get(codepoint);
 	  };
 	};
-
+	
 	exports.default = getRenderer;
+
+/***/ }),
+/* 14 */
+/*!*********************!*\
+  !*** ./src/main.js ***!
+  \*********************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _chatapp = __webpack_require__(/*! ../chatapp */ 15);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var App = function (_Component) {
+	  _inherits(App, _Component);
+	
+	  function App() {
+	    _classCallCheck(this, App);
+	
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+	  }
+	
+	  _createClass(App, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_chatapp.Chatapp, { authenticated: 'true', MainRoom: 'Global Chat', servername: 'SlaBot', welcomemessage: 'Welcome to ChatApp (^=^)', uri: 'localhost:9000', hardpath: '/socket.io', reconnect: 'true', resource: '/', secure: 'false' });
+	    }
+	  }]);
+	
+	  return App;
+	}(_react.Component);
+	
+	exports.default = App;
+
+/***/ }),
+/* 15 */
+/*!********************!*\
+  !*** ./chatapp.js ***!
+  \********************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _socketIo = __webpack_require__(/*! ./socket.io/socket.io.js */ 3);
+	
+	var _socketIo2 = _interopRequireDefault(_socketIo);
+	
+	var _reactEmojione = __webpack_require__(/*! react-emojione */ 4);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*I am really hacking this into react!*/
+	//import params from "./config/config.js"
+	
+	
+	//This function takes params from the configuration.
+	//TODO this can be cleaned up a bit better
+	
+	
+	// I wish we could make this conditional , like if user chooses a valid name, then connect...
+	var socket = _socketIo2.default.connect();
+	
+	var Chatapp = function (_React$Component) {
+	  _inherits(Chatapp, _React$Component);
+	
+	  function Chatapp() {
+	    _classCallCheck(this, Chatapp);
+	
+	    var _this = _possibleConstructorReturn(this, (Chatapp.__proto__ || Object.getPrototypeOf(Chatapp)).call(this));
+	
+	    _this.state = {
+	      ChatMessage: "",
+	      Messages: [],
+	      UsersinChat: [],
+	      UpdatesFromServer: []
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(Chatapp, [{
+	    key: "setup",
+	    value: function setup() {
+	      if (this.props.config) {}
+	      //This is probably a bad practice , but at least I get access to make this controllable by props!
+	      socket.io.uri = this.props.uri;
+	      socket.io.opts.hostname = this.props.hostname;
+	      socket.io.opts.path = this.props.hardpath;
+	      socket.io.opts.resource = this.props.resource;
+	      socket.io.opts.reconnect = this.props.reconnect;
+	      socket.io.opts.secure = this.props.secure;
+	    }
+	  }, {
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      this.setup();
+	    }
+	  }, {
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      this.RecvMessage();
+	      this.RecvUpdateFromServer();
+	      this.recvUserListFromServer();
+	    }
+	  }, {
+	    key: "recvUserListFromServer",
+	    value: function recvUserListFromServer() {
+	      socket.on('user list', function (msg) {
+	        console.log("user list " + msg);
+	        this.setState({ UsersinChat: msg });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: "RecvUpdateFromServer",
+	    value: function RecvUpdateFromServer() {
+	      socket.on('chat update', function (msg) {
+	        var parsedSMessage = JSON.parse(msg);
+	        this.setState({ Messages: this.state.Messages.concat({ Username: this.props.servername, Message: parsedSMessage.ServerMessage }) });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: "RecvMessage",
+	    value: function RecvMessage() {
+	      socket.on('chat message', function (msg) {
+	        var parsedMessage = JSON.parse(msg);
+	        this.setState({ Messages: this.state.Messages.concat({ Username: parsedMessage.Username, Message: parsedMessage.Message }) });
+	      }.bind(this));
+	    }
+	
+	    //This just checks if 'Enter' was pressed. then, sets state of Username to the value in box.
+	
+	  }, {
+	    key: "UpdateUserName",
+	    value: function UpdateUserName(evt) {
+	      if (evt.key === 'Enter') {
+	        this.setState({
+	          Username: evt.target.value });
+	        this.SendUpdate(evt.target.value, evt.target.value + " Has Joined Chat!");
+	      }
+	    }
+	  }, {
+	    key: "UpdateMessage",
+	    value: function UpdateMessage(evt) {
+	      this.setState({
+	        ChatMessage: evt.target.value });
+	      //	console.log(this.state.ChatMessage)
+	    }
+	  }, {
+	    key: "SendUpdate",
+	    value: function SendUpdate(User, ServerMessage) {
+	      var username = this.state.Item;
+	      socket.emit('chat update', JSON.stringify({ User: User, ServerMessage: ServerMessage }));
+	    }
+	  }, {
+	    key: "SendMessage",
+	    value: function SendMessage(e, Username, Message) {
+	      e.preventDefault();
+	      var username = this.state.Username;
+	      var message = this.state.ChatMessage;
+	
+	      // Check if there message is empty. send if False then send
+	      if (message == "") {
+	        console.log("Type Something!");
+	      } else {
+	        socket.emit('chat message', JSON.stringify({ Username: username, Message: message }));
+	        //socket.emit('chat message',this.state.Username +": "+ this.state.ChatMessage)
+	        //  console.log(this.state.Messages)
+	        this.setState({ Messages: this.state.Messages.concat({ Username: username, Message: message }) });
+	        this.setState({ ChatMessage: "" });
+	      }
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var _this2 = this;
+	
+	      if (this.state.Username) {
+	        return _react2.default.createElement(
+	          "div",
+	          { className: "ChatApp" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "chatNavbar center" },
+	            _react2.default.createElement(
+	              "h1",
+	              null,
+	              " ",
+	              this.props.welcomemessage
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "container center" },
+	            _react2.default.createElement(
+	              "div",
+	              { className: "RoomsList" },
+	              _react2.default.createElement(
+	                "ul",
+	                { className: "ulRooms" },
+	                _react2.default.createElement(
+	                  "li",
+	                  null,
+	                  " ",
+	                  this.props.MainRoom,
+	                  " "
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "UsersList" },
+	              _react2.default.createElement(
+	                "ul",
+	                { className: "ulUsers" },
+	                this.state.UsersinChat.map(function (UsersinChat, index) {
+	                  return _react2.default.createElement(
+	                    "li",
+	                    { key: index },
+	                    JSON.parse(UsersinChat)['User'],
+	                    " "
+	                  );
+	                })
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { id: "box" },
+	            _react2.default.createElement("p", { id: "messages", className: "left" }),
+	            this.state.Messages.map(function (message, index) {
+	              return _react2.default.createElement(
+	                "div",
+	                { className: "chatitem", key: index },
+	                _react2.default.createElement(
+	                  "ul",
+	                  null,
+	                  _react2.default.createElement(
+	                    "div",
+	                    { className: "ChatUsername" },
+	                    _react2.default.createElement(
+	                      "li",
+	                      null,
+	                      message.Username,
+	                      ":"
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    "div",
+	                    { className: "chatMessage" },
+	                    _react2.default.createElement(
+	                      "li",
+	                      null,
+	                      (0, _reactEmojione.emojify)(message.Message)
+	                    )
+	                  )
+	                )
+	              );
+	            })
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "sender left" },
+	            _react2.default.createElement(
+	              "form",
+	              { onSubmit: this.SendMessage.bind(this) },
+	              " ",
+	              _react2.default.createElement("input", { id: "myEmoji", className: "message", autoFocus: true, ref: "ChatInput", autoComplete: "off", value: this.state.ChatMessage, onChange: function onChange(evt) {
+	                  return _this2.UpdateMessage(evt);
+	                } }),
+	              _react2.default.createElement("input", { autoComplete: "off", type: "submit", className: "button", value: "Send" })
+	            )
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          "div",
+	          { className: "ChatApp" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "chatNavbar center" },
+	            _react2.default.createElement(
+	              "h1",
+	              null,
+	              this.props.welcomemessage
+	            )
+	          ),
+	          _react2.default.createElement("div", { className: "container center" }),
+	          _react2.default.createElement(
+	            "div",
+	            { id: "box" },
+	            _react2.default.createElement("p", { id: "messages", className: "left" }),
+	            _react2.default.createElement(
+	              "p",
+	              null,
+	              "Select User name please"
+	            ),
+	            _react2.default.createElement("input", { className: "chatuserinput", autoFocus: true, ref: "usernameimput", autoComplete: "off", value: this.state.username, onKeyPress: function onKeyPress(evt) {
+	                return _this2.UpdateUserName(evt);
+	              } })
+	          )
+	        );
+	      }
+	    }
+	  }]);
+	
+	  return Chatapp;
+	}(_react2.default.Component);
+	
+	exports.default = Chatapp;
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=index.js.map

@@ -60,7 +60,7 @@ h1{
 .button:hover {
     background-color:#7e8684;
 }
-.navbar{
+.chatNavbar{
     background-color: steelblue;
     height: 50px;
     margin-bottom: 50px;
@@ -95,5 +95,3 @@ h1{
 #ok{
     padding: 0 30px;
 }
-
-
