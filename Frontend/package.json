@@ -1,8 +1,8 @@
 {
   "name": "reactjs-chatapp",
-  "version": "1.0.16",
+  "version": "1.0.20",
   "description": "Most popular chat component for react!",
-  "main": "main.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build",
@@ -45,8 +45,6 @@
     "webpack-dev-server": "^1.16.5"
   },
   "dependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
     "react-emojione": "^5.0.0"
   }
 }
