@@ -2,15 +2,35 @@ Simple Chat based on ReactJs using SocketIO
 =============================
 
 
-![screenshot of sample](https://image.ibb.co/gizZEb/Screenshot_2017_12_10_12_03_20.png)
+![screenshot of sample](https://image.ibb.co/gvCX8H/chatscreen.png)
 
 
 ### English Instructions:
+
+### Warning My time is becoming limited. If you want improvements, please help me make that happen and donate some of your time to this project.
 
 This project aims to be a plug&play server that all you'll need to do is import the component. and use it.
 Let me know if you struggle to install it. Unlike the other Reactjs chat apps this will stand alone and you don't really have to combine with the nodejs back end. In reality you just have to have a javascript socket listening on port 9000.
 
 If you want to help or file a bug report , please check [github](https://github.com/ApertureSecurity/Reactjs-Chat-Component)
+
+####Demo and make test code, git clone this from
+```php
+https://github.com/ApertureSecurity/Reactjs-Chat-Component
+```
+
+and make your changes in the  Reactjs-Chat-Component/Frontend/demo/chatapp.js file.
+and run
+```php
+npm install
+npm start
+```
+
+The server is located in Reactjs-Chat-Component/index.js
+you can just cd to the directory and run
+```php
+node_modules/nodemon/bin/nodemon.js  index
+```
 
 
 ###INSTALL
@@ -42,55 +62,24 @@ I have added a link to my index.html in my reactjs project to reference the styl
 ```
 
 
-If you don't want to use our back end here is a simple nodejs server code snippet that will work with this. If the following code doesn't work for you the index.js code should work fine. I keep this hear because I want to have this be easy as possible to install.
-Otherwise, make your own.
+If you don't want to use our back end here is a simple nodejs server code snippet that will work with this.
+You should be able to simply copy this and paste it into your server app. It listens on port 9000 by default.
 
-```JavaScript
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
-let ActiveUsers = [];
-
-
-io.on('connection', function(socket){
-  if (ActiveUsers.length < 0 ){console.log("No Users In chat")}
-  io.sockets.emit('user list', ActiveUsers);
-  console.log("connected "+ socket.id) // Uncomment this later.
-
-    socket.on('chat message', function(msg){
-    socket.broadcast.emit('chat message', msg);
-    console.log('Message: ' + msg);
-
-  }),
-
-  socket.on('chat update', function(msg){
-  let parsedUMessage = JSON.parse(msg);
-  ActiveUsers.push(JSON.stringify({User:parsedUMessage.User , SockID:socket.id}))
-  socket.broadcast.emit('chat update', msg);
-  console.log('Message: ' + msg);
-  io.sockets.emit('user list', ActiveUsers);     });
-
-}); // Keep your message types inside this above.
-
-
-http.listen(9000, function(){
-  console.log('listening on *:9000');
-});
-
+(github server link)[https://github.com/ApertureSecurity/Reactjs-Chat-Component/blob/master/index.js]
 
 
 ```
 
 ```JavaScript
-<Chatapp authenticated="true" MainRoom="Global Chat" servername="SlaBot" welcomemessage="Welcome to ChatApp (^=^)" uri="localhost:9000"  hardpath="/socket.io" reconnect="true" resource="/" secure="false" />
+<Chatapp authenticated="true" MainRoom="Global Chat"  servername="SlaBot" welcomemessage="Welcome to ChatApp (^=^)" uri="http://localhost:9000"  hardpath="/socket.io" reconnect="true" resource="/" secure="false" />
 ```
 
 
 Things to add:
 - [x] 1. Emoji use.
-- [ ] 2. Private chat.
-- [ ] 3. User selection in chat.
-- [ ] 4. More styling.
+- [x] 2. Private chat.
+- [x] 3. User selection in chat.
+- [x] 4. More styling.
 - [x] 5. Make this an NPM module.
 - [ ] 6. Check for duplicate user names.
+- [ ] 7. Use Cookie based authentication.
