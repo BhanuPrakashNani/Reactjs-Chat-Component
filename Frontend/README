@@ -68,12 +68,21 @@ You should be able to simply copy this and paste it into your server app. It lis
 (github server link)[https://github.com/ApertureSecurity/Reactjs-Chat-Component/blob/master/index.js]
 
 
-```
-
 ```JavaScript
 <Chatapp authenticated="true" MainRoom="Global Chat"  servername="SlaBot" welcomemessage="Welcome to ChatApp (^=^)" uri="http://localhost:9000"  hardpath="/socket.io" reconnect="true" resource="/" secure="false" />
 ```
 
+
+###Known issues:
+warnings upon install: This is normal
+```php
++-- reactjs-chatapp@1.0.21
+| +-- UNMET PEER DEPENDENCY react@^16
+| `-- UNMET PEER DEPENDENCY react-dom@^16
+`-- UNMET PEER DEPENDENCY socket.io-client@^1.4.5
+
+
+```
 
 Things to add:
 - [x] 1. Emoji use.

@@ -1,6 +1,6 @@
 {
   "name": "reactjs-chatapp",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "Most popular chat component for react!",
   "main": "build/index.js",
   "scripts": {
@@ -45,6 +45,7 @@
     "webpack-dev-server": "^1.16.5"
   },
   "dependencies": {
+    "react-cookies": "^0.1.0",
     "react-emojione": "^5.0.0"
   }
 }

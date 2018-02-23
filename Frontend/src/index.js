@@ -1,7 +1,8 @@
 import React from "react";
-import io from "../socket.io/socket.io.js"; /*I am really hacking this into react!*/
+import io from "./socket.io/socket.io.js"; /*I am really hacking this into react!*/
 //import params from "./config/config.js"
 import {emojify} from 'react-emojione';
+import cookie from 'react-cookies';
 
 
 //This function takes params from the configuration.
@@ -10,6 +11,9 @@ import {emojify} from 'react-emojione';
 
 // I wish we could make this conditional , like if user chooses a valid name, then connect...
 let socket = io.connect();
+
+
+console.dir(socket.__proto__);
 
 
 
@@ -21,6 +25,11 @@ export default class Chatapp extends React.Component {
         Messages    : [],
         UsersinChat:  [],
         UpdatesFromServer:[],
+        CurrentRoom: "Global",
+        PrivateChatList:[],
+        PrivateMessages: [{}],
+        CurrentChat: ""
+
   }
 }
 
@@ -40,6 +49,7 @@ setup(){
 componentWillMount(){
 this.setup();
 
+
 }
 
 componentDidMount(){
@@ -47,15 +57,18 @@ this.RecvMessage();
 this.RecvUpdateFromServer()
 this.recvUserListFromServer()
 
+
 }
 
 recvUserListFromServer(){
   socket.on('user list', function(msg){
       console.log("user list " + msg)
         this.setState({UsersinChat: msg});
+
        }.bind(this)
 
          )
+
     }
 
 RecvUpdateFromServer(){
@@ -80,15 +93,14 @@ RecvMessage(){
 
 //This just checks if 'Enter' was pressed. then, sets state of Username to the value in box.
 UpdateUserName(evt){
-  if (evt.key === 'Enter') {
-    if (evt.target.value == ""){console.log("Enter A User Name")}
-    else{
+  if (evt.key === 'Enter' && evt.target.value !== "") {
+
   this.setState({
   Username: evt.target.value });
    this.SendUpdate(evt.target.value,evt.target.value+" Has Joined Chat!")
    }
- }
 }
+
 
 
 UpdateMessage(evt) {
@@ -98,7 +110,7 @@ UpdateMessage(evt) {
 }
 
 SendUpdate(User,ServerMessage){
-  let username = this.state.Item;
+//  let username = this.state.Item; // I hve no clue why this variable is here....
   socket.emit('chat update', JSON.stringify({User:User, ServerMessage:ServerMessage}))
 
 }
@@ -108,42 +120,107 @@ SendMessage (e,  Username,  Message) {
   let username = this.state.Username;
   let message  = this.state.ChatMessage;
 
+
+
+
+
   // Check if there message is empty. send if False then send
-  if (message == ""){console.log("Type Something!")}
+  if (message === ""){console.log("Type Something!")}
+
+  else if(this.state.CurrentChat !== ""){
+    socket.emit('Private message', JSON.stringify({Username:username ,PUser:this.state.CurrentChat, PSocketID:this.state.CurrentChat.SockID , Message:message}))
+    this.setState({Messages: this.state.Messages.concat({  Username:username , Message:"(" + this.state.CurrentChat + ") "+ message  })});
+    this.setState({ ChatMessage:""})
+    console.log(this.state.CurrentChat)
 
 
+//    console.log(myObject.User + " " + myObject.SockID)
+
+/*    // I cannot for the life of me why this part of code exists...
+      for (let i = 0; i < this.state.UsersinChat.length; i++){
+      var myObject = JSON.parse(this.state.UsersinChat[i]);
+      console.log("USER" + myObject.User)
+      console.log("CurrentChat" + this.state.CurrentChat)
+      if (myObject.User === this.state.CurrentChat){
+
+        socket.emit('Private message', JSON.stringify({Username:username ,PUser:myObject.User, PSocketID:myObject.SockID , Message:message}))
+        this.setState({Messages: this.state.Messages.concat({  Username:username, Message:message  })});
+        this.setState({ ChatMessage:""})
+        console.log(myObject.User + " " + myObject.SockID)
+      }
+      else{console.log("Not good... This means the User wasn't found.")}
+    }*/
+  }
   else{
-  socket.emit('chat message', JSON.stringify({Username:username , Message:message}))
-  //socket.emit('chat message',this.state.Username +": "+ this.state.ChatMessage)
-//  console.log(this.state.Messages)
-  this.setState({Messages: this.state.Messages.concat({  Username:username, Message:message  })});
-  this.setState({ ChatMessage:""})
+      socket.emit('chat message', JSON.stringify({Username:username , Message:message}))
+      this.setState({Messages: this.state.Messages.concat({  Username:username, Message:message  })});
+      this.setState({ ChatMessage:""})
   }
 }
 
+Test_OpenPrivateChat(e){
+  e.preventDefault();
+  console.log("Adding Luser")
+  console.log(this.state.PrivateChatList)
+  let Luser = e.target.textContent;
+  if(this.state.PrivateChatList.includes(Luser)){
+    console.log("Chat with user already open!")
 
+  }
+  else{
+  this.setState({PrivateChatList: this.state.PrivateChatList.concat(Luser)});
+  }
+}
+
+OpenPrivateChat(e){
+  e.preventDefault();
+//  console.log("Adding Luser")
+  console.log(this.state.PrivateChatList)
+  //I worry that there would be vulnerbilities here ,.. In this current state the code wouldn't work I just think that
+  let Luser = e.target.textContent.replace(/\s/g,'');//Bug here. There needs to be a cleaner way to get this value of wht the user clicked on!
+  if(Luser === this.props.MainRoom.replace(/\s/g,'')){this.setState({CurrentChat:""})}
+  else{
+  this.setState({CurrentChat:Luser})
+   }
+}
+
+ShowPrivateChat(){
+//  e.preventDefault();
+  console.log("I am showing the chat with...")
+
+}
 
 
 render() {
 
+
 if(this.state.Username ){
       return (
 
+
 <div className="ChatApp">
-
-  <div className="chatNavbar center"><h1> {this.props.welcomemessage}</h1></div>
-
+  <div className="chatNavbar center"><h1> {this.props.welcomemessage}</h1> <h2>::{this.state.CurrentChat}::</h2></div>
       <div className="container center">
               <div className="RoomsList">
                <ul className="ulRooms">
-                   <li> {this.props.MainRoom} </li>
+               <li><a   onClick={evt => this.OpenPrivateChat(evt)}>{this.props.MainRoom}</a></li>
+
+                  { this.state.PrivateChatList.map((name, index) => (
+                    <li  key={index}>  <a onClick={evt => this.ShowPrivateChat()}>  {name } </a></li>
+
+
+
+                )) }
+
+
                </ul>
               </div>
 
               <div className="UsersList" >
               <ul className="ulUsers">
             { this.state.UsersinChat.map((UsersinChat, index) => (
-              <li  key={index}>{(JSON.parse(UsersinChat)['User'] )  } </li>
+              <li  key={index}>  <a  onClick={evt => this.OpenPrivateChat(evt)}>  {(JSON.parse(UsersinChat)['User'] )  } </a></li>
+
           )) }
           </ul>
           </div>
@@ -162,14 +239,30 @@ if(this.state.Username ){
               </ul>
               </div>
           ))}
+
+
+
             </div>
 
+            <div className="lowerbox">
             <div className="sender left">
+            <div className="select">
+            <span className="arr">&#x263B;</span>
+
+
+          </div>
+
+
+
                 <form  onSubmit={this.SendMessage.bind(this)}> { /*/TODO The onChange Event below shouldn't be done like this. It should be onKeyPress and should look for Enterkey.. */}
                   <input id="myEmoji"  className="message" autoFocus  ref="ChatInput"  autoComplete="off"  value={this.state.ChatMessage} onChange={evt => this.UpdateMessage(evt)} />
                     <input  autoComplete="off" type="submit"  className="button" value="Send"/>
                 </form>
             </div>
+            </div>
+
+
+
                    </div>
 
 
@@ -182,7 +275,6 @@ else{
       <div className="ChatApp">
        <div className="chatNavbar center"><h1>{this.props.welcomemessage}</h1></div>
        <div className="container center">
-
      </div>
 
        <div id="box">
@@ -190,6 +282,9 @@ else{
        <p>Select User name please</p>
        <input className="chatuserinput"   autoFocus  ref="usernameimput"  autoComplete="off"  value={this.state.username} onKeyPress={evt => this.UpdateUserName(evt)} />
        </div>
+
+
+
               </div>
 
       )
