@@ -14,7 +14,7 @@ Let me know if you struggle to install it. Unlike the other Reactjs chat apps th
 
 If you want to help or file a bug report , please check [github](https://github.com/ApertureSecurity/Reactjs-Chat-Component)
 
-####Demo and make test code, git clone this from
+### Demo and make test code, git clone this from
 ```php
 https://github.com/ApertureSecurity/Reactjs-Chat-Component
 ```
@@ -33,7 +33,7 @@ node_modules/nodemon/bin/nodemon.js  index
 ```
 
 
-###INSTALL
+### INSTALL
 To install Frontend, go to the Frontend folder and run
 
 ```php
@@ -73,7 +73,7 @@ You should be able to simply copy this and paste it into your server app. It lis
 ```
 
 
-###Known issues:
+### Known issues:
 warnings upon install: This is normal
 ```php
 +-- reactjs-chatapp@1.0.21
